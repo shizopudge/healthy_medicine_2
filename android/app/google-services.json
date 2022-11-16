@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85612669453",
+    "project_id": "healthy-medicine-2",
+    "storage_bucket": "healthy-medicine-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85612669453:android:708c102bd84b12b462c344",
+        "android_client_info": {
+          "package_name": "com.example.healthy_medicine_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85612669453-lgbujj5t6fp7aset9v04pphfhu1m1kgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQdfAwg-mqRN0KzyE9rik8Svda30nl-UQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85612669453-lgbujj5t6fp7aset9v04pphfhu1m1kgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
