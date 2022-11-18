@@ -218,23 +218,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       CategoryCard(
                         image: 'assets/images/dentist.png',
                         docspec: 'Дантист',
+                        spec: 'Dentist',
                       ),
                       CategoryCard(
                         image: 'assets/images/surgeon.png',
                         docspec: 'Хирург',
+                        spec: 'Surgeon',
                       ),
                       CategoryCard(
-                          image: 'assets/images/ophtalmologyst.png',
-                          docspec: 'Окулист'),
+                        image: 'assets/images/ophtalmologyst.png',
+                        docspec: 'Окулист',
+                        spec: 'Ophtalmologyst',
+                      ),
                       CategoryCard(
-                          image: 'assets/images/therapist.png',
-                          docspec: 'Терапевт'),
+                        image: 'assets/images/therapist.png',
+                        docspec: 'Терапевт',
+                        spec: 'Therapist',
+                      ),
                       CategoryCard(
-                          image: 'assets/images/pediatrician.png',
-                          docspec: 'Педиатр'),
+                        image: 'assets/images/pediatrician.png',
+                        docspec: 'Педиатр',
+                        spec: 'Pediatrician',
+                      ),
                       CategoryCard(
                         image: 'assets/images/urologist.png',
                         docspec: 'Уролог',
+                        spec: 'Urologist',
                       ),
                     ],
                   ),

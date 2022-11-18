@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/common/menu_spec_widget.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/core/drawers/profile_drawer.dart';
 import 'package:routemaster/routemaster.dart';
 
 class SpecScreen extends ConsumerWidget {
   const SpecScreen({super.key});
 
-  void displayEndDrawer(BuildContext context) {
-    Scaffold.of(context).openEndDrawer();
-  }
+  // void displayEndDrawer(BuildContext context) {
+  //   Scaffold.of(context).openEndDrawer();
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,20 +25,20 @@ class SpecScreen extends ConsumerWidget {
             color: Constants.textColor,
           ),
         ),
-        actionsIconTheme: const IconThemeData(
-          color: Constants.textColor,
-          size: 28,
-        ),
-        actions: [
-          Builder(builder: (context) {
-            return IconButton(
-              onPressed: () => displayEndDrawer(context),
-              icon: const Icon(
-                Icons.menu,
-              ),
-            );
-          }),
-        ],
+        // actionsIconTheme: const IconThemeData(
+        //   color: Constants.textColor,
+        //   size: 28,
+        // ),
+        // actions: [
+        //   Builder(builder: (context) {
+        //     return IconButton(
+        //       onPressed: () => displayEndDrawer(context),
+        //       icon: const Icon(
+        //         Icons.menu,
+        //       ),
+        //     );
+        //   }),
+        // ],
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -66,26 +65,32 @@ class SpecScreen extends ConsumerWidget {
                     MenuOfItem(
                       specText: 'Хирург',
                       specIcon: 'assets/images/surgeon.png',
+                      spec: 'Surgeon',
                     ),
                     MenuOfItem(
                       specText: 'Окулист',
                       specIcon: 'assets/images/ophtalmologyst.png',
+                      spec: 'Ophtalmologyst',
                     ),
                     MenuOfItem(
                       specText: 'Уролог',
                       specIcon: 'assets/images/urologist.png',
+                      spec: 'Urologist',
                     ),
                     MenuOfItem(
                       specText: 'Терапевт',
                       specIcon: 'assets/images/therapist.png',
+                      spec: 'Therapist',
                     ),
                     MenuOfItem(
                       specText: 'Педиатр',
                       specIcon: 'assets/images/pediatrician.png',
+                      spec: 'Pediatrician',
                     ),
                     MenuOfItem(
                       specText: 'Дантист',
                       specIcon: 'assets/images/dentist.png',
+                      spec: 'Dentist',
                     ),
                   ],
                 ),
@@ -94,7 +99,7 @@ class SpecScreen extends ConsumerWidget {
           ),
         ),
       ),
-      endDrawer: const ProfileDrawer(),
+      // endDrawer: const ProfileDrawer(),
     );
   }
 }

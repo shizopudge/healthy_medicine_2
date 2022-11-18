@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/screens/clinic_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
 class MenuOfItem extends StatelessWidget {
   final String specText;
   final String specIcon;
+  final String spec;
   const MenuOfItem({
     super.key,
     required this.specText,
     required this.specIcon,
+    required this.spec,
   });
 
   void navigateToChoiceClinic(BuildContext context) {
-    Routemaster.of(context).push('/clinics/$specText');
+    Routemaster.of(context).push('/clinics/$spec');
   }
 
   @override
@@ -30,15 +31,7 @@ class MenuOfItem extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {
-        //routemaster navigate ломает строку с специальностью!!!ААААА
-      },
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => ClinicScreen(spec: specText),
-      //   ),
-      // ),
+      onPressed: () => navigateToChoiceClinic(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

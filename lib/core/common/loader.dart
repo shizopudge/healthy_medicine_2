@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 
 class Loader extends StatelessWidget {
@@ -7,24 +6,9 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Constants.primaryColor,
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 120,
-              child: Image.asset(Constants.logoPath),
-            ),
-            const Gap(40),
-            const CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          ],
-        ),
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Constants.secondColor,
       ),
     );
   }

@@ -15,6 +15,11 @@ final getCityClinicsProvider = StreamProvider.family((ref, String city) {
   return ref.watch(clinicControllerProvider.notifier).getCityClinics(city);
 });
 
+final getClinicByIdProvider = StreamProvider.family((ref, String clinicId) {
+  final clinicController = ref.watch(clinicControllerProvider.notifier);
+  return clinicController.getClinicById(clinicId);
+});
+
 class ClinicController extends StateNotifier<bool> {
   final ClinicRepository _clinicRepository;
   final Ref _ref;
@@ -27,5 +32,9 @@ class ClinicController extends StateNotifier<bool> {
 
   Stream<List<Clinic>> getCityClinics(String city) {
     return _clinicRepository.getCityClinics(city);
+  }
+
+  Stream<Clinic> getClinicById(String clinicId) {
+    return _clinicRepository.getClinicById(clinicId);
   }
 }

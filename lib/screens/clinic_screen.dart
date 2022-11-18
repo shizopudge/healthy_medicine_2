@@ -3,24 +3,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/common/clinic_choice_menu.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/core/drawers/profile_drawer.dart';
 import 'package:routemaster/routemaster.dart';
 
-class ClinicScreen extends ConsumerWidget {
+const List<String> cities = [
+  'Москва',
+  'Уфа',
+  'Санкт-Петербург',
+  'Казань',
+];
+
+class ClinicScreen extends ConsumerStatefulWidget {
   final String spec;
   const ClinicScreen({
     super.key,
     required this.spec,
   });
 
-  void displayEndDrawer(BuildContext context) {
-    Scaffold.of(context).openEndDrawer();
-    print(spec);
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _ClinicScreenState();
+}
+
+class _ClinicScreenState extends ConsumerState<ClinicScreen> {
+  String cityValue = '';
+
+  @override
+  void initState() {
+    super.initState();
+    cityValue = ref.read(userProvider)!.city;
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider)!;
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.bg,
       appBar: AppBar(
@@ -33,20 +46,6 @@ class ClinicScreen extends ConsumerWidget {
             color: Constants.textColor,
           ),
         ),
-        actionsIconTheme: const IconThemeData(
-          color: Constants.textColor,
-          size: 28,
-        ),
-        actions: [
-          Builder(builder: (context) {
-            return IconButton(
-              onPressed: () => displayEndDrawer(context),
-              icon: const Icon(
-                Icons.menu,
-              ),
-            );
-          }),
-        ],
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -54,37 +53,40 @@ class ClinicScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    spec,
-                    style: const TextStyle(
+              Align(
+                alignment: Alignment.centerRight,
+                child: DropdownButton<String>(
+                  value: cityValue,
+                  icon: const RotatedBox(
+                    quarterTurns: 3,
+                    child: Icon(
+                      Icons.arrow_back_ios_new_outlined,
                       color: Constants.textColor,
-                      fontSize: 18,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        //change city
-                      },
-                      child: const Icon(
-                        Icons.location_city,
-                        color: Colors.white,
-                        size: 32,
-                      ),
-                    ),
+                  dropdownColor: Constants.primaryColor,
+                  elevation: 16,
+                  style: const TextStyle(
+                    color: Constants.textColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
                   ),
-                  Text(
-                    'г.${user.city}',
-                    style: const TextStyle(
-                      color: Constants.textColor,
-                      fontSize: 18,
-                    ),
+                  underline: Container(
+                    height: 2,
+                    color: Constants.textColor,
                   ),
-                ],
+                  onChanged: (String? value) {
+                    setState(() {
+                      cityValue = value!;
+                    });
+                  },
+                  items: cities.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 25),
@@ -98,13 +100,13 @@ class ClinicScreen extends ConsumerWidget {
               ),
               Expanded(
                   child: ClinicMenu(
-                spec: spec,
+                spec: widget.spec,
+                city: cityValue,
               )),
             ],
           ),
         ),
       ),
-      endDrawer: const ProfileDrawer(),
     );
   }
 }

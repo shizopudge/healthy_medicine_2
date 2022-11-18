@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
+import 'package:routemaster/routemaster.dart';
 
 class CategoryCard extends StatelessWidget {
   final String image;
   final String docspec;
-  const CategoryCard({super.key, required this.image, required this.docspec});
+  final String spec;
+  const CategoryCard({
+    super.key,
+    required this.image,
+    required this.docspec,
+    required this.spec,
+  });
+
+  void navigateToChoiceClinic(BuildContext context) {
+    Routemaster.of(context).push('/clinics/$spec');
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => navigateToChoiceClinic(context),
       child: Padding(
         padding: const EdgeInsets.only(
           left: 8,

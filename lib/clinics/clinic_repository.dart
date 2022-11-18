@@ -28,6 +28,13 @@ class ClinicRepository {
         );
   }
 
+  Stream<Clinic> getClinicById(String clinicId) {
+    return _clinics
+        .doc(clinicId)
+        .snapshots()
+        .map((event) => Clinic.fromMap(event.data() as Map<String, dynamic>));
+  }
+
   // Stream<List<Clinic>> getUserCommunities(String city) {
   //   return _clinics.where('city', isEqualTo: city).snapshots().map((event) {
   //     List<Clinic> clinics = [];

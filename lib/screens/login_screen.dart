@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
+import 'package:healthy_medicine_2/core/common/splashloader.dart';
 import 'package:healthy_medicine_2/core/common/password_text_field.dart';
 import 'package:healthy_medicine_2/core/common/text_field.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
@@ -83,7 +83,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isLoading = ref.watch(authControllerProvider);
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return isLoading
-        ? const Loader()
+        ? const SplashLoader()
         : Scaffold(
             body: Form(
               key: _formKey,

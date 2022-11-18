@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/core/common/doctor_card.dart';
 import 'package:healthy_medicine_2/core/common/error_text.dart';
 import 'package:healthy_medicine_2/core/common/loader.dart';
-import 'package:healthy_medicine_2/core/common/menu_clinic_widget.dart';
+import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
 
-class ClinicMenu extends ConsumerWidget {
-  final String city;
+class Doctors extends ConsumerWidget {
+  final String clinicId;
   final String spec;
-  const ClinicMenu({
+  const Doctors({
     super.key,
+    required this.clinicId,
     required this.spec,
-    required this.city,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(getCityClinicsProvider(city)).when(
+    return ref.watch(getDoctorsByClinicIdProvider(clinicId)).when(
           data: (data) {
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
-                final clinic = data[index];
-                return MenuOfClinic(
-                  clinic: clinic,
-                  spec: spec,
-                );
+                final doctor = data[index];
+                return doctor.spec == spec
+                    ? DoctorsCard(doctor: doctor)
+                    : const SizedBox();
               },
             );
           },
