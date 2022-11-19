@@ -21,13 +21,16 @@ class DoctorsCard extends ConsumerStatefulWidget {
 class _DoctorsCardState extends ConsumerState<DoctorsCard> {
   double sum = 0;
   double avg = 0;
+  List<dynamic> rating = [];
   @override
   void initState() {
     super.initState();
     for (var element in widget.doctor.rating) {
       sum = element + sum;
     }
-    avg = sum / widget.doctor.rating.length;
+    rating = widget.doctor.rating.toList();
+    rating.removeAt(0);
+    rating.isNotEmpty ? avg = sum / rating.length : null;
   }
 
   void navigateToDoctorScreen(BuildContext context) {
@@ -107,9 +110,26 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
                           ],
                         ),
                         const Gap(5),
-                        RatingBar(
-                            rating: avg,
-                            ratingCount: widget.doctor.rating.length),
+                        rating.isNotEmpty
+                            ? RatingBar(rating: avg, ratingCount: rating.length)
+                            : Row(
+                                children: [
+                                  for (var i = 0; i < 5; i++)
+                                    const Icon(
+                                      Icons.star_rounded,
+                                      color: Colors.grey,
+                                      size: 26,
+                                    ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      '0',
+                                      style: TextStyle(
+                                          fontSize: 21, color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ],
                     ),
                     Column(
@@ -168,7 +188,7 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
                               size: 22,
                             ),
                             Text(
-                              widget.doctor.reviewsCount.toString(),
+                              widget.doctor.comments.length.toString(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,

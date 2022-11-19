@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
-import 'package:healthy_medicine_2/core/common/docor_screen_info.dart';
+import 'package:healthy_medicine_2/core/common/doctor_screen_info.dart';
 import 'package:healthy_medicine_2/core/common/error_text.dart';
 import 'package:healthy_medicine_2/core/common/loader.dart';
-import 'package:healthy_medicine_2/core/common/rating_bar.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
-import 'package:healthy_medicine_2/models/doctor_model.dart';
 import 'package:routemaster/routemaster.dart';
 
 class DoctorScreen extends ConsumerStatefulWidget {

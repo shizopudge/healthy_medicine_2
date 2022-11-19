@@ -16,6 +16,7 @@ class _PortalState extends ConsumerState<Portal> {
 
   static const tabWidgets = [
     HomeScreen(),
+    // SpecScreen(),
     HistoryScreen(),
   ];
   void onPageChanged(int page) {
@@ -40,6 +41,10 @@ class _PortalState extends ConsumerState<Portal> {
             icon: Icon(Icons.home),
             label: 'Home',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(CupertinoIcons.add),
+          //   label: 'Entry',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'History',

@@ -11,7 +11,7 @@ class Doctor {
   final String spec;
   final int experience;
   final List<dynamic> rating;
-  final int reviewsCount;
+  final List<String> comments;
   final int serviceCost;
   Doctor({
     required this.firstName,
@@ -24,7 +24,7 @@ class Doctor {
     required this.spec,
     required this.experience,
     required this.rating,
-    required this.reviewsCount,
+    required this.comments,
     required this.serviceCost,
   });
 
@@ -39,7 +39,7 @@ class Doctor {
     String? spec,
     int? experience,
     List<dynamic>? rating,
-    int? reviewsCount,
+    List<String>? comments,
     int? serviceCost,
   }) {
     return Doctor(
@@ -53,7 +53,7 @@ class Doctor {
       spec: spec ?? this.spec,
       experience: experience ?? this.experience,
       rating: rating ?? this.rating,
-      reviewsCount: reviewsCount ?? this.reviewsCount,
+      comments: comments ?? this.comments,
       serviceCost: serviceCost ?? this.serviceCost,
     );
   }
@@ -70,7 +70,7 @@ class Doctor {
       'spec': spec,
       'experience': experience,
       'rating': rating,
-      'reviewsCount': reviewsCount,
+      'comments': comments,
       'serviceCost': serviceCost,
     };
   }
@@ -87,16 +87,18 @@ class Doctor {
       spec: map['spec'] as String,
       experience: map['experience'] as int,
       rating: List<dynamic>.from(
-        (map['rating'] as List<dynamic>),
+        (map['rating']),
       ),
-      reviewsCount: map['reviewsCount'] as int,
+      comments: List<String>.from(
+        (map['comments']),
+      ),
       serviceCost: map['serviceCost'] as int,
     );
   }
 
   @override
   String toString() {
-    return 'Doctor(firstName: $firstName, lastName: $lastName, patronymic: $patronymic, image: $image, clinicId: $clinicId, id: $id, city: $city, spec: $spec, experience: $experience, rating: $rating, reviewsCount: $reviewsCount, serviceCost: $serviceCost)';
+    return 'Doctor(firstName: $firstName, lastName: $lastName, patronymic: $patronymic, image: $image, clinicId: $clinicId, id: $id, city: $city, spec: $spec, experience: $experience, rating: $rating, comments: $comments, serviceCost: $serviceCost)';
   }
 
   @override
@@ -113,7 +115,7 @@ class Doctor {
         other.spec == spec &&
         other.experience == experience &&
         listEquals(other.rating, rating) &&
-        other.reviewsCount == reviewsCount &&
+        listEquals(other.comments, comments) &&
         other.serviceCost == serviceCost;
   }
 
@@ -129,7 +131,7 @@ class Doctor {
         spec.hashCode ^
         experience.hashCode ^
         rating.hashCode ^
-        reviewsCount.hashCode ^
+        comments.hashCode ^
         serviceCost.hashCode;
   }
 }

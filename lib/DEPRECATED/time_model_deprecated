@@ -1,0 +1,54 @@
+class TimeModel {
+  final String time;
+  final String id;
+  final bool isAvailable;
+  TimeModel({
+    required this.time,
+    required this.id,
+    required this.isAvailable,
+  });
+
+  TimeModel copyWith({
+    String? time,
+    String? id,
+    bool? isAvailable,
+  }) {
+    return TimeModel(
+      time: time ?? this.time,
+      id: id ?? this.id,
+      isAvailable: isAvailable ?? this.isAvailable,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'time': time,
+      'id': id,
+      'isAvailable': isAvailable,
+    };
+  }
+
+  factory TimeModel.fromMap(Map<String, dynamic> map) {
+    return TimeModel(
+      time: map['time'] as String,
+      id: map['id'] as String,
+      isAvailable: map['isAvailable'] as bool,
+    );
+  }
+
+  @override
+  String toString() =>
+      'TimeModel(time: $time, id: $id, isAvailable: $isAvailable)';
+
+  @override
+  bool operator ==(covariant TimeModel other) {
+    if (identical(this, other)) return true;
+
+    return other.time == time &&
+        other.id == id &&
+        other.isAvailable == isAvailable;
+  }
+
+  @override
+  int get hashCode => time.hashCode ^ id.hashCode ^ isAvailable.hashCode;
+}

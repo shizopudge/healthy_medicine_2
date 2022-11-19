@@ -202,7 +202,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: const AppDoubleTextWidget(
-                    bigText: '',
+                    bigText: 'Специалисты',
                     smallText: 'Посмотреть все',
                     navigation: '/spec',
                   ),

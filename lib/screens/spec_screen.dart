@@ -7,10 +7,6 @@ import 'package:routemaster/routemaster.dart';
 class SpecScreen extends ConsumerWidget {
   const SpecScreen({super.key});
 
-  // void displayEndDrawer(BuildContext context) {
-  //   Scaffold.of(context).openEndDrawer();
-  // }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -25,20 +21,6 @@ class SpecScreen extends ConsumerWidget {
             color: Constants.textColor,
           ),
         ),
-        // actionsIconTheme: const IconThemeData(
-        //   color: Constants.textColor,
-        //   size: 28,
-        // ),
-        // actions: [
-        //   Builder(builder: (context) {
-        //     return IconButton(
-        //       onPressed: () => displayEndDrawer(context),
-        //       icon: const Icon(
-        //         Icons.menu,
-        //       ),
-        //     );
-        //   }),
-        // ],
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(

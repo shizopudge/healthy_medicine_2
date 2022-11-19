@@ -1,0 +1,67 @@
+class DateModel {
+  final String date;
+  final String id;
+  final String doctorId;
+  final bool isAvailable;
+  DateModel({
+    required this.date,
+    required this.id,
+    required this.doctorId,
+    required this.isAvailable,
+  });
+
+  DateModel copyWith({
+    String? date,
+    String? id,
+    String? doctorId,
+    bool? isAvailable,
+  }) {
+    return DateModel(
+      date: date ?? this.date,
+      id: id ?? this.id,
+      doctorId: doctorId ?? this.doctorId,
+      isAvailable: isAvailable ?? this.isAvailable,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'date': date,
+      'id': id,
+      'doctorId': doctorId,
+      'isAvailable': isAvailable,
+    };
+  }
+
+  factory DateModel.fromMap(Map<String, dynamic> map) {
+    return DateModel(
+      date: map['date'] as String,
+      id: map['id'] as String,
+      doctorId: map['doctorId'] as String,
+      isAvailable: map['isAvailable'] as bool,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'DateModel(date: $date, id: $id, doctorId: $doctorId, isAvailable: $isAvailable)';
+  }
+
+  @override
+  bool operator ==(covariant DateModel other) {
+    if (identical(this, other)) return true;
+
+    return other.date == date &&
+        other.id == id &&
+        other.doctorId == doctorId &&
+        other.isAvailable == isAvailable;
+  }
+
+  @override
+  int get hashCode {
+    return date.hashCode ^
+        id.hashCode ^
+        doctorId.hashCode ^
+        isAvailable.hashCode;
+  }
+}
