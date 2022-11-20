@@ -78,7 +78,7 @@ class ReviewsController extends StateNotifier<bool> {
     );
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Вы оставили отзыв!');
+      showSnackBar(context, 'Спасибо за отзыв!');
       Routemaster.of(context).pop();
     });
   }

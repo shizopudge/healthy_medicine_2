@@ -62,7 +62,7 @@ class ReviewsRepository {
         .collection(reviews)
         .orderBy(
           'createdAt',
-          descending: false,
+          descending: true,
         )
         .snapshots()
         .map(

@@ -29,7 +29,7 @@ class EntryRepository {
   ) async {
     try {
       _doctors.doc(doctorId).collection('entryCells').doc(entryCellId).update({
-        'time': FieldValue.arrayRemove([entry.time]),
+        'time': FieldValue.arrayRemove([entry.time.millisecondsSinceEpoch]),
       });
       return right(_entries.doc(entry.id).set(entry.toMap()));
     } on FirebaseException catch (e) {
@@ -40,7 +40,18 @@ class EntryRepository {
   }
 
   Stream<List<EntryModel>> getUserEntries(String uid) {
-    return _entries.where('uid', isEqualTo: uid).snapshots().map(
+    return _entries
+        .where('uid', isEqualTo: uid)
+        .orderBy(
+          'date',
+          descending: false,
+        )
+        .orderBy(
+          'time',
+          descending: false,
+        )
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => EntryModel.fromMap(

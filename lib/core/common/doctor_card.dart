@@ -29,7 +29,7 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
       sum = element + sum;
     }
     rating = widget.doctor.rating.toList();
-    rating.removeAt(0);
+    rating.removeAt(0); // не работает похоже опять написал rating.length - 1
     rating.isNotEmpty ? avg = sum / rating.length : null;
   }
 
@@ -132,71 +132,74 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
                               ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.doctor.lastName,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.doctor.lastName,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                ),
                               ),
-                            ),
-                            const Gap(2.5),
-                            Text(
-                              widget.doctor.firstName,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
+                              const Gap(2.5),
+                              Text(
+                                widget.doctor.firstName,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                ),
                               ),
-                            ),
-                            const Gap(2.5),
-                            Text(
-                              widget.doctor.patronymic,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
+                              const Gap(2.5),
+                              Text(
+                                widget.doctor.patronymic,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const Gap(15),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
+                            ],
                           ),
-                          padding: const EdgeInsets.all(5),
-                          child: Text(
-                            '${widget.doctor.serviceCost} руб.',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
+                          const Gap(15),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
                             ),
-                          ),
-                        ),
-                        const Gap(10),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.comment,
-                              color: Colors.white,
-                              size: 22,
-                            ),
-                            Text(
-                              widget.doctor.comments.length.toString(),
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              '${widget.doctor.serviceCost} руб.',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
                               ),
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          const Gap(10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.comment,
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                              Text(
+                                widget.doctor.comments.length.toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

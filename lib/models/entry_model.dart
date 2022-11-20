@@ -1,6 +1,6 @@
 class EntryModel {
   final String clinicId;
-  final String date;
+  final DateTime date;
   final String doctorImage;
   final String doctorLastName;
   final String doctorFirstName;
@@ -9,7 +9,7 @@ class EntryModel {
   final int serviceCost;
   final String doctorId;
   final String id;
-  final String time;
+  final DateTime time;
   final String uid;
   EntryModel({
     required this.clinicId,
@@ -28,7 +28,7 @@ class EntryModel {
 
   EntryModel copyWith({
     String? clinicId,
-    String? date,
+    DateTime? date,
     String? doctorImage,
     String? doctorLastName,
     String? doctorFirstName,
@@ -37,7 +37,7 @@ class EntryModel {
     int? serviceCost,
     String? doctorId,
     String? id,
-    String? time,
+    DateTime? time,
     String? uid,
   }) {
     return EntryModel(
@@ -59,7 +59,7 @@ class EntryModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'clinicId': clinicId,
-      'date': date,
+      'date': date.millisecondsSinceEpoch,
       'doctorImage': doctorImage,
       'doctorLastName': doctorLastName,
       'doctorFirstName': doctorFirstName,
@@ -68,7 +68,7 @@ class EntryModel {
       'serviceCost': serviceCost,
       'doctorId': doctorId,
       'id': id,
-      'time': time,
+      'time': time.millisecondsSinceEpoch,
       'uid': uid,
     };
   }
@@ -76,7 +76,7 @@ class EntryModel {
   factory EntryModel.fromMap(Map<String, dynamic> map) {
     return EntryModel(
       clinicId: map['clinicId'] as String,
-      date: map['date'] as String,
+      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       doctorImage: map['doctorImage'] as String,
       doctorLastName: map['doctorLastName'] as String,
       doctorFirstName: map['doctorFirstName'] as String,
@@ -85,7 +85,7 @@ class EntryModel {
       serviceCost: map['serviceCost'] as int,
       doctorId: map['doctorId'] as String,
       id: map['id'] as String,
-      time: map['time'] as String,
+      time: DateTime.fromMillisecondsSinceEpoch(map['time'] as int),
       uid: map['uid'] as String,
     );
   }

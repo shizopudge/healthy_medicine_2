@@ -136,7 +136,7 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
                     ),
                     child: TextFormField(
                       maxLines: 15,
-                      maxLength: 250,
+                      maxLength: 200,
                       controller: reviewController,
                       decoration: const InputDecoration(
                         hintText: 'Ваш отзыв',

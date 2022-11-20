@@ -1,7 +1,32 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/doctors/doctors_repository.dart';
 import 'package:healthy_medicine_2/models/doctor_model.dart';
-import 'package:healthy_medicine_2/models/entry_date_time_model.dart';
+import 'package:healthy_medicine_2/models/date_entry_model.dart';
+
+class MyParameter2 extends Equatable {
+  const MyParameter2({
+    required this.monthNumber,
+    required this.doctorId,
+    required this.year,
+  });
+
+  final String doctorId;
+  final int monthNumber;
+  final int year;
+
+  @override
+  List<Object> get props => [doctorId, monthNumber, year];
+}
+
+final getEntryCellsByMonthAndYearProvider = StreamProvider.autoDispose
+    .family<List<DateTimeEntryModel>, MyParameter2>((ref, myParameter) {
+  final reviewController = ref.watch(doctorControllerProvider.notifier);
+  return reviewController.getEntryCellsByMonthAndYear(
+      myParameter.doctorId, myParameter.monthNumber, myParameter.year);
+});
 
 final doctorControllerProvider =
     StateNotifierProvider<DoctorController, bool>((ref) {
@@ -65,7 +90,39 @@ class DoctorController extends StateNotifier<bool> {
   //   return _doctorRepository.getEntryTimeCells(dateId);
   // }
 
-  Stream<List<EntryDateTimeModel>> getEntryCells(String doctorId) {
+  Stream<List<DateTimeEntryModel>> getEntryCells(String doctorId) {
     return _doctorRepository.getEntryCells(doctorId);
+  }
+
+  Stream<List<DateTimeEntryModel>> getEntryCellsByMonthAndYear(
+      String doctorId, int monthNumber, int year) {
+    return _doctorRepository.getEntryCellsByMonthAndYear(
+        doctorId, monthNumber, year);
+  }
+
+  void createEntryCells(
+    BuildContext context,
+    String doctorId,
+    DateTime date,
+    List<DateTime> time,
+  ) async {
+    state = true;
+    // String entryId = const Uuid().v1();
+    String entryId = '${date.day}.${date.month}.${date.year}';
+    DateTimeEntryModel entry = DateTimeEntryModel(
+      date: date,
+      time: time,
+      id: entryId,
+      day: date.day,
+      month: date.month,
+      year: date.year,
+    );
+    final res = await _doctorRepository.createEntryCell(entry, doctorId);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context,
+          'Вы добавили ячейку на ${date.day}/${date.month}/${date.year} записи!');
+      // Routemaster.of(context).pop();
+    });
   }
 }

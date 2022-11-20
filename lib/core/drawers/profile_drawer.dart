@@ -16,6 +16,10 @@ class ProfileDrawer extends ConsumerWidget {
     Routemaster.of(context).push('/profile/$uid');
   }
 
+  void navigateToAdminPanelScreen(BuildContext context) {
+    Routemaster.of(context).push('/admin');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
@@ -92,6 +96,23 @@ class ProfileDrawer extends ConsumerWidget {
                 user.uid,
               ),
             ),
+            user.isAdmin
+                ? ListTile(
+                    title: const Text(
+                      'Панель управления',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Constants.textColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    leading: const Icon(
+                      Icons.admin_panel_settings,
+                      color: Colors.white,
+                    ),
+                    onTap: () => navigateToAdminPanelScreen(context),
+                  )
+                : const SizedBox(),
             ListTile(
               title: const Text(
                 'Выйти',

@@ -26,7 +26,19 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
   @override
   void initState() {
     super.initState();
+
     uid = ref.read(userProvider)!.uid;
+    reviewController = TextEditingController(
+        text: ref
+            .read(getReviewByUserIdProvider(
+                MyParameter(uid: uid, doctorId: widget.doctorId)))
+            .value!
+            .reviewText);
+    rating = ref
+        .read(getReviewByUserIdProvider(
+            MyParameter(uid: uid, doctorId: widget.doctorId)))
+        .value!
+        .rating;
     userRating = ref
         .read(getReviewByUserIdProvider(
             MyParameter(uid: uid, doctorId: widget.doctorId)))
@@ -38,9 +50,10 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
     comments = ref.read(getDoctorByIdProvider(widget.doctorId)).value!.comments;
   }
 
-  TextEditingController reviewController = TextEditingController();
-  int rating = 0;
+  late TextEditingController reviewController;
+  late int rating;
   bool isReviewText = false;
+  // bool isRatingChanged = false;
   void createReview(
     BuildContext context,
   ) {
@@ -76,7 +89,7 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
         automaticallyImplyLeading: false,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: rating != 0 && isReviewText
+      floatingActionButton: rating != userRating || isReviewText
           ? ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Constants.primaryColor,
@@ -110,7 +123,7 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 25),
                   child: Text(
-                    'Хотите оставить отзыв?',
+                    'Хотите изменить отзыв?',
                     style: TextStyle(
                       color: Constants.textColor,
                       fontSize: 36,
@@ -130,7 +143,7 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
                     ),
                     child: TextFormField(
                       maxLines: 15,
-                      maxLength: 250,
+                      maxLength: 200,
                       controller: reviewController,
                       decoration: const InputDecoration(
                         hintText: 'Ваш отзыв',

@@ -16,6 +16,7 @@ class Doctors extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //getDoctorsByClinicIdAndSpecProvider
     return ref.watch(getDoctorsByClinicIdProvider(clinicId)).when(
           data: (data) {
             return ListView.builder(

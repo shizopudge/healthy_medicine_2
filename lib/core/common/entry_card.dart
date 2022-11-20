@@ -44,103 +44,110 @@ class EntryCard extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Д-р. ${entry.doctorFirstName}',
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Д-р. ${entry.doctorFirstName}',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                        ),
                       ),
-                    ),
-                    const Gap(5),
-                    Text(
-                      entry.doctorSpec,
-                      style: TextStyle(
-                        color: Colors.grey.shade300,
-                        fontSize: 20,
+                      const Gap(5),
+                      Text(
+                        entry.doctorSpec,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.grey.shade300,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    const Gap(5),
-                    Row(
-                      children: [
-                        const Text(
-                          'Дата: ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      const Gap(5),
+                      Row(
+                        children: [
+                          const Text(
+                            'Дата: ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          entry.date,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                          Text(
+                            '${entry.date.day}/${entry.date.month}/${entry.date.year}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const Gap(5),
-                    Row(
-                      children: [
-                        const Text(
-                          'Время: ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        ],
+                      ),
+                      const Gap(5),
+                      Row(
+                        children: [
+                          const Text(
+                            'Время: ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          entry.time,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                          Text(
+                            '${entry.time.hour}:${entry.time.minute}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const Gap(5),
-                    Row(
-                      children: [
-                        const Text(
-                          'Цена: ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        ],
+                      ),
+                      const Gap(5),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'Цена: ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '${entry.serviceCost} руб.',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                          Expanded(
+                            child: Text(
+                              '${entry.serviceCost} руб.',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
-                        ),
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //     border: Border.all(
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        //   padding: const EdgeInsets.all(1.5),
-                        //   child: Center(
-                        //     child: Text(
-                        //       '${entry.serviceCost} руб.',
-                        //       style: const TextStyle(
-                        //         color: Colors.white,
-                        //         fontSize: 20,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ],
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     border: Border.all(
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          //   padding: const EdgeInsets.all(1.5),
+                          //   child: Center(
+                          //     child: Text(
+                          //       '${entry.serviceCost} руб.',
+                          //       style: const TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 20,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -172,6 +179,7 @@ class EntryCard extends ConsumerWidget {
                             ),
                             Text(
                               clinic.address,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Colors.grey.shade300,
                                 fontSize: 20,

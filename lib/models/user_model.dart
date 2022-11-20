@@ -9,6 +9,7 @@ class UserModel {
   final String city;
   final String uid;
   final DateTime birthday;
+  final bool isAdmin;
   UserModel({
     required this.firstName,
     required this.lastName,
@@ -20,6 +21,7 @@ class UserModel {
     required this.city,
     required this.uid,
     required this.birthday,
+    required this.isAdmin,
   });
 
   UserModel copyWith({
@@ -33,6 +35,7 @@ class UserModel {
     String? city,
     String? uid,
     DateTime? birthday,
+    bool? isAdmin,
   }) {
     return UserModel(
       firstName: firstName ?? this.firstName,
@@ -45,6 +48,7 @@ class UserModel {
       city: city ?? this.city,
       uid: uid ?? this.uid,
       birthday: birthday ?? this.birthday,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
@@ -60,6 +64,7 @@ class UserModel {
       'city': city,
       'uid': uid,
       'birthday': birthday.millisecondsSinceEpoch,
+      'isAdmin': isAdmin,
     };
   }
 
@@ -75,12 +80,13 @@ class UserModel {
       city: map['city'] as String,
       uid: map['uid'] as String,
       birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday'] as int),
+      isAdmin: map['isAdmin'] as bool,
     );
   }
 
   @override
   String toString() {
-    return 'UserModel(firstName: $firstName, lastName: $lastName, patronymic: $patronymic, email: $email, avatar: $avatar, gender: $gender, phone: $phone, city: $city, uid: $uid, birthday: $birthday)';
+    return 'UserModel(firstName: $firstName, lastName: $lastName, patronymic: $patronymic, email: $email, avatar: $avatar, gender: $gender, phone: $phone, city: $city, uid: $uid, birthday: $birthday, isAdmin: $isAdmin)';
   }
 
   @override
@@ -96,7 +102,8 @@ class UserModel {
         other.phone == phone &&
         other.city == city &&
         other.uid == uid &&
-        other.birthday == birthday;
+        other.birthday == birthday &&
+        other.isAdmin == isAdmin;
   }
 
   @override
@@ -110,6 +117,7 @@ class UserModel {
         phone.hashCode ^
         city.hashCode ^
         uid.hashCode ^
-        birthday.hashCode;
+        birthday.hashCode ^
+        isAdmin.hashCode;
   }
 }

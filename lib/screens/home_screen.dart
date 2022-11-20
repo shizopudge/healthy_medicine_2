@@ -185,11 +185,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           size: 32,
                           color: Constants.primaryColor,
                         ),
-                        Text(
-                          'Чем мы можем вам помочь?',
-                          style: TextStyle(
-                            color: Constants.primaryColor,
-                            fontSize: 18,
+                        Expanded(
+                          child: Text(
+                            'Чем мы можем вам помочь?',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Constants.primaryColor,
+                              fontSize: 16,
+                            ),
                           ),
                         )
                       ],

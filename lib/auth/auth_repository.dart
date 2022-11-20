@@ -47,16 +47,18 @@ class AuthRepository {
       userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       UserModel userModel = UserModel(
-          firstName: firstName,
-          lastName: lastName,
-          patronymic: patronymic,
-          email: email,
-          avatar: avatar,
-          gender: gender,
-          phone: phone,
-          city: city,
-          uid: userCredential.user!.uid,
-          birthday: birthday);
+        firstName: firstName,
+        lastName: lastName,
+        patronymic: patronymic,
+        email: email,
+        avatar: avatar,
+        gender: gender,
+        phone: phone,
+        city: city,
+        uid: userCredential.user!.uid,
+        birthday: birthday,
+        isAdmin: false,
+      );
       await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {

@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:healthy_medicine_2/core/failure.dart';
 import 'package:healthy_medicine_2/core/firebase_constants.dart';
 import 'package:healthy_medicine_2/core/providers/firebase_providers.dart';
+import 'package:healthy_medicine_2/core/type_defs.dart';
 import 'package:healthy_medicine_2/models/doctor_model.dart';
-import 'package:healthy_medicine_2/models/entry_date_time_model.dart';
+import 'package:healthy_medicine_2/models/DEPRECATED_entry_date_time_model.dart';
+import 'package:healthy_medicine_2/models/date_entry_model.dart';
 
 final doctorRepositoryProvider = Provider((ref) {
   return DoctorRepository(firestore: ref.watch(firestoreProvider));
@@ -36,20 +40,69 @@ class DoctorRepository {
         .map((event) => Doctor.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  Stream<List<EntryDateTimeModel>> getEntryCells(String doctorId) {
+  Stream<List<DateTimeEntryModel>> getEntryCells(String doctorId) {
     return _doctors
         .doc(doctorId)
         .collection(FirebaseConstants.entryCellsCollection)
+        .orderBy(
+          'date',
+          descending: false,
+        )
         .snapshots()
         .map(
           (event) => event.docs
               .map(
-                (e) => EntryDateTimeModel.fromMap(
+                (e) => DateTimeEntryModel.fromMap(
                   e.data(),
                 ),
               )
               .toList(),
         );
+  }
+
+//ПОКА ПРОСТО МЫСЛИ
+  Stream<List<DateTimeEntryModel>> getEntryCellsByMonthAndYear(
+      String doctorId, int monthNumber, int year) {
+    return _doctors
+        .doc(doctorId)
+        .collection(FirebaseConstants.entryCellsCollection)
+        .where('month', isEqualTo: monthNumber)
+        .where('year', isEqualTo: year)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => DateTimeEntryModel.fromMap(
+                  e.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  FutureVoid createEntryCell(DateTimeEntryModel entry, String doctorId) async {
+    try {
+      // var entryDoc = await _doctors
+      //     .doc(doctorId)
+      //     .collection(FirebaseConstants.entryCellsCollection)
+      //     .doc('${entry.date.day}/${entry.date.month}')
+      //     .get();
+      // return right(_doctors
+      //     .doc(doctorId)
+      //     .collection(FirebaseConstants.entryCellsCollection)
+      //     .doc('${entry.date.day}/${entry.date.month}')
+      //     .set(entry.toMap()));
+      return right(_doctors
+          .doc(doctorId)
+          .collection(FirebaseConstants.entryCellsCollection)
+          .doc(entry.id)
+          .set(entry.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+      // throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
 
   // Stream<List<DateModel>> getEntryCells(String doctorId) {

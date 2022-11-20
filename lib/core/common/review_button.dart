@@ -4,9 +4,19 @@ import 'package:routemaster/routemaster.dart';
 
 class ReviewButton extends StatefulWidget {
   final String doctorId;
+  final String image;
+  final String text;
+  final bool isAddReview;
+  final bool isEditReview;
+  final bool isReviewsPage;
   const ReviewButton({
     super.key,
     required this.doctorId,
+    required this.image,
+    required this.isAddReview,
+    required this.isEditReview,
+    required this.isReviewsPage,
+    required this.text,
   });
 
   @override
@@ -14,7 +24,15 @@ class ReviewButton extends StatefulWidget {
 }
 
 class _EntryButtonState extends State<ReviewButton> {
-  void navigateToEntryScreen(BuildContext context) {
+  void navigateToReviewsScreen(BuildContext context) {
+    Routemaster.of(context).push('/reviews/${widget.doctorId}');
+  }
+
+  void navigateToEditCommentScreen(BuildContext context) {
+    Routemaster.of(context).push('/edit-review/${widget.doctorId}');
+  }
+
+  void navigateToAddCommentScreen(BuildContext context) {
     Routemaster.of(context).push('/add-review/${widget.doctorId}');
   }
 
@@ -23,7 +41,13 @@ class _EntryButtonState extends State<ReviewButton> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () => navigateToEntryScreen(context),
+        onTap: widget.isReviewsPage
+            ? () => navigateToReviewsScreen(context)
+            : widget.isEditReview
+                ? () => navigateToEditCommentScreen(context)
+                : widget.isAddReview
+                    ? () => navigateToAddCommentScreen(context)
+                    : null,
         child: Card(
           color: Constants.primaryColor,
           shape: RoundedRectangleBorder(
@@ -35,12 +59,12 @@ class _EntryButtonState extends State<ReviewButton> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Image.asset(
-                  'assets/images/add_review.png',
+                  widget.image,
                   height: 50,
                 ),
-                const Text(
-                  'Оставить отзыв',
-                  style: TextStyle(
+                Text(
+                  widget.text,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                   ),

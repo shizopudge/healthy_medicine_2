@@ -32,8 +32,8 @@ class EntryController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  void createEntry(Doctor doctor, String date, String time, String entryCellId,
-      BuildContext context) async {
+  void createEntry(Doctor doctor, DateTime date, DateTime time,
+      String entryCellId, BuildContext context) async {
     state = true;
     final uid = _ref.read(userProvider)?.uid ?? '';
     String entryId = const Uuid().v1();
@@ -55,7 +55,8 @@ class EntryController extends StateNotifier<bool> {
         await _entryRepository.createEntry(entry, doctor.id, entryCellId);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Вы записались на прием!');
+      showSnackBar(context,
+          'Вы записались на прием ${date.day}/${date.month}/${date.year} в ${time.hour}:${time.minute}!');
       Routemaster.of(context).pop();
     });
   }

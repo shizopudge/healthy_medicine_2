@@ -314,7 +314,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Row(
+                                  child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Text(

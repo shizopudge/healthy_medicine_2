@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_medicine_2/screens/add_review_screen.dart';
+import 'package:healthy_medicine_2/screens/admin_entry_panel.dart';
+import 'package:healthy_medicine_2/screens/admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_screen.dart';
 import 'package:healthy_medicine_2/screens/doctors_list_screen.dart';
@@ -8,6 +10,7 @@ import 'package:healthy_medicine_2/screens/entry_screen.dart';
 import 'package:healthy_medicine_2/screens/login_screen.dart';
 import 'package:healthy_medicine_2/screens/portal.dart';
 import 'package:healthy_medicine_2/screens/profile_screen.dart';
+import 'package:healthy_medicine_2/screens/reviews_screen.dart';
 import 'package:healthy_medicine_2/screens/spec_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -19,6 +22,9 @@ final loggedInRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: Portal()),
   '/spec': (_) => const MaterialPage(
         child: SpecScreen(),
+      ),
+  '/admin': (_) => const MaterialPage(
+        child: AdminPanelScreen(),
       ),
   '/profile/:uid': (routeData) => MaterialPage(
         child: ProfileScreen(
@@ -32,6 +38,11 @@ final loggedInRoute = RouteMap(routes: {
       ),
   '/add-review/:doctorId': (routeDocThings) => MaterialPage(
         child: AddReviewScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/reviews/:doctorId': (routeDocThings) => MaterialPage(
+        child: ReviewsScreen(
           doctorId: routeDocThings.pathParameters['doctorId']!,
         ),
       ),
@@ -54,6 +65,11 @@ final loggedInRoute = RouteMap(routes: {
         child: DoctorsListScreen(
           clinic: routeData.pathParameters['clinicId']!,
           spec: routeData.pathParameters['spec']!,
+        ),
+      ),
+  '/admin-entry-panel/:doctorId': (routeDocThings) => MaterialPage(
+        child: AdminEntryPanel(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
         ),
       ),
 });
