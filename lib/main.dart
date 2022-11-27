@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/pallete.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/firebase_options.dart';
-import 'package:healthy_medicine_2/models/user_model.dart';
+import 'package:healthy_medicine_2/core/models/user_model.dart';
 import 'package:healthy_medicine_2/router.dart';
 
 import 'package:routemaster/routemaster.dart';
@@ -43,9 +44,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return ref.watch(authStateChangeProvider).when(
           data: (data) => MaterialApp.router(
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primaryColor: Constants.primaryColor,
-            ),
+            theme: ref.watch(themeNotifierProvider),
             routerDelegate: RoutemasterDelegate(
               routesBuilder: (context) {
                 if (data != null) {

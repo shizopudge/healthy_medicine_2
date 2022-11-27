@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/common/clinic_choice_menu.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/lists/clinics.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:routemaster/routemaster.dart';
 

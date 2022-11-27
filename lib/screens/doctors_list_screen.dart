@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:healthy_medicine_2/clinics/clinics_controller.dart';
-import 'package:healthy_medicine_2/core/common/doctors.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
+import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/widgets/lists/doctors.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:routemaster/routemaster.dart';
 

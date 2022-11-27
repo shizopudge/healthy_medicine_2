@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
+import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 List<DateTime> firstChangeTimeList = [
@@ -55,8 +55,6 @@ class AdminEntryPanel extends ConsumerStatefulWidget {
 }
 
 class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
-  // DateTime date = DateTime(DateTime.now().year, DateTime.now().month,
-  //     DateTime.now().day + 3, DateTime.now().hour, DateTime.now().minute);
   late DateTime date;
   late List<DateTime> times;
   late int h;
@@ -81,12 +79,6 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
       default:
         h = 10;
     }
-    // for (var i = 0; i < 10; i++) {
-    //   h++;
-    //   DateTime time = DateTime(
-    //       DateTime.now().year, DateTime.now().month, DateTime.now().day, h, 30);
-    //   times.add(time);
-    // }
   }
 
   void createEntryCell(BuildContext context) {
@@ -108,6 +100,12 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                     onTap: () {
                       createEntryCell(context);
                       print(times);
+                      dateController = TextEditingController(text: '');
+                      times = [];
+                      isDatePicked = false;
+                      isFirstTimesPicked = false;
+                      isSecondTimesPicked = false;
+                      isOwnTimesPicked = false;
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -169,7 +167,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                       DateTime.now().day),
                   lastDate: DateTime(
                     DateTime.now().year,
-                    DateTime.now().month + 1,
+                    DateTime.now().month,
+                    DateTime.now().day + 14,
                   ),
                   selectableDayPredicate: (DateTime val) =>
                       val.weekday == 6 || val.weekday == 7 ? false : true,

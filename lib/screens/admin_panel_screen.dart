@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/clinics/clinics_controller.dart';
-import 'package:healthy_medicine_2/core/common/admin_panel_menus.dart';
-import 'package:healthy_medicine_2/core/common/doctor_card.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/widgets/cards/admin_panel_menus.dart';
+import 'package:healthy_medicine_2/widgets/cards/doctor_card.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
+import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 const List<String> cities = [

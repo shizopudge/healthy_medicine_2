@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
-import 'package:healthy_medicine_2/entries/entry_controller.dart';
-import 'package:healthy_medicine_2/models/doctor_model.dart';
+import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
+import 'package:healthy_medicine_2/core/entries/entry_controller.dart';
+import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:routemaster/routemaster.dart';
 
 class EntryScreen extends ConsumerStatefulWidget {
@@ -27,6 +27,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
   }
 
   int currentMonthNumber = DateTime.now().month;
+  int currentDay = DateTime.now().day;
   late String currentMonth;
   int currentYear = DateTime.now().year;
   int k = 0;
@@ -129,10 +130,16 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
               loading: () => const Loader())
           : null,
       body: ref
-          .watch(getEntryCellsByMonthAndYearProvider(MyParameter2(
-              monthNumber: currentMonthNumber,
-              doctorId: widget.doctorId,
-              year: currentYear)))
+          .watch(
+            getEntryCellsByMonthAndYearProvider(
+              MyParameter2(
+                monthNumber: currentMonthNumber,
+                doctorId: widget.doctorId,
+                year: currentYear,
+                day: currentDay,
+              ),
+            ),
+          )
           .when(
               data: (entryDateCells) {
                 return Column(
@@ -169,12 +176,14 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                   if (currentMonthNumber == 1) {
                                     setState(() {
                                       currentMonthNumber = 12;
+                                      currentDay = DateTime.now().day;
                                       currentYear--;
                                     });
                                   } else {
                                     setState(() {
                                       currentMonthNumber =
                                           currentMonthNumber - 1;
+                                      currentDay = DateTime.now().day;
                                     });
                                   }
                                   setState(() {
@@ -182,6 +191,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                     isDatePicked = false;
                                   });
                                   print(currentMonthNumber);
+                                  print(currentDay);
                                   getCurrentMounth();
                                 },
                                 icon: const Icon(
@@ -207,12 +217,14 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                   if (currentMonthNumber == 12) {
                                     setState(() {
                                       currentMonthNumber = 1;
+                                      currentDay = 0;
                                       currentYear++;
                                     });
                                   } else {
                                     setState(() {
                                       currentMonthNumber =
                                           currentMonthNumber + 1;
+                                      currentDay = 0;
                                     });
                                   }
                                   setState(() {
@@ -220,6 +232,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                     isDatePicked = false;
                                   });
                                   print(currentMonthNumber);
+                                  print(currentDay);
                                   getCurrentMounth();
                                 },
                                 icon: const Icon(
@@ -229,42 +242,6 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                 )),
                       ],
                     ),
-                    // Expanded(
-                    //   child: ListView.builder(
-                    //     itemCount: entryDateCells.length,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       final dateCell = entryDateCells[index];
-                    //       if (dateCell.date.month == DateTime.now().month &&
-                    //           dateCell.date.day > DateTime.now().day) {
-                    //         return InkWell(
-                    //           onTap: dateCell.time.isNotEmpty
-                    //               ? () {
-                    //                   setState(() {
-                    //                     isDatePicked = true;
-                    //                     dateCellId = dateCell.id;
-                    //                     date = dateCell.date;
-                    //                     times = dateCell.time;
-                    //                   });
-                    //                   print(dateCellId.trim());
-                    //                 }
-                    //               : null,
-                    //           child: Card(
-                    //             color: dateCell.time.isNotEmpty
-                    //                 ? Colors.blue
-                    //                 : Colors.grey,
-                    //             child: Center(
-                    //               child: Text(
-                    //                 dateCell.date.day.toString(),
-                    //                 style: const TextStyle(fontSize: 30),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         );
-                    //       }
-                    //       return const SizedBox();
-                    //     },
-                    //   ),
-                    // ),
                     Expanded(
                       child: GridView.builder(
                           gridDelegate:

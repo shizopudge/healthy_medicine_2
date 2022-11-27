@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
-import 'package:healthy_medicine_2/core/common/review_button.dart';
-import 'package:healthy_medicine_2/core/common/review_card.dart';
-import 'package:healthy_medicine_2/core/common/reviews.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
+import 'package:healthy_medicine_2/widgets/buttons/review_button.dart';
+import 'package:healthy_medicine_2/widgets/cards/review_card.dart';
+import 'package:healthy_medicine_2/widgets/lists/reviews.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
-import 'package:healthy_medicine_2/reviews/reviews_controller.dart';
+import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
+import 'package:healthy_medicine_2/core/reviews/reviews_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 class ReviewsScreen extends ConsumerStatefulWidget {

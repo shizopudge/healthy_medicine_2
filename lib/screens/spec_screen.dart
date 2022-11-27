@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/core/common/menu_spec_widget.dart';
+import 'package:healthy_medicine_2/widgets/buttons/menu_spec_widget.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -44,32 +44,32 @@ class SpecScreen extends ConsumerWidget {
                   mainAxisSpacing: 10,
                   crossAxisCount: 3,
                   children: const <Widget>[
-                    MenuOfItem(
+                    MenuOfSpec(
                       specText: 'Хирург',
                       specIcon: 'assets/images/surgeon.png',
                       spec: 'Surgeon',
                     ),
-                    MenuOfItem(
+                    MenuOfSpec(
                       specText: 'Окулист',
                       specIcon: 'assets/images/ophtalmologyst.png',
                       spec: 'Ophtalmologyst',
                     ),
-                    MenuOfItem(
+                    MenuOfSpec(
                       specText: 'Уролог',
                       specIcon: 'assets/images/urologist.png',
                       spec: 'Urologist',
                     ),
-                    MenuOfItem(
+                    MenuOfSpec(
                       specText: 'Терапевт',
                       specIcon: 'assets/images/therapist.png',
                       spec: 'Therapist',
                     ),
-                    MenuOfItem(
+                    MenuOfSpec(
                       specText: 'Педиатр',
                       specIcon: 'assets/images/pediatrician.png',
                       spec: 'Pediatrician',
                     ),
-                    MenuOfItem(
+                    MenuOfSpec(
                       specText: 'Дантист',
                       specIcon: 'assets/images/dentist.png',
                       spec: 'Dentist',

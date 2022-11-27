@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
-import 'package:healthy_medicine_2/core/common/profile_info_widget.dart';
-import 'package:healthy_medicine_2/core/common/profile_text_field.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
+import 'package:healthy_medicine_2/widgets/text_widgets/profile_info_widget.dart';
+import 'package:healthy_medicine_2/widgets/text_widgets/profile_text_field.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:routemaster/routemaster.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/core/common/doctor_screen_info.dart';
-import 'package:healthy_medicine_2/core/common/error_text.dart';
-import 'package:healthy_medicine_2/core/common/loader.dart';
+import 'package:healthy_medicine_2/widgets/screen_widgets/doctors_screen_info_widget.dart';
+import 'package:healthy_medicine_2/widgets/common/error_text.dart';
+import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/doctors/doctors_controller.dart';
+import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 class DoctorScreen extends ConsumerStatefulWidget {
@@ -37,7 +37,7 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
       ),
       body: ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
           data: (doctor) {
-            return DoctorInfo(doctor: doctor);
+            return DoctorsScreenInfo(doctor: doctor);
           },
           error: ((error, stackTrace) => ErrorText(error: error.toString())),
           loading: () => const Loader()),

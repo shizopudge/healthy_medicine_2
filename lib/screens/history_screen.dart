@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/core/common/list_of_entries.dart';
+import 'package:healthy_medicine_2/widgets/lists/entries.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 
 class HistoryScreen extends ConsumerWidget {

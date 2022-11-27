@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:healthy_medicine_2/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/common/doctor_spec_card.dart';
-import 'package:healthy_medicine_2/core/common/double_text_widget.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/buttons/doctor_spec_card.dart';
+import 'package:healthy_medicine_2/widgets/text_widgets/double_text_widget.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:healthy_medicine_2/core/drawers/profile_drawer.dart';
+import 'package:healthy_medicine_2/drawers/profile_drawer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -28,7 +28,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final user = ref.watch(userProvider)!;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Constants.bg,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,7 +72,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      backgroundColor: Constants.bg,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
