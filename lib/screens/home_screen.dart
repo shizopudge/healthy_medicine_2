@@ -25,50 +25,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider)!;
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Привет, ',
-              style: TextStyle(
-                fontSize: 22,
-                color: Constants.textColor,
-                fontWeight: FontWeight.w400,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.grey.shade200),
+            child: InkWell(
+              onTap: () => displayEndDrawer(context),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.notifications,
+                ),
               ),
-            ),
-            Text(
-              '${user.firstName}!',
-              style: const TextStyle(
-                color: Colors.red,
-                fontSize: 22,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications,
             ),
           ),
-          Builder(builder: (context) {
-            return IconButton(
-              onPressed: () => displayEndDrawer(context),
-              icon: const Icon(
-                Icons.menu,
-              ),
-            );
-          }),
-        ],
-        actionsIconTheme: const IconThemeData(
-          color: Constants.textColor,
-          size: 28,
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Builder(builder: (context) {
+              return Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey.shade200),
+                child: InkWell(
+                  onTap: () => displayEndDrawer(context),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.menu,
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ],
         elevation: 0,
         automaticallyImplyLeading: false,
       ),

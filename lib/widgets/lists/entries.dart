@@ -7,12 +7,30 @@ import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/entries/entry_controller.dart';
 
 class ListOfEntries extends ConsumerWidget {
-  const ListOfEntries({super.key});
+  final int limit;
+  final bool isComingInTime;
+  final bool isUpcoming;
+  final bool isPast;
+  final bool isNothing;
+  const ListOfEntries({
+    super.key,
+    required this.limit,
+    required this.isComingInTime,
+    required this.isUpcoming,
+    required this.isPast,
+    required this.isNothing,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
-    return ref.watch(getUserEntriesProvider(user.uid)).when(
+    return ref
+        .watch(
+          getUserEntriesProvider(
+            UserEntriesParameters(limit: limit, uid: user.uid),
+          ),
+        )
+        .when(
           data: (entryData) {
             return ListView.builder(
               itemCount: entryData.length,

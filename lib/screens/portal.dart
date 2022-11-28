@@ -1,8 +1,10 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/screens/history_screen.dart';
-import 'package:healthy_medicine_2/screens/home_screen.dart';
+import 'package:healthy_medicine_2/screens/main_screen.dart';
 
 class Portal extends ConsumerStatefulWidget {
   const Portal({super.key});
@@ -15,8 +17,7 @@ class _PortalState extends ConsumerState<Portal> {
   int _page = 0;
 
   static const tabWidgets = [
-    HomeScreen(),
-    // SpecScreen(),
+    MainScreen(),
     HistoryScreen(),
   ];
   void onPageChanged(int page) {
@@ -29,29 +30,43 @@ class _PortalState extends ConsumerState<Portal> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: tabWidgets[_page],
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        elevation: 0,
-        selectedItemColor: Constants.textColor,
-        unselectedItemColor: Colors.white,
-        backgroundColor: Constants.bg,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      extendBody: true,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 8,
+          left: 5,
+          right: 5,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28),
+          child: Container(
+            height: 90,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(28),
+            ),
+            padding: const EdgeInsets.all(4),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: BottomNavigationBar(
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.house_alt),
+                    activeIcon: Icon(CupertinoIcons.house_alt_fill),
+                    label: 'Главная',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.history),
+                    activeIcon: Icon(Icons.history),
+                    label: 'История',
+                  ),
+                ],
+                onTap: onPageChanged,
+                currentIndex: _page,
+              ),
+            ),
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(CupertinoIcons.add),
-          //   label: 'Entry',
-          // ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-        ],
-        onTap: onPageChanged,
-        currentIndex: _page,
+        ),
       ),
     );
   }

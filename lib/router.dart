@@ -11,7 +11,7 @@ import 'package:healthy_medicine_2/screens/login_screen.dart';
 import 'package:healthy_medicine_2/screens/portal.dart';
 import 'package:healthy_medicine_2/screens/profile_screen.dart';
 import 'package:healthy_medicine_2/screens/reviews_screen.dart';
-import 'package:healthy_medicine_2/screens/spec_screen.dart';
+import 'package:healthy_medicine_2/screens/main_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
 final loggedOutRoute = RouteMap(routes: {
@@ -21,7 +21,7 @@ final loggedOutRoute = RouteMap(routes: {
 final loggedInRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: Portal()),
   '/spec': (_) => const MaterialPage(
-        child: SpecScreen(),
+        child: MainScreen(),
       ),
   '/admin': (_) => const MaterialPage(
         child: AdminPanelScreen(),

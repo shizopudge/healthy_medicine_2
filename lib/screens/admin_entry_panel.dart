@@ -309,6 +309,12 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
               ),
             ),
           ),
+          TextButton(
+              onPressed: () {
+                print(DateTime.now().hour);
+                print(DateTime.now().minute);
+              },
+              child: Text('PRESS'))
           // Мб получится сделать лист из дат без выходных и делать ячейки с записями через for на каждую
           // const Text(
           //   'Выберите даты',

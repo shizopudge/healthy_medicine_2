@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:routemaster/routemaster.dart';
 
 class MenuOfSpec extends StatelessWidget {
@@ -20,17 +20,6 @@ class MenuOfSpec extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ButtonStyle(
-        overlayColor: MaterialStateProperty.all(Constants.textColor),
-        backgroundColor: MaterialStateProperty.all(Constants.secondColor),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              50,
-            ),
-          ),
-        ),
-      ),
       onPressed: () => navigateToChoiceClinic(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +30,8 @@ class MenuOfSpec extends StatelessWidget {
           ),
           Text(
             specText,
-            style: const TextStyle(color: Constants.primaryColor),
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.titleTextStyle,
           ),
         ],
       ),

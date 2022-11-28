@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:routemaster/routemaster.dart';
 
 class ProfileDrawer extends ConsumerWidget {
@@ -10,6 +11,10 @@ class ProfileDrawer extends ConsumerWidget {
 
   void logOut(WidgetRef ref) {
     ref.read(authControllerProvider.notifier).logOut();
+  }
+
+  void toggleTheme(WidgetRef ref) {
+    ref.read(themeNotifierProvider.notifier).toggleTheme();
   }
 
   void navigateToProfileScreen(BuildContext context, String uid) {
@@ -24,7 +29,6 @@ class ProfileDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
     return Drawer(
-      backgroundColor: Constants.bg,
       child: SafeArea(
         child: Column(
           children: [
@@ -41,55 +45,30 @@ class ProfileDrawer extends ConsumerWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${user.firstName} ',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.red.shade300,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        user.lastName,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.red.shade300,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    '${user.firstName} ${user.lastName}',
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.titleTextStyle,
                   ),
                 ),
                 Text(
                   user.email,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Constants.textColor,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTheme.dedicatedTextStyle,
                 ),
               ],
             ),
             const Gap(10),
             const Divider(),
             ListTile(
-              title: const Text(
+              title: Text(
                 'Профиль',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Constants.textColor,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTheme.labelTextStyle,
               ),
               leading: const Icon(
                 Icons.person,
-                color: Colors.white,
+                color: AppTheme.blackColor,
+                size: 32,
               ),
               onTap: () => navigateToProfileScreen(
                 context,
@@ -98,35 +77,35 @@ class ProfileDrawer extends ConsumerWidget {
             ),
             user.isAdmin
                 ? ListTile(
-                    title: const Text(
+                    title: Text(
                       'Панель управления',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Constants.textColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTheme.labelTextStyle,
                     ),
                     leading: const Icon(
                       Icons.admin_panel_settings,
-                      color: Colors.white,
+                      color: AppTheme.blackColor,
+                      size: 32,
                     ),
                     onTap: () => navigateToAdminPanelScreen(context),
                   )
                 : const SizedBox(),
             ListTile(
-              title: const Text(
+              title: Text(
                 'Выйти',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Constants.textColor,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTheme.labelTextStyle,
               ),
               leading: const Icon(
-                Icons.logout,
+                Icons.logout_rounded,
                 color: Colors.red,
+                size: 32,
               ),
               onTap: () => logOut(ref),
+            ),
+            Switch.adaptive(
+              value: ref.watch(themeNotifierProvider.notifier).mode ==
+                  ThemeMode.dark,
+              onChanged: (value) => toggleTheme(ref),
+              activeColor: AppTheme.greyColor,
             ),
           ],
         ),

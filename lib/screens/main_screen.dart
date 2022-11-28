@@ -1,43 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/drawers/profile_drawer.dart';
+import 'package:healthy_medicine_2/widgets/app_bars/main_appbar.dart';
 import 'package:healthy_medicine_2/widgets/buttons/menu_spec_widget.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:routemaster/routemaster.dart';
 
-class SpecScreen extends ConsumerWidget {
-  const SpecScreen({super.key});
+class MainScreen extends ConsumerWidget {
+  const MainScreen({
+    super.key,
+  });
+
+  void displayEndDrawer(BuildContext context) {
+    Scaffold.of(context).openEndDrawer();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Constants.bg,
-      appBar: AppBar(
-        backgroundColor: Constants.bg,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Routemaster.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Constants.textColor,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-      ),
+      endDrawer: const ProfileDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 25),
-                child: Text(
-                  'Какого врача вы ищете?',
-                  style: TextStyle(
-                    color: Constants.textColor,
-                    fontSize: 36,
-                  ),
-                ),
-              ),
+              Builder(builder: (context) {
+                return MainAppBar(
+                  onSearchTap: () {},
+                  onAvatarTap: () => displayEndDrawer(context),
+                  title: 'Какого врача вы ищете?',
+                );
+              }),
               Expanded(
                 child: GridView.count(
                   crossAxisSpacing: 10,
@@ -81,7 +72,6 @@ class SpecScreen extends ConsumerWidget {
           ),
         ),
       ),
-      // endDrawer: const ProfileDrawer(),
     );
   }
 }

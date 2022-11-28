@@ -39,8 +39,9 @@ class EntryRepository {
     }
   }
 
-  Stream<List<EntryModel>> getUserEntries(String uid) {
+  Stream<List<EntryModel>> getUserEntries(String uid, int limit) {
     return _entries
+        .limit(limit)
         .where('uid', isEqualTo: uid)
         .orderBy(
           'date',
@@ -61,10 +62,4 @@ class EntryRepository {
               .toList(),
         );
   }
-
-  // void deleteEntryTime(String entryCellId, String time, String doctorId) async {
-  //   _doctors.doc(doctorId).collection('entryCells').doc(entryCellId).update({
-  //     'time': FieldValue.arrayRemove([time]),
-  //   });
-  // }
 }

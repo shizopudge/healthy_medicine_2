@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
@@ -8,6 +9,19 @@ import 'package:healthy_medicine_2/core/models/entry_model.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
+class UserEntriesParameters extends Equatable {
+  const UserEntriesParameters({
+    required this.limit,
+    required this.uid,
+  });
+
+  final String uid;
+  final int limit;
+
+  @override
+  List<Object> get props => [uid, limit];
+}
+
 final entryControllerProvider =
     StateNotifierProvider<EntryController, bool>((ref) {
   final entryRepository = ref.watch(entryRepositoryProvider);
@@ -17,9 +31,10 @@ final entryControllerProvider =
   );
 });
 
-final getUserEntriesProvider = StreamProvider.family((ref, String uid) {
+final getUserEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
   final entryController = ref.watch(entryControllerProvider.notifier);
-  return entryController.getUserEntries(uid);
+  return entryController.getUserEntries(parametr.uid, parametr.limit);
 });
 
 class EntryController extends StateNotifier<bool> {
@@ -61,11 +76,7 @@ class EntryController extends StateNotifier<bool> {
     });
   }
 
-  Stream<List<EntryModel>> getUserEntries(String uid) {
-    return _entryRepository.getUserEntries(uid);
+  Stream<List<EntryModel>> getUserEntries(String uid, int limit) {
+    return _entryRepository.getUserEntries(uid, limit);
   }
-
-  // void deleteEntryTime(String entryCellId, String time, String doctorId) async {
-  //   _entryRepository.deleteEntryTime(entryCellId, time, doctorId);
-  // }
 }
