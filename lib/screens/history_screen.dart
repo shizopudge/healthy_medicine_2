@@ -22,9 +22,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
   bool isUpcoming = false;
   bool isPast = false;
-  bool isComingInTime = false;
-  bool isNothing = true;
-  String sortType = 'Все';
+  bool isComingInTime = true;
+  bool isNothing = false;
+  String sortType = 'Ближайшие';
 
   @override
   Widget build(BuildContext context) {
