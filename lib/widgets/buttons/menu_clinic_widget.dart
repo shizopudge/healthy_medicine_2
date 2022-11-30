@@ -21,8 +21,6 @@ class MenuOfClinic extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ButtonStyle(
-          overlayColor: MaterialStateProperty.all(Constants.textColor),
-          backgroundColor: MaterialStateProperty.all(Constants.secondColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(

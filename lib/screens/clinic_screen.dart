@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/app_bars/main_appbar.dart';
+import 'package:healthy_medicine_2/widgets/app_bars/top_appbar.dart';
 import 'package:healthy_medicine_2/widgets/lists/clinics.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:routemaster/routemaster.dart';
@@ -35,46 +39,25 @@ class _ClinicScreenState extends ConsumerState<ClinicScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.bg,
-      appBar: AppBar(
-        backgroundColor: Constants.bg,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Routemaster.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Constants.textColor,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: Column(
             children: [
+              TopAppBar(
+                  onSearchTap: () {},
+                  title: 'Выберите удобную для себя клинику'),
               Align(
                 alignment: Alignment.centerRight,
                 child: DropdownButton<String>(
                   value: cityValue,
-                  icon: const RotatedBox(
-                    quarterTurns: 3,
-                    child: Icon(
-                      Icons.arrow_back_ios_new_outlined,
-                      color: Constants.textColor,
-                    ),
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: AppTheme.indigoColor,
+                    size: 28,
                   ),
-                  dropdownColor: Constants.primaryColor,
-                  elevation: 16,
-                  style: const TextStyle(
-                    color: Constants.textColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                  underline: Container(
-                    height: 2,
-                    color: Constants.textColor,
-                  ),
+                  elevation: 0,
+                  style: AppTheme.titleTextStyle,
                   onChanged: (String? value) {
                     setState(() {
                       cityValue = value!;
@@ -86,16 +69,6 @@ class _ClinicScreenState extends ConsumerState<ClinicScreen> {
                       child: Text(value),
                     );
                   }).toList(),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 25),
-                child: Text(
-                  'Выберите удобную для себя клинику',
-                  style: TextStyle(
-                    color: Constants.textColor,
-                    fontSize: 36,
-                  ),
                 ),
               ),
               Expanded(

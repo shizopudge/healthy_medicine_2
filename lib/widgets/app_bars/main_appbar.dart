@@ -44,15 +44,15 @@ class MainAppBar extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(21),
                 child: Container(
                   padding: const EdgeInsets.all(12),
+                  height: 65,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(32),
+                    gradient: AppTheme.gradientIndigoToRed,
                   ),
                   child: const Icon(
                     Icons.search,
                     size: 36,
-                    color: AppTheme.blackColor,
                   ),
                 ),
               ),
@@ -64,35 +64,21 @@ class MainAppBar extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(21),
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    height: 60,
+                    height: 65,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(32),
+                      gradient: AppTheme.gradientIndigoToRed,
                     ),
                     child: user.avatar == ''
-                        ? Image.asset(Constants.avatarDefault)
+                        ? const Icon(
+                            Icons.person,
+                            size: 36,
+                          )
                         : Image.network(user.avatar),
                   ),
                 ),
               ),
-              // InkWell(
-              //   onTap: onMenuTap,
-              //   borderRadius: BorderRadius.circular(21),
-              //   child: Container(
-              //     padding: const EdgeInsets.all(12),
-              //     decoration: BoxDecoration(
-              //       border: Border.all(color: Colors.white),
-              //       borderRadius: BorderRadius.circular(16),
-              //       color: Colors.grey[200],
-              //     ),
-              //     child: const Icon(
-              //       Icons.menu,
-              //       size: 36,
-              //       color: AppTheme.blackColor,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ],

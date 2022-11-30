@@ -77,6 +77,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         style: AppTheme.labelTextStyle,
                       ),
                       PopupMenuButton<HistoryMenu>(
+                          iconSize: 28,
+                          elevation: 0,
                           onSelected: (HistoryMenu item) {
                             if (item == HistoryMenu.all) {
                               setState(() {

@@ -67,6 +67,13 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                         exCurrentDateTime.millisecondsSinceEpoch)
                 ? Colors.orange.shade100
                 : Colors.grey,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(21),
+        ),
+        elevation: 0,
+        margin: const EdgeInsets.symmetric(
+          vertical: 8,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(
