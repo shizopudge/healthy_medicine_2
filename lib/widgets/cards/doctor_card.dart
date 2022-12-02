@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/widgets/rating_bar.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
@@ -40,131 +41,110 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
         onTap: () => navigateToDoctorScreen(context),
         child: Card(
-          color: Constants.primaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(21),
           ),
+          color: AppTheme.secondColor,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(widget.doctor.image),
-                          backgroundColor: Colors.white,
-                          radius: 60,
-                        ),
-                        const Gap(5),
-                        Text(
-                          widget.doctor.spec,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Опыт: ${widget.doctor.experience} ',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            // защита слабого типа))) лучше бы поменять
-                            widget.doctor.experience > 1 &&
-                                    widget.doctor.experience < 5
-                                ? const Text(
-                                    'года',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    ),
-                                  )
-                                : widget.doctor.experience == 1
-                                    ? const Text(
-                                        'год',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                        ),
-                                      )
-                                    : const Text(
-                                        'лет',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                          ],
-                        ),
-                        const Gap(5),
-                        rating.isNotEmpty
-                            ? RatingBar(rating: avg, ratingCount: rating.length)
-                            : Row(
-                                children: [
-                                  for (var i = 0; i < 5; i++)
-                                    const Icon(
-                                      Icons.star_rounded,
-                                      color: Colors.grey,
-                                      size: 26,
-                                    ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                          fontSize: 21, color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ],
-                    ),
                     Expanded(
                       child: Column(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(widget.doctor.image),
+                            backgroundColor: Colors.white,
+                            radius: 55,
+                          ),
+                          const Gap(5),
+                          Text(
+                            widget.doctor.spec,
+                            style: AppTheme.dedicatedWhiteTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                widget.doctor.lastName,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
+                                'Опыт: ${widget.doctor.experience} ',
+                                style: AppTheme.dedicatedWhiteTextStyle,
                               ),
-                              const Gap(2.5),
-                              Text(
-                                widget.doctor.firstName,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
-                              ),
-                              const Gap(2.5),
-                              Text(
-                                widget.doctor.patronymic,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
-                              ),
+                              // защита слабого типа))) лучше бы поменять
+                              widget.doctor.experience > 1 &&
+                                      widget.doctor.experience < 5
+                                  ? Text(
+                                      'года',
+                                      style: AppTheme.dedicatedWhiteTextStyle,
+                                    )
+                                  : widget.doctor.experience == 1
+                                      ? Text(
+                                          'год',
+                                          style:
+                                              AppTheme.dedicatedWhiteTextStyle,
+                                        )
+                                      : Text(
+                                          'лет',
+                                          style:
+                                              AppTheme.dedicatedWhiteTextStyle,
+                                        ),
                             ],
+                          ),
+                          rating.isNotEmpty
+                              ? RatingBar(
+                                  rating: avg,
+                                  ratingCount: rating.length,
+                                  size: 25,
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    for (var i = 0; i < 5; i++)
+                                      const Icon(
+                                        Icons.star_rounded,
+                                        color: Colors.grey,
+                                        size: 21,
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        '0',
+                                        style: AppTheme.dedicatedWhiteTextStyle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.doctor.lastName,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.dedicatedWhiteTextStyle
+                                .copyWith(fontSize: 21),
+                          ),
+                          const Gap(2.5),
+                          Text(
+                            widget.doctor.firstName,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.dedicatedWhiteTextStyle
+                                .copyWith(fontSize: 21),
+                          ),
+                          const Gap(2.5),
+                          Text(
+                            widget.doctor.patronymic,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.dedicatedWhiteTextStyle
+                                .copyWith(fontSize: 21),
                           ),
                           const Gap(15),
                           Container(
@@ -174,26 +154,25 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
                             padding: const EdgeInsets.all(5),
                             child: Text(
                               '${widget.doctor.serviceCost} руб.',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                              ),
+                              style: AppTheme.dedicatedWhiteTextStyle,
                             ),
                           ),
                           const Gap(10),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(
                                 Icons.comment,
                                 color: Colors.white,
-                                size: 22,
+                                size: 26,
                               ),
-                              Text(
-                                widget.doctor.comments.length.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: Text(
+                                  widget.doctor.comments.length.toString(),
+                                  style: AppTheme.dedicatedWhiteTextStyle
+                                      .copyWith(fontSize: 21),
                                 ),
                               ),
                             ],

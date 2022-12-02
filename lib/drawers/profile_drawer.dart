@@ -67,7 +67,7 @@ class ProfileDrawer extends ConsumerWidget {
               ),
               leading: const Icon(
                 Icons.person,
-                color: AppTheme.blackColor,
+                color: AppTheme.indigoColor,
                 size: 32,
               ),
               onTap: () => navigateToProfileScreen(
@@ -83,7 +83,7 @@ class ProfileDrawer extends ConsumerWidget {
                     ),
                     leading: const Icon(
                       Icons.admin_panel_settings,
-                      color: AppTheme.blackColor,
+                      color: AppTheme.indigoColor,
                       size: 32,
                     ),
                     onTap: () => navigateToAdminPanelScreen(context),

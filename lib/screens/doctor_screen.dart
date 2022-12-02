@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/app_bars/doctors_appbar.dart';
+import 'package:healthy_medicine_2/widgets/buttons/admin_add_entry_button.dart';
+import 'package:healthy_medicine_2/widgets/buttons/entry_button.dart';
+import 'package:healthy_medicine_2/widgets/buttons/review_button.dart';
 import 'package:healthy_medicine_2/widgets/screen_widgets/doctors_screen_info_widget.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
-import 'package:routemaster/routemaster.dart';
 
-class DoctorScreen extends ConsumerStatefulWidget {
+class DoctorScreen extends ConsumerWidget {
   final String doctorId;
   const DoctorScreen({
     super.key,
@@ -15,32 +19,49 @@ class DoctorScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _DoctorScreenState();
-}
-
-class _DoctorScreenState extends ConsumerState<DoctorScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Constants.bg,
-      appBar: AppBar(
-        backgroundColor: Constants.bg,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Routemaster.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Constants.textColor,
-          ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  ref.watch(getDoctorByIdProvider(doctorId)).when(
+                        data: (doctor) {
+                          return DoctorsScreenInfo(doctor: doctor);
+                        },
+                        error: ((error, stackTrace) => ErrorText(
+                              error: error.toString(),
+                            )),
+                        loading: () => const Loader(),
+                      ),
+                  DoctorsAppBar(
+                    doctorId: doctorId,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                // borderRadius: const BorderRadius.only(
+                //   topRight: Radius.circular(21),
+                //   topLeft: Radius.circular(21),
+                // ),
+                gradient: AppTheme.gradientIndigoToRed,
+              ),
+              child: ReviewButton(
+                doctorId: doctorId,
+                image: 'assets/images/reviews.png',
+                isAddReview: false,
+                isEditReview: false,
+                isReviewsPage: true,
+                text: 'Отзывы',
+              ),
+            ),
+          ],
         ),
-        automaticallyImplyLeading: false,
       ),
-      body: ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
-          data: (doctor) {
-            return DoctorsScreenInfo(doctor: doctor);
-          },
-          error: ((error, stackTrace) => ErrorText(error: error.toString())),
-          loading: () => const Loader()),
     );
   }
 }

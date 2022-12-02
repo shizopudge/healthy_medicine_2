@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:routemaster/routemaster.dart';
 
 class AdminAddEntryButton extends StatelessWidget {
@@ -19,35 +19,19 @@ class AdminAddEntryButton extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () => navigateToAdminEntryPanel(context),
-        child: Card(
-          color: Constants.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(21),
+        borderRadius: BorderRadius.circular(21),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(32),
+            gradient: AppTheme.gradientIndigoToRed,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Icon(
-                  Icons.admin_panel_settings,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                Text(
-                  'Панель управления',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  size: 30,
-                  color: Colors.white,
-                )
-              ],
-            ),
+          child: const Icon(
+            Icons.admin_panel_settings,
+            size: 32,
           ),
         ),
       ),

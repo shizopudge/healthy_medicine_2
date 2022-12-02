@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/widgets/app_bars/top_appbar.dart';
 import 'package:healthy_medicine_2/widgets/lists/doctors.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
@@ -56,33 +58,18 @@ class _DoctorsScreenState extends ConsumerState<DoctorsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.bg,
-      appBar: AppBar(
-        backgroundColor: Constants.bg,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Routemaster.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Constants.textColor,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Column(
             children: [
+              TopAppBar(onSearchTap: () {}, title: 'Выберите врача'),
               ref.watch(getClinicByIdProvider(widget.clinic)).when(
                     data: (clinic) {
                       return Text(
                         clinic.address,
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          color: Constants.textColor,
-                          fontSize: 22,
-                        ),
+                        style: AppTheme.titleTextStyle,
                       );
                     },
                     error: ((error, stackTrace) => Center(
@@ -92,14 +79,6 @@ class _DoctorsScreenState extends ConsumerState<DoctorsListScreen> {
                         )),
                     loading: () => const Loader(),
                   ),
-              const Gap(25),
-              const Text(
-                'Выберите врача',
-                style: TextStyle(
-                  color: Constants.textColor,
-                  fontSize: 36,
-                ),
-              ),
               Expanded(
                 child: Doctors(
                   clinicId: widget.clinic,

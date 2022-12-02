@@ -157,14 +157,46 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                 textAlign: TextAlign.center,
                 onTap: () => showDatePicker(
                   context: context,
-                  initialDate: DateTime(
-                      DateTime.now().year,
-                      DateTime.now().month,
-                      DateTime.now().day + 1,
-                      DateTime.now().hour,
-                      DateTime.now().minute),
-                  firstDate: DateTime(DateTime.now().year, DateTime.now().month,
-                      DateTime.now().day),
+                  initialDate: DateTime.now().weekday == 5
+                      ? DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day + 3,
+                          DateTime.now().hour,
+                          DateTime.now().minute)
+                      : DateTime.now().weekday == 6
+                          ? DateTime(
+                              DateTime.now().year,
+                              DateTime.now().month,
+                              DateTime.now().day + 2,
+                              DateTime.now().hour,
+                              DateTime.now().minute)
+                          : DateTime(
+                              DateTime.now().year,
+                              DateTime.now().month,
+                              DateTime.now().day + 1,
+                              DateTime.now().hour,
+                              DateTime.now().minute),
+                  firstDate: DateTime.now().weekday == 5
+                      ? DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day + 3,
+                          DateTime.now().hour,
+                          DateTime.now().minute)
+                      : DateTime.now().weekday == 6
+                          ? DateTime(
+                              DateTime.now().year,
+                              DateTime.now().month,
+                              DateTime.now().day + 2,
+                              DateTime.now().hour,
+                              DateTime.now().minute)
+                          : DateTime(
+                              DateTime.now().year,
+                              DateTime.now().month,
+                              DateTime.now().day + 1,
+                              DateTime.now().hour,
+                              DateTime.now().minute),
                   lastDate: DateTime(
                     DateTime.now().year,
                     DateTime.now().month,

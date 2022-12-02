@@ -60,15 +60,15 @@ class _EntryCardState extends ConsumerState<EntryCard> {
       child: Card(
         color: entryDate.millisecondsSinceEpoch >
                 currentDate.millisecondsSinceEpoch
-            ? Colors.green.shade100
+            ? Colors.green.shade200
             : (entryDate.millisecondsSinceEpoch ==
                         currentDate.millisecondsSinceEpoch &&
                     exEntryDateTime.millisecondsSinceEpoch >=
                         exCurrentDateTime.millisecondsSinceEpoch)
-                ? Colors.orange.shade100
-                : Colors.grey,
+                ? Colors.red.shade300
+                : Colors.grey.shade500,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(21),
+          borderRadius: BorderRadius.circular(24),
         ),
         elevation: 0,
         margin: const EdgeInsets.symmetric(
@@ -82,9 +82,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
               Text(
                 '${widget.entry.serviceCost} руб.',
                 overflow: TextOverflow.ellipsis,
-                style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                  color: AppTheme.redColor,
-                ),
+                style: AppTheme.dedicatedWhiteTextStyle,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

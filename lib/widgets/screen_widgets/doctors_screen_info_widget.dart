@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/widgets/buttons/admin_add_entry_button.dart';
-import 'package:healthy_medicine_2/widgets/buttons/entry_button.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/widgets/rating_bar.dart';
-import 'package:healthy_medicine_2/widgets/buttons/review_button.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 
 class DoctorsScreenInfo extends ConsumerStatefulWidget {
@@ -42,47 +39,48 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider)!;
-    return SingleChildScrollView(
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(widget.doctor.image),
+          fit: BoxFit.cover,
+          opacity: .55,
+          colorFilter: ColorFilter.mode(
+            Colors.grey.shade300,
+            BlendMode.colorBurn,
+          ),
+        ),
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(widget.doctor.image),
-              radius: 90,
-              backgroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
             ),
-          ),
-          Text(
-            '${widget.doctor.firstName} ${widget.doctor.lastName}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
+            child: Text(
+              'Д-р. ${widget.doctor.firstName} ${widget.doctor.lastName}',
+              textAlign: TextAlign.center,
+              style: AppTheme.titleTextStyle.copyWith(
+                fontSize: 28,
+              ),
             ),
           ),
           const Gap(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/surgeon_v2.png',
-                height: 40,
-              ),
-              const Gap(5),
-              Text(
-                widget.doctor.spec,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ],
+          Text(
+            widget.doctor.spec,
+            style: AppTheme.titleTextStyle.copyWith(
+              fontSize: 28,
+            ),
           ),
           rating.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: RatingBar(rating: avg, ratingCount: rating.length),
+                  child: RatingBar(
+                    rating: avg,
+                    ratingCount: rating.length,
+                    size: 50,
+                  ),
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -93,13 +91,15 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo> {
                         const Icon(
                           Icons.star_rounded,
                           color: Colors.grey,
-                          size: 26,
+                          size: 50,
                         ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 5),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
                         child: Text(
-                          '0',
-                          style: TextStyle(fontSize: 21, color: Colors.white),
+                          '(0)',
+                          style: AppTheme.titleTextStyle.copyWith(
+                            fontSize: 28,
+                          ),
                         ),
                       ),
                     ],
@@ -110,33 +110,29 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo> {
             children: [
               Text(
                 'Опыт работы: ${widget.doctor.experience} ',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+                style: AppTheme.titleTextStyle.copyWith(
+                  fontSize: 28,
                 ),
               ),
               // защита слабого типа))) лучше бы поменять
               widget.doctor.experience > 1 && widget.doctor.experience < 5
-                  ? const Text(
+                  ? Text(
                       'года',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+                      style: AppTheme.titleTextStyle.copyWith(
+                        fontSize: 28,
                       ),
                     )
                   : widget.doctor.experience == 1
-                      ? const Text(
+                      ? Text(
                           'год',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                          style: AppTheme.titleTextStyle.copyWith(
+                            fontSize: 28,
                           ),
                         )
-                      : const Text(
+                      : Text(
                           'лет',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                          style: AppTheme.titleTextStyle.copyWith(
+                            fontSize: 28,
                           ),
                         ),
             ],
@@ -146,28 +142,12 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo> {
             child: Text(
               'Маленький текст с информацией о докторе.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey.shade300,
-                fontSize: 20,
+              style: AppTheme.titleTextStyle.copyWith(
+                fontSize: 21,
+                color: Colors.indigoAccent.shade200,
               ),
             ),
           ),
-          EntryButton(
-            doctorId: widget.doctor.id,
-          ),
-          ReviewButton(
-            doctorId: widget.doctor.id,
-            image: 'assets/images/reviews.png',
-            isAddReview: false,
-            isEditReview: false,
-            isReviewsPage: true,
-            text: 'Отзывы',
-          ),
-          user.isAdmin
-              ? AdminAddEntryButton(
-                  doctorId: widget.doctor.id,
-                )
-              : const SizedBox(),
         ],
       ),
     );

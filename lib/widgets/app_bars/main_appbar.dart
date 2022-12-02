@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
 
 class MainAppBar extends ConsumerWidget {
   final String title;

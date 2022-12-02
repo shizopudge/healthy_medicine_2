@@ -47,28 +47,46 @@ class _ClinicScreenState extends ConsumerState<ClinicScreen> {
               TopAppBar(
                   onSearchTap: () {},
                   title: 'Выберите удобную для себя клинику'),
-              Align(
-                alignment: Alignment.centerRight,
-                child: DropdownButton<String>(
-                  value: cityValue,
-                  icon: const Icon(
-                    Icons.more_vert,
-                    color: AppTheme.indigoColor,
-                    size: 28,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(21),
+                      color: Colors.grey.shade200,
+                      border: Border.all(
+                        color: AppTheme.indigoColor,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<String>(
+                        value: cityValue,
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: AppTheme.indigoColor,
+                          size: 28,
+                        ),
+                        underline: const SizedBox(),
+                        dropdownColor: Colors.grey.shade100,
+                        elevation: 0,
+                        style: AppTheme.titleTextStyle,
+                        onChanged: (String? value) {
+                          setState(() {
+                            cityValue = value!;
+                          });
+                        },
+                        items: cities
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
-                  elevation: 0,
-                  style: AppTheme.titleTextStyle,
-                  onChanged: (String? value) {
-                    setState(() {
-                      cityValue = value!;
-                    });
-                  },
-                  items: cities.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
                 ),
               ),
               Expanded(

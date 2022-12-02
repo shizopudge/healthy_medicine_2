@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 
 class RatingBar extends StatelessWidget {
   final double rating;
@@ -8,7 +9,7 @@ class RatingBar extends StatelessWidget {
     super.key,
     required this.rating,
     required this.ratingCount,
-    this.size = 26,
+    this.size = 30,
   });
 
   @override
@@ -20,7 +21,8 @@ class RatingBar extends StatelessWidget {
 
     for (int i = 0; i < 5; i++) {
       if (i < realNumber) {
-        starList.add(Icon(Icons.star_rounded, color: Colors.red, size: size));
+        starList.add(
+            Icon(Icons.star_rounded, color: AppTheme.indigoColor, size: size));
       } else if (i == realNumber) {
         starList.add(SizedBox(
           height: size,
@@ -28,7 +30,7 @@ class RatingBar extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Icon(Icons.star_rounded, color: Colors.red, size: size),
+              Icon(Icons.star_rounded, color: AppTheme.indigoColor, size: size),
               ClipRect(
                 clipper: _Clipper(part: partNumber),
                 child: Icon(Icons.star, color: Colors.grey, size: size),
@@ -46,7 +48,9 @@ class RatingBar extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5),
               child: Text(
                 '($ratingCount)',
-                style: TextStyle(fontSize: size * 0.7, color: Colors.white),
+                style: AppTheme.titleTextStyle.copyWith(
+                  fontSize: size * 0.72,
+                ),
               ),
             ),
           )

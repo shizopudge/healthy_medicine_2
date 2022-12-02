@@ -8,6 +8,11 @@ final themeNotifierProvider =
   return ThemeNotifier();
 });
 
+final drawerNotifierProvider =
+    StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {
+  return ThemeNotifier();
+});
+
 class AppTheme {
   // Colors
   static const blackColor = Color.fromRGBO(1, 1, 1, 1); // primary color
@@ -17,10 +22,11 @@ class AppTheme {
   static const whiteColor = Colors.white;
   static const whiteColor70 = Colors.white70;
   static const primaryTextColor = Color.fromARGB(255, 49, 51, 65);
+  static const secondColor = Color.fromARGB(255, 35, 40, 65);
   static var redColor = Colors.red.shade500;
   static var blueColor = Colors.blue.shade300;
   static var gradientIndigoToRed =
-      LinearGradient(colors: [Colors.indigo.shade200, Colors.red.shade200]);
+      LinearGradient(colors: [Colors.indigo.shade100, Colors.red.shade100]);
 
   static TextStyle headerTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.bold,
@@ -30,7 +36,7 @@ class AppTheme {
   static TextStyle titleTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.w700,
     fontSize: 18,
-    color: blackColor,
+    color: indigoColor,
   );
   static TextStyle whiteTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.w400,
@@ -74,7 +80,7 @@ class AppTheme {
   static var lightModeAppTheme = ThemeData.light().copyWith(
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: indigoColor,
-      circularTrackColor: whiteColor70,
+      // circularTrackColor: whiteColor70,
     ),
     scaffoldBackgroundColor: whiteColor,
     appBarTheme: const AppBarTheme(
@@ -100,12 +106,12 @@ class AppTheme {
       elevation: 0,
       backgroundColor: Colors.transparent,
       selectedItemColor: indigoColor,
-      unselectedItemColor: indigoColor,
-      showSelectedLabels: true,
+      unselectedItemColor: Colors.grey,
+      showSelectedLabels: false,
       showUnselectedLabels: false,
       selectedLabelStyle: labelTextStyle,
-      unselectedIconTheme: const IconThemeData(size: 32),
-      selectedIconTheme: const IconThemeData(size: 36),
+      unselectedIconTheme: const IconThemeData(size: 26),
+      selectedIconTheme: const IconThemeData(size: 30),
       type: BottomNavigationBarType.fixed,
     ),
     drawerTheme: const DrawerThemeData(

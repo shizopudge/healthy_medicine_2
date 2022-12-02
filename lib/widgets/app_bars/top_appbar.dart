@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
-import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
-class TopAppBar extends ConsumerWidget {
+class TopAppBar extends StatelessWidget {
   final String title;
   final VoidCallback onSearchTap;
 
@@ -15,8 +13,7 @@ class TopAppBar extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider)!;
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 15,
