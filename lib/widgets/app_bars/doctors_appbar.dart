@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/widgets/buttons/admin_add_entry_button.dart';
 import 'package:healthy_medicine_2/widgets/buttons/entry_button.dart';
+import 'package:healthy_medicine_2/widgets/buttons/review_button.dart';
 import 'package:routemaster/routemaster.dart';
 
 class DoctorsAppBar extends ConsumerStatefulWidget {
@@ -53,6 +54,13 @@ class _DoctorsAppBarState extends ConsumerState<DoctorsAppBar> {
                     )
                   : const SizedBox(),
               EntryButton(doctorId: widget.doctorId),
+              ReviewButton(
+                  doctorId: widget.doctorId,
+                  image: 'assets/images/reviews.png',
+                  isAddReview: false,
+                  isEditReview: false,
+                  isReviewsPage: true,
+                  text: 'Отзывы'),
             ],
           ),
         ],

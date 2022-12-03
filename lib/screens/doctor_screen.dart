@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_medicine_2/app_theme.dart';
-import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/doctors_appbar.dart';
-import 'package:healthy_medicine_2/widgets/buttons/admin_add_entry_button.dart';
-import 'package:healthy_medicine_2/widgets/buttons/entry_button.dart';
-import 'package:healthy_medicine_2/widgets/buttons/review_button.dart';
 import 'package:healthy_medicine_2/widgets/screen_widgets/doctors_screen_info_widget.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
@@ -25,6 +20,7 @@ class DoctorScreen extends ConsumerWidget {
         child: Column(
           children: [
             Expanded(
+              flex: 3,
               child: Stack(
                 children: [
                   ref.watch(getDoctorByIdProvider(doctorId)).when(
@@ -42,21 +38,14 @@ class DoctorScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                // borderRadius: const BorderRadius.only(
-                //   topRight: Radius.circular(21),
-                //   topLeft: Radius.circular(21),
-                // ),
-                gradient: AppTheme.gradientIndigoToRed,
-              ),
-              child: ReviewButton(
-                doctorId: doctorId,
-                image: 'assets/images/reviews.png',
-                isAddReview: false,
-                isEditReview: false,
-                isReviewsPage: true,
-                text: 'Отзывы',
+            Expanded(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                ),
+                child: Center(child: Text('Услуги')),
               ),
             ),
           ],

@@ -44,134 +44,143 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         title: 'Ваша история приемов',
                       );
                     }),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  k > 10
-                      ? TextButton(
-                          onPressed: () {
-                            setState(() {
-                              k = 10;
-                            });
-                          },
-                          child: Text(
-                            'Скрыть',
-                            style: AppTheme.titleTextStyle,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    k > 10
+                        ? TextButton(
+                            onPressed: () {
+                              setState(() {
+                                k = 10;
+                              });
+                            },
+                            child: Text(
+                              'Скрыть',
+                              style: AppTheme.titleTextStyle,
+                            ),
+                          )
+                        : TextButton(
+                            onPressed: () {
+                              setState(() {
+                                k = 50;
+                              });
+                            },
+                            child: Text(
+                              'Показать все',
+                              style: AppTheme.titleTextStyle,
+                            ),
                           ),
-                        )
-                      : TextButton(
-                          onPressed: () {
-                            setState(() {
-                              k = 50;
-                            });
-                          },
-                          child: Text(
-                            'Показать все',
-                            style: AppTheme.titleTextStyle,
-                          ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(21),
+                        color: Colors.grey.shade200,
+                        border: Border.all(
+                          color: AppTheme.indigoColor,
                         ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(21),
-                      color: Colors.grey.shade200,
-                      border: Border.all(
-                        color: AppTheme.indigoColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              sortType,
+                              style: AppTheme.dedicatedWhiteTextStyle
+                                  .copyWith(color: AppTheme.indigoColor),
+                            ),
+                            PopupMenuButton<HistoryMenu>(
+                                iconSize: 32,
+                                elevation: 0,
+                                onSelected: (HistoryMenu item) {
+                                  if (item == HistoryMenu.all) {
+                                    setState(() {
+                                      isNothing = true;
+                                      isComingInTime = false;
+                                      isUpcoming = false;
+                                      isPast = false;
+                                      sortType = 'Все';
+                                    });
+                                  }
+                                  if (item == HistoryMenu.comingInTime) {
+                                    setState(() {
+                                      isComingInTime = true;
+                                      isUpcoming = false;
+                                      isPast = false;
+                                      isNothing = false;
+                                      sortType = 'Ближайшие';
+                                    });
+                                  }
+                                  if (item == HistoryMenu.upcoming) {
+                                    setState(() {
+                                      isUpcoming = true;
+                                      isComingInTime = false;
+                                      isPast = false;
+                                      isNothing = false;
+                                      sortType = 'Предстоящие';
+                                    });
+                                  }
+                                  if (item == HistoryMenu.past) {
+                                    setState(() {
+                                      isPast = true;
+                                      isUpcoming = false;
+                                      isComingInTime = false;
+                                      isNothing = false;
+                                      sortType = 'Прошедшие';
+                                    });
+                                  }
+                                },
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<HistoryMenu>>[
+                                      PopupMenuItem<HistoryMenu>(
+                                        value: HistoryMenu.all,
+                                        child: Text(
+                                          'Все',
+                                          style: AppTheme
+                                              .dedicatedWhiteTextStyle
+                                              .copyWith(
+                                                  color: AppTheme.indigoColor),
+                                        ),
+                                      ),
+                                      PopupMenuItem<HistoryMenu>(
+                                        value: HistoryMenu.comingInTime,
+                                        child: Text(
+                                          'Ближайшие',
+                                          style: AppTheme
+                                              .dedicatedWhiteTextStyle
+                                              .copyWith(
+                                                  color: AppTheme.indigoColor),
+                                        ),
+                                      ),
+                                      PopupMenuItem<HistoryMenu>(
+                                        value: HistoryMenu.upcoming,
+                                        child: Text(
+                                          'Предстоящие',
+                                          style: AppTheme
+                                              .dedicatedWhiteTextStyle
+                                              .copyWith(
+                                                  color: AppTheme.indigoColor),
+                                        ),
+                                      ),
+                                      PopupMenuItem<HistoryMenu>(
+                                        value: HistoryMenu.past,
+                                        child: Text(
+                                          'Прошедшие',
+                                          style: AppTheme
+                                              .dedicatedWhiteTextStyle
+                                              .copyWith(
+                                                  color: AppTheme.indigoColor),
+                                        ),
+                                      ),
+                                    ]),
+                          ],
+                        ),
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            sortType,
-                            style: AppTheme.dedicatedWhiteTextStyle
-                                .copyWith(color: AppTheme.indigoColor),
-                          ),
-                          PopupMenuButton<HistoryMenu>(
-                              iconSize: 32,
-                              elevation: 0,
-                              onSelected: (HistoryMenu item) {
-                                if (item == HistoryMenu.all) {
-                                  setState(() {
-                                    isNothing = true;
-                                    isComingInTime = false;
-                                    isUpcoming = false;
-                                    isPast = false;
-                                    sortType = 'Все';
-                                  });
-                                }
-                                if (item == HistoryMenu.comingInTime) {
-                                  setState(() {
-                                    isComingInTime = true;
-                                    isUpcoming = false;
-                                    isPast = false;
-                                    isNothing = false;
-                                    sortType = 'Ближайшие';
-                                  });
-                                }
-                                if (item == HistoryMenu.upcoming) {
-                                  setState(() {
-                                    isUpcoming = true;
-                                    isComingInTime = false;
-                                    isPast = false;
-                                    isNothing = false;
-                                    sortType = 'Предстоящие';
-                                  });
-                                }
-                                if (item == HistoryMenu.past) {
-                                  setState(() {
-                                    isPast = true;
-                                    isUpcoming = false;
-                                    isComingInTime = false;
-                                    isNothing = false;
-                                    sortType = 'Прошедшие';
-                                  });
-                                }
-                              },
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<HistoryMenu>>[
-                                    PopupMenuItem<HistoryMenu>(
-                                      value: HistoryMenu.all,
-                                      child: Text(
-                                        'Все',
-                                        style: AppTheme.dedicatedWhiteTextStyle
-                                            .copyWith(
-                                                color: AppTheme.indigoColor),
-                                      ),
-                                    ),
-                                    PopupMenuItem<HistoryMenu>(
-                                      value: HistoryMenu.comingInTime,
-                                      child: Text(
-                                        'Ближайшие',
-                                        style: AppTheme.dedicatedWhiteTextStyle
-                                            .copyWith(
-                                                color: AppTheme.indigoColor),
-                                      ),
-                                    ),
-                                    PopupMenuItem<HistoryMenu>(
-                                      value: HistoryMenu.upcoming,
-                                      child: Text(
-                                        'Предстоящие',
-                                        style: AppTheme.dedicatedWhiteTextStyle
-                                            .copyWith(
-                                                color: AppTheme.indigoColor),
-                                      ),
-                                    ),
-                                    PopupMenuItem<HistoryMenu>(
-                                      value: HistoryMenu.past,
-                                      child: Text(
-                                        'Прошедшие',
-                                        style: AppTheme.dedicatedWhiteTextStyle
-                                            .copyWith(
-                                                color: AppTheme.indigoColor),
-                                      ),
-                                    ),
-                                  ]),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Expanded(
                 child: ListOfEntries(

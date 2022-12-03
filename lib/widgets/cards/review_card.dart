@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/models/review_model.dart';
 
@@ -24,83 +26,90 @@ class _ReviewCardState extends State<ReviewCard> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: Card(
-          color: Constants.primaryColor,
+          color: AppTheme.secondColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(21),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: widget.review.userAvatar == ''
-                    ? const CircleAvatar(
-                        backgroundImage: AssetImage(Constants.avatarDefault),
-                        backgroundColor: Colors.white,
-                        radius: 45,
-                      )
-                    : CircleAvatar(
-                        backgroundImage: NetworkImage(widget.review.userAvatar),
-                        backgroundColor: Colors.white,
-                        radius: 45,
-                      ),
-              ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text(
-                          '${widget.review.userFirstName} ${widget.review.userLastName}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        widget.review.reviewText,
-                        overflow: TextOverflow.ellipsis,
-                        // locale: const Locale('ru', 'RU'), мб локале нужно делать ХЗ
-                        maxLines: isRevealed ? 10 : 5,
-                        style: TextStyle(
-                          color: Colors.grey.shade300,
-                          fontSize: 18,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            widget.review.userAvatar == ''
+                                ? const CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage(Constants.avatarDefault),
+                                    backgroundColor: Colors.white,
+                                    radius: 25,
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(widget.review.userAvatar),
+                                    backgroundColor: Colors.white,
+                                    radius: 25,
+                                  ),
+                            const Gap(5),
+                            Text(
+                              '${widget.review.userFirstName} ${widget.review.userLastName}',
+                              style: AppTheme.dedicatedWhiteTextStyle,
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         child: Text(
-                          '${widget.review.createdAt.day}/${widget.review.createdAt.month}/${widget.review.createdAt.year}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                          widget.review.reviewText,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: isRevealed ? 10 : 5,
+                          style: AppTheme.dedicatedWhiteTextStyle.copyWith(
+                            color: Colors.grey.shade200,
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${widget.review.createdAt.day}/${widget.review.createdAt.month}/${widget.review.createdAt.year}',
+                              style: AppTheme.dedicatedWhiteTextStyle,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${widget.review.rating}',
+                                  style: AppTheme.dedicatedWhiteTextStyle,
+                                ),
+                                const Icon(
+                                  Icons.star_rounded,
+                                  color: AppTheme.indigoColor,
+                                  size: 30,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${widget.review.rating}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const Icon(
-                    Icons.star_rounded,
-                    color: Colors.red,
-                    size: 26,
-                  ),
-                ],
               ),
             ],
           ),

@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
+import 'package:gap/gap.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
+import 'package:healthy_medicine_2/screens/add_review_screen.dart';
+import 'package:healthy_medicine_2/screens/edit_review_screen.dart';
+import 'package:healthy_medicine_2/screens/reviews_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
 class ReviewButton extends StatefulWidget {
@@ -24,17 +29,15 @@ class ReviewButton extends StatefulWidget {
 }
 
 class _EntryButtonState extends State<ReviewButton> {
-  void navigateToReviewsScreen(BuildContext context) {
-    Routemaster.of(context).push('/reviews/${widget.doctorId}');
+  void navigateToAddReview(BuildContext context) {
+    Routemaster.of(context).push('/add-review/${widget.doctorId}');
   }
 
-  void navigateToEditCommentScreen(BuildContext context) {
+  void navigateToEditReview(BuildContext context) {
     Routemaster.of(context).push('/edit-review/${widget.doctorId}');
   }
 
-  void navigateToAddCommentScreen(BuildContext context) {
-    Routemaster.of(context).push('/add-review/${widget.doctorId}');
-  }
+  bool isLongPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,41 +45,57 @@ class _EntryButtonState extends State<ReviewButton> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: widget.isReviewsPage
-            ? () => navigateToReviewsScreen(context)
-            : widget.isEditReview
-                ? () => navigateToEditCommentScreen(context)
-                : widget.isAddReview
-                    ? () => navigateToAddCommentScreen(context)
-                    : null,
-        child: Card(
-          color: Constants.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(21),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Image.asset(
-                  widget.image,
-                  height: 50,
-                ),
-                Text(
-                  widget.text,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  size: 30,
-                  color: Colors.white,
+            ? () => showBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 8,
+                      ),
+                      child: ReviewsScreen(doctorId: widget.doctorId),
+                    );
+                  },
                 )
-              ],
-            ),
+            : widget.isEditReview
+                ? () => navigateToEditReview(context)
+                : widget.isAddReview
+                    ? () => navigateToAddReview(context)
+                    : null,
+        onLongPress: widget.isAddReview
+            ? null
+            : () {
+                isLongPressed = true;
+                Future.delayed(const Duration(seconds: 2), () {
+                  isLongPressed = false;
+                });
+              },
+        borderRadius: BorderRadius.circular(21),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          height: 60,
+          width: isLongPressed ? 150 : 60,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(32),
+            gradient: AppTheme.gradientIndigoToRed,
           ),
+          child: isLongPressed
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(widget.image),
+                    const Gap(5),
+                    Expanded(
+                      child: Text(
+                        widget.text,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.titleTextStyle,
+                      ),
+                    ),
+                  ],
+                )
+              : Image.asset(widget.image),
         ),
       ),
     );

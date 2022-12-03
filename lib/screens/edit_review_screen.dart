@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
@@ -73,21 +74,7 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
-      backgroundColor: Constants.bg,
-      appBar: AppBar(
-        backgroundColor: Constants.bg,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Routemaster.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Constants.textColor,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: rating != userRating || isReviewText
           ? ElevatedButton(
@@ -120,14 +107,11 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
                   child: Text(
                     'Хотите изменить отзыв?',
-                    style: TextStyle(
-                      color: Constants.textColor,
-                      fontSize: 36,
-                    ),
+                    style: AppTheme.headerTextStyle,
                   ),
                 ),
                 Padding(
@@ -145,9 +129,10 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
                       maxLines: 15,
                       maxLength: 200,
                       controller: reviewController,
-                      decoration: const InputDecoration(
+                      style: AppTheme.dedicatedWhiteTextStyle,
+                      decoration: InputDecoration(
                         hintText: 'Ваш отзыв',
-                        hintStyle: TextStyle(fontSize: 20, color: Colors.white),
+                        hintStyle: AppTheme.dedicatedWhiteTextStyle,
                         border: InputBorder.none,
                       ),
                       onChanged: (value) {
