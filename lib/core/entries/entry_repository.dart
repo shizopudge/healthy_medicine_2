@@ -39,17 +39,18 @@ class EntryRepository {
     }
   }
 
-  Stream<List<EntryModel>> getUserEntries(String uid, int limit) {
+  Stream<List<EntryModel>> getUserEntries(
+      String uid, int limit, bool descendingType) {
     return _entries
         .limit(limit)
         .where('uid', isEqualTo: uid)
         .orderBy(
           'date',
-          descending: false,
+          descending: descendingType,
         )
         .orderBy(
           'time',
-          descending: false,
+          descending: descendingType,
         )
         .snapshots()
         .map(

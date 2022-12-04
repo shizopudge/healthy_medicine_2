@@ -13,13 +13,15 @@ class UserEntriesParameters extends Equatable {
   const UserEntriesParameters({
     required this.limit,
     required this.uid,
+    required this.descendingType,
   });
 
   final String uid;
   final int limit;
+  final bool descendingType;
 
   @override
-  List<Object> get props => [uid, limit];
+  List<Object> get props => [uid, limit, descendingType];
 }
 
 final entryControllerProvider =
@@ -34,7 +36,8 @@ final entryControllerProvider =
 final getUserEntriesProvider = StreamProvider.autoDispose
     .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
   final entryController = ref.watch(entryControllerProvider.notifier);
-  return entryController.getUserEntries(parametr.uid, parametr.limit);
+  return entryController.getUserEntries(
+      parametr.uid, parametr.limit, parametr.descendingType);
 });
 
 class EntryController extends StateNotifier<bool> {
@@ -76,7 +79,8 @@ class EntryController extends StateNotifier<bool> {
     });
   }
 
-  Stream<List<EntryModel>> getUserEntries(String uid, int limit) {
-    return _entryRepository.getUserEntries(uid, limit);
+  Stream<List<EntryModel>> getUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entryRepository.getUserEntries(uid, limit, descendingType);
   }
 }

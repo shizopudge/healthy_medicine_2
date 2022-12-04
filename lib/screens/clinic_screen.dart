@@ -44,9 +44,7 @@ class _ClinicScreenState extends ConsumerState<ClinicScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: Column(
             children: [
-              TopAppBar(
-                  onSearchTap: () {},
-                  title: 'Выберите удобную для себя клинику'),
+              TopAppBar(onSearchTap: () {}, title: 'Выберите клинику'),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Align(

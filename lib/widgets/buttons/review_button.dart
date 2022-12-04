@@ -50,8 +50,7 @@ class _EntryButtonState extends State<ReviewButton> {
                   builder: (context) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 8,
+                        vertical: 25,
                       ),
                       child: ReviewsScreen(doctorId: widget.doctorId),
                     );

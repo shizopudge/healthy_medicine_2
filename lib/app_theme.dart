@@ -58,6 +58,11 @@ class AppTheme {
     fontSize: 14,
     color: blackColor,
   );
+  static TextStyle noDataTextStyle = GoogleFonts.montserrat(
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    color: indigoColor,
+  );
 
   // Themes
   static var darkModeAppTheme = ThemeData.dark().copyWith(

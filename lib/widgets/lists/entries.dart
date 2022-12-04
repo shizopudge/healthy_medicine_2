@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/screens/history_screen.dart';
 import 'package:healthy_medicine_2/widgets/cards/entry_card.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
@@ -42,7 +43,11 @@ class ListOfEntries extends ConsumerWidget {
     return ref
         .watch(
           getUserEntriesProvider(
-            UserEntriesParameters(limit: limit, uid: user.uid),
+            UserEntriesParameters(
+                limit: limit,
+                uid: user.uid,
+                descendingType:
+                    ref.read(descendingTypeProvider.notifier).state),
           ),
         )
         .when(
@@ -67,8 +72,12 @@ class ListOfEntries extends ConsumerWidget {
                   return EntryCard(entry: entry);
                 }
                 if (isUpcoming) {
-                  if (entryDateTime.millisecondsSinceEpoch >
-                      currentDate.millisecondsSinceEpoch) {
+                  if ((entryDateTime.millisecondsSinceEpoch >
+                          currentDate.millisecondsSinceEpoch) ||
+                      (entryDateTime.millisecondsSinceEpoch ==
+                              currentDate.millisecondsSinceEpoch &&
+                          exEntryDateTime.millisecondsSinceEpoch >=
+                              exCurrentDateTime.millisecondsSinceEpoch)) {
                     return EntryCard(entry: entry);
                   }
                 }

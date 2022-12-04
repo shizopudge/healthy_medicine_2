@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/drawers/profile_drawer.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/main_appbar.dart';
 import 'package:healthy_medicine_2/widgets/lists/entries.dart';
+
+final descendingTypeProvider = StateProvider<bool>((ref) => false);
 
 enum HistoryMenu { all, past, upcoming, comingInTime }
 
@@ -15,7 +18,7 @@ class HistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
-  int k = 10;
+  int k = 25;
   void displayEndDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }
@@ -28,6 +31,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider)!;
     return Scaffold(
       endDrawer: const ProfileDrawer(),
       body: SafeArea(
@@ -35,7 +39,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: Column(
             children: [
-              k > 10
+              k > 25
                   ? const SizedBox()
                   : Builder(builder: (context) {
                       return MainAppBar(
@@ -46,12 +50,12 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     }),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 8,
+                  vertical: 4,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    k > 10
+                    k > 25
                         ? TextButton(
                             onPressed: () {
                               setState(() {
@@ -66,7 +70,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         : TextButton(
                             onPressed: () {
                               setState(() {
-                                k = 50;
+                                k = 150;
                               });
                             },
                             child: Text(
@@ -83,13 +87,20 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                        ),
                         child: Row(
                           children: [
-                            Text(
-                              sortType,
-                              style: AppTheme.dedicatedWhiteTextStyle
-                                  .copyWith(color: AppTheme.indigoColor),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                              child: Text(
+                                sortType,
+                                style: AppTheme.labelTextStyle
+                                    .copyWith(color: AppTheme.indigoColor),
+                              ),
                             ),
                             PopupMenuButton<HistoryMenu>(
                                 iconSize: 32,
@@ -102,6 +113,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                       isUpcoming = false;
                                       isPast = false;
                                       sortType = 'Все';
+                                      ref
+                                          .read(descendingTypeProvider.notifier)
+                                          .state = false;
                                     });
                                   }
                                   if (item == HistoryMenu.comingInTime) {
@@ -111,6 +125,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                       isPast = false;
                                       isNothing = false;
                                       sortType = 'Ближайшие';
+                                      ref
+                                          .read(descendingTypeProvider.notifier)
+                                          .state = false;
                                     });
                                   }
                                   if (item == HistoryMenu.upcoming) {
@@ -120,6 +137,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                       isPast = false;
                                       isNothing = false;
                                       sortType = 'Предстоящие';
+                                      ref
+                                          .read(descendingTypeProvider.notifier)
+                                          .state = false;
                                     });
                                   }
                                   if (item == HistoryMenu.past) {
@@ -129,6 +149,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                       isComingInTime = false;
                                       isNothing = false;
                                       sortType = 'Прошедшие';
+                                      ref
+                                          .read(descendingTypeProvider.notifier)
+                                          .state = true;
                                     });
                                   }
                                 },
@@ -180,6 +203,40 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Сортировка',
+                        style: AppTheme.dedicatedWhiteTextStyle.copyWith(
+                          color: AppTheme.indigoColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                      RotatedBox(
+                        quarterTurns: ref.read(descendingTypeProvider) ? 3 : 1,
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              ref.read(descendingTypeProvider.notifier).state =
+                                  !ref
+                                      .read(descendingTypeProvider.notifier)
+                                      .state;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Expanded(
