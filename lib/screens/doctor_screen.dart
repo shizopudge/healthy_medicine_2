@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/doctors_appbar.dart';
+import 'package:healthy_medicine_2/widgets/cards/service_card.dart';
 import 'package:healthy_medicine_2/widgets/screen_widgets/doctors_screen_info_widget.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
@@ -17,36 +18,19 @@ class DoctorScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              flex: 3,
-              child: Stack(
-                children: [
-                  ref.watch(getDoctorByIdProvider(doctorId)).when(
-                        data: (doctor) {
-                          return DoctorsScreenInfo(doctor: doctor);
-                        },
-                        error: ((error, stackTrace) => ErrorText(
-                              error: error.toString(),
-                            )),
-                        loading: () => const Loader(),
-                      ),
-                  DoctorsAppBar(
-                    doctorId: doctorId,
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+            ref.watch(getDoctorByIdProvider(doctorId)).when(
+                  data: (doctor) {
+                    return DoctorsScreenInfo(doctor: doctor);
+                  },
+                  error: ((error, stackTrace) => ErrorText(
+                        error: error.toString(),
+                      )),
+                  loading: () => const Loader(),
                 ),
-                child: Center(child: Text('Услуги')),
-              ),
+            DoctorsAppBar(
+              doctorId: doctorId,
             ),
           ],
         ),

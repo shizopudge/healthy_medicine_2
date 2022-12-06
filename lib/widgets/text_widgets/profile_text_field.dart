@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 
 class ProfileTextField extends StatefulWidget {
@@ -21,7 +22,7 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 15,
+        horizontal: 12,
         vertical: 8,
       ),
       child: Column(
@@ -31,10 +32,8 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
               widget.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
+              style: AppTheme.dedicatedIndigoTextStyle.copyWith(
+                fontWeight: FontWeight.w100,
               ),
             ),
           ),
@@ -47,6 +46,8 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
                 width: 1,
                 color: Colors.white,
               ),
+              borderRadius: BorderRadius.circular(21),
+              color: Colors.grey.shade300,
             ),
             child: Align(
               alignment: Alignment.centerLeft,
@@ -54,13 +55,9 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.controller,
                 decoration: const InputDecoration(
-                  filled: true,
                   border: InputBorder.none,
                 ),
-                style: const TextStyle(
-                  color: Constants.textColor,
-                  fontSize: 22,
-                ),
+                style: AppTheme.dedicatedWhiteTextStyle,
                 onChanged: widget.func,
               ),
             ),

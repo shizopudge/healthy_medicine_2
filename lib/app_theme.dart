@@ -48,6 +48,11 @@ class AppTheme {
     fontSize: 18,
     color: whiteColor,
   );
+  static TextStyle dedicatedIndigoTextStyle = GoogleFonts.montserrat(
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
+    color: indigoColor,
+  );
   static TextStyle dedicatedTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.w400,
     fontSize: 16,

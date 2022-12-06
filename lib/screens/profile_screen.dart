@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/widgets/app_bars/profile_appbar.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/widgets/text_widgets/profile_info_widget.dart';
 import 'package:healthy_medicine_2/widgets/text_widgets/profile_text_field.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
-import 'package:routemaster/routemaster.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   final String uid;
@@ -69,69 +70,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: isChanged
-          ? InkWell(
-              onTap: () {},
-              child: const CircleAvatar(
-                backgroundColor: Constants.secondColor,
-                radius: 35,
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    color: Constants.primaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
+          ? ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                'Сохранить',
+                style: AppTheme.dedicatedIndigoTextStyle,
               ),
             )
           : null,
-      appBar: AppBar(
-        backgroundColor: Constants.bg,
-        title: const Text(
-          'Профиль',
-          style: TextStyle(color: Constants.textColor, fontSize: 24),
-        ),
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Routemaster.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Constants.textColor,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-      ),
-      backgroundColor: Constants.bg,
       body: ref.watch(getUserDataProvider(widget.uid)).when(
             data: (user) {
               return SingleChildScrollView(
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
+                        const ProfileAppBar(
+                          text: 'Профиль',
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
                             backgroundImage:
-                                AssetImage(Constants.avatarDefault),
-                            backgroundColor: Colors.white,
+                                const AssetImage(Constants.avatarDefault),
+                            backgroundColor: Colors.grey.shade100,
                             radius: 90,
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Основные сведения',
-                              style: TextStyle(
-                                color: Constants.textColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Основные сведения',
+                            style: AppTheme.dedicatedIndigoTextStyle.copyWith(
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),
@@ -173,78 +150,75 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         Column(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8),
+                            Align(
+                              alignment: Alignment.center,
                               child: Text(
                                 'Ваш пол',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                style: AppTheme.titleTextStyle.copyWith(
+                                  fontWeight: FontWeight.w900,
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isMale = true;
-                                      isFemale = false;
-                                      gender = 'M';
-                                      isChanged = true;
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: isMale
-                                        ? Colors.amber.shade100
-                                        : Colors.grey.shade200,
-                                    radius: 42,
-                                    child: const Icon(
-                                      Icons.male,
-                                      size: 50,
-                                      color: Color.fromARGB(255, 70, 73, 95),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isMale = true;
+                                        isFemale = false;
+                                        gender = 'M';
+                                        isChanged = true;
+                                      });
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: isMale
+                                          ? AppTheme.redColor
+                                          : Colors.grey.shade200,
+                                      radius: 42,
+                                      child: const Icon(
+                                        Icons.male,
+                                        size: 50,
+                                        color: AppTheme.indigoColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isFemale = true;
-                                      isMale = false;
-                                      gender = 'F';
-                                      isChanged = true;
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: isFemale
-                                        ? Colors.amber.shade100
-                                        : Colors.grey.shade200,
-                                    radius: 42,
-                                    child: const Icon(
-                                      Icons.female,
-                                      size: 50,
-                                      color: Color.fromARGB(255, 70, 73, 95),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isFemale = true;
+                                        isMale = false;
+                                        gender = 'F';
+                                        isChanged = true;
+                                      });
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: isFemale
+                                          ? AppTheme.redColor
+                                          : Colors.grey.shade200,
+                                      radius: 42,
+                                      child: const Icon(
+                                        Icons.female,
+                                        size: 50,
+                                        color: AppTheme.indigoColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
                         const Gap(15),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Контактные данные',
-                              style: TextStyle(
-                                color: Constants.textColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Контактные данные',
+                            style: AppTheme.dedicatedIndigoTextStyle.copyWith(
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),

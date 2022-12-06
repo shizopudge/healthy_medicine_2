@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
-import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/drawers/profile_drawer.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/main_appbar.dart';
 import 'package:healthy_medicine_2/widgets/lists/entries.dart';
@@ -31,7 +30,6 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider)!;
     return Scaffold(
       endDrawer: const ProfileDrawer(),
       body: SafeArea(
