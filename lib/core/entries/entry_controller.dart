@@ -33,10 +33,31 @@ final entryControllerProvider =
   );
 });
 
-final getUserEntriesProvider = StreamProvider.autoDispose
+final getAllUserEntriesProvider = StreamProvider.autoDispose
     .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
   final entryController = ref.watch(entryControllerProvider.notifier);
-  return entryController.getUserEntries(
+  return entryController.getAllUserEntries(
+      parametr.uid, parametr.limit, parametr.descendingType);
+});
+
+final getComingInTimeUserEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getComingInTimeUserEntries(
+      parametr.uid, parametr.limit, parametr.descendingType);
+});
+
+final getUpcomingUserEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getUpcomingUserEntries(
+      parametr.uid, parametr.limit, parametr.descendingType);
+});
+
+final getPastUserEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getPastUserEntries(
       parametr.uid, parametr.limit, parametr.descendingType);
 });
 
@@ -50,14 +71,16 @@ class EntryController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  void createEntry(Doctor doctor, DateTime date, DateTime time,
-      String entryCellId, BuildContext context) async {
+  void createEntry(Doctor doctor, DateTime dateTime, DateTime exTime,
+      DateTime exDate, String entryCellId, BuildContext context) async {
     state = true;
     final uid = _ref.read(userProvider)?.uid ?? '';
     String entryId = const Uuid().v1();
     EntryModel entry = EntryModel(
       clinicId: doctor.clinicId,
-      date: date,
+      dateTime: dateTime,
+      exTime: exTime,
+      exDate: exDate,
       doctorImage: doctor.image,
       doctorLastName: doctor.lastName,
       doctorFirstName: doctor.firstName,
@@ -66,7 +89,6 @@ class EntryController extends StateNotifier<bool> {
       serviceCost: doctor.serviceCost,
       doctorId: doctor.id,
       id: entryId,
-      time: time,
       uid: uid,
     );
     final res =
@@ -74,13 +96,29 @@ class EntryController extends StateNotifier<bool> {
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context,
-          'Вы записались на прием ${date.day}/${date.month}/${date.year} в ${time.hour}:${time.minute}!');
+          'Вы записались на прием ${dateTime.day}/${dateTime.month}/${dateTime.year} в ${dateTime.hour}:${dateTime.minute}!');
       Routemaster.of(context).pop();
     });
   }
 
-  Stream<List<EntryModel>> getUserEntries(
+  Stream<List<EntryModel>> getAllUserEntries(
       String uid, int limit, bool descendingType) {
-    return _entryRepository.getUserEntries(uid, limit, descendingType);
+    return _entryRepository.getAllUserEntries(uid, limit, descendingType);
+  }
+
+  Stream<List<EntryModel>> getComingInTimeUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entryRepository.getComingInTimeUserEntries(
+        uid, limit, descendingType);
+  }
+
+  Stream<List<EntryModel>> getUpcomingUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entryRepository.getUpcomingUserEntries(uid, limit, descendingType);
+  }
+
+  Stream<List<EntryModel>> getPastUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entryRepository.getPastUserEntries(uid, limit, descendingType);
   }
 }

@@ -38,35 +38,38 @@ class _EntryCardState extends ConsumerState<EntryCard> {
   );
 
   late DateTime entryDate = DateTime(
-    widget.entry.date.year,
-    widget.entry.date.month,
-    widget.entry.date.day,
+    widget.entry.dateTime.year,
+    widget.entry.dateTime.month,
+    widget.entry.dateTime.day,
   );
   late DateTime exEntryDateTime = DateTime(
-    widget.entry.date.year,
-    widget.entry.date.month,
-    widget.entry.date.day,
-    widget.entry.time.hour,
-    widget.entry.time.minute,
+    widget.entry.dateTime.year,
+    widget.entry.dateTime.month,
+    widget.entry.dateTime.day,
+    widget.entry.dateTime.hour,
+    widget.entry.dateTime.minute,
   );
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(entryDate);
-        print(exEntryDateTime);
+        print(widget.entry.dateTime);
+        print(DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, 0)
+            .millisecondsSinceEpoch);
       },
       child: Card(
-        color: entryDate.millisecondsSinceEpoch >
-                currentDate.millisecondsSinceEpoch
-            ? Colors.green.shade200
-            : (entryDate.millisecondsSinceEpoch ==
-                        currentDate.millisecondsSinceEpoch &&
-                    exEntryDateTime.millisecondsSinceEpoch >=
-                        exCurrentDateTime.millisecondsSinceEpoch)
-                ? Colors.red.shade300
-                : Colors.grey.shade500,
+        color: //можно изменить и отпарвлять цвет из entriesList (например: где получаю getPastUserEntries
+            //передавать в entryCard параметр color = Colors.red.shade300)
+            entryDate.millisecondsSinceEpoch >
+                    currentDate.millisecondsSinceEpoch
+                ? Colors.green.shade200
+                : (entryDate.millisecondsSinceEpoch ==
+                            currentDate.millisecondsSinceEpoch &&
+                        exEntryDateTime.millisecondsSinceEpoch >=
+                            exCurrentDateTime.millisecondsSinceEpoch)
+                    ? Colors.red.shade300
+                    : Colors.grey.shade500,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
@@ -94,15 +97,27 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: InkWell(
-                            borderRadius: BorderRadius.circular(36),
-                            onTap: () => navigateToDoctorScreen(context),
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(widget.entry.doctorImage),
-                              backgroundColor: Colors.white,
-                              radius: 55,
-                            ),
-                          ),
+                              borderRadius: BorderRadius.circular(36),
+                              onTap: () => navigateToDoctorScreen(context),
+                              child: Container(
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(21),
+                                  image: DecorationImage(
+                                    image:
+                                        NetworkImage(widget.entry.doctorImage),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                              // CircleAvatar(
+                              //   backgroundImage:
+                              //       NetworkImage(widget.entry.doctorImage),
+                              //   backgroundColor: Colors.white,
+                              //   radius: 55,
+                              // ),
+                              ),
                         ),
                         Expanded(
                           child: Column(
@@ -127,7 +142,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                                     style: AppTheme.dedicatedWhiteTextStyle,
                                   ),
                                   Text(
-                                    '${widget.entry.date.day}/${widget.entry.date.month}/${widget.entry.date.year}',
+                                    '${widget.entry.exDate.day}/${widget.entry.exDate.month}/${widget.entry.exDate.year}',
                                     style: AppTheme.whiteTextStyle,
                                   ),
                                 ],
@@ -140,7 +155,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                                     style: AppTheme.dedicatedWhiteTextStyle,
                                   ),
                                   Text(
-                                    '${widget.entry.time.hour}:${widget.entry.time.minute}',
+                                    '${widget.entry.exTime.hour}:${widget.entry.exTime.minute}',
                                     style: AppTheme.whiteTextStyle,
                                   ),
                                 ],

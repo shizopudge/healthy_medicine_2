@@ -21,9 +21,8 @@ class EntryScreen extends ConsumerStatefulWidget {
 
 class _EntryScreenState extends ConsumerState<EntryScreen> {
   void createEntry(Doctor doctor) {
-    ref
-        .read(entryControllerProvider.notifier)
-        .createEntry(doctor, date, time, pickedDateCellId.trim(), context);
+    ref.read(entryControllerProvider.notifier).createEntry(
+        doctor, date, time, date, pickedDateCellId.trim(), context);
   }
 
   int currentMonthNumber = DateTime.now().month;
@@ -101,7 +100,11 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(250, 42),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    setState(() {
+                      date = DateTime(date.year, date.month, date.day,
+                          time.hour, time.minute, 0);
+                    });
                     createEntry(doctor);
                     // deleteEntryTime();
                   },
@@ -281,6 +284,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                               times = dateCell.time;
                                             });
                                             print(pickedDateCellId.trim());
+                                            print(date);
                                           }
                                         : null,
                                     child: Card(
@@ -342,7 +346,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                           pickedTime = timeCell;
                                           isDataEntered = true;
                                         });
-                                        print(date);
+                                        print(time);
                                         print(pickedTime);
                                         print(pickedDateCellId);
                                       },

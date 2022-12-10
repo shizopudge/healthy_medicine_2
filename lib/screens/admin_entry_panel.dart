@@ -5,41 +5,25 @@ import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 List<DateTime> firstChangeTimeList = [
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 20),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 50),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 10, 20),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 10, 50),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 50),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 13, 20),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 13, 50),
+  DateTime(0, 0, 0, 9, 20),
+  DateTime(0, 0, 0, 9, 50),
+  DateTime(0, 0, 0, 10, 20),
+  DateTime(0, 0, 0, 10, 50),
+  DateTime(0, 0, 0, 11, 20),
+  DateTime(0, 0, 0, 11, 50),
+  DateTime(0, 0, 0, 13, 20),
+  DateTime(0, 0, 0, 13, 50),
 ];
 
 List<DateTime> secondChangeTimeList = [
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 13, 40),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 14, 10),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 14, 40),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 15, 10),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 16, 40),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 17, 10),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 17, 40),
-  DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 18, 10),
+  DateTime(0, 0, 0, 13, 40),
+  DateTime(0, 0, 0, 14, 10),
+  DateTime(0, 0, 0, 14, 40),
+  DateTime(0, 0, 0, 15, 10),
+  DateTime(0, 0, 0, 16, 40),
+  DateTime(0, 0, 0, 17, 10),
+  DateTime(0, 0, 0, 17, 40),
+  DateTime(0, 0, 0, 18, 10),
 ];
 
 class AdminEntryPanel extends ConsumerStatefulWidget {
@@ -345,6 +329,13 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
               onPressed: () {
                 print(DateTime.now().hour);
                 print(DateTime.now().minute);
+                print(DateTime(DateTime.now().year, DateTime.now().month,
+                        DateTime.now().day - 2, 15, 30, 0)
+                    .millisecondsSinceEpoch);
+                print(DateTime(DateTime.now().year, DateTime.now().month,
+                        DateTime.now().day - 2, 0, 0, 0)
+                    .millisecondsSinceEpoch);
+                print(DateTime(0, 0, 0, 15, 30, 0).millisecondsSinceEpoch);
               },
               child: Text('PRESS'))
           // Мб получится сделать лист из дат без выходных и делать ячейки с записями через for на каждую

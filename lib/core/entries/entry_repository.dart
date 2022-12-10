@@ -29,7 +29,10 @@ class EntryRepository {
   ) async {
     try {
       _doctors.doc(doctorId).collection('entryCells').doc(entryCellId).update({
-        'time': FieldValue.arrayRemove([entry.time.millisecondsSinceEpoch]),
+        'time': FieldValue.arrayRemove([
+          DateTime(0, 0, 0, entry.dateTime.hour, entry.dateTime.minute, 0)
+              .millisecondsSinceEpoch
+        ]),
       });
       return right(_entries.doc(entry.id).set(entry.toMap()));
     } on FirebaseException catch (e) {
@@ -39,17 +42,95 @@ class EntryRepository {
     }
   }
 
-  Stream<List<EntryModel>> getUserEntries(
+  Stream<List<EntryModel>> getAllUserEntries(
       String uid, int limit, bool descendingType) {
     return _entries
         .limit(limit)
         .where('uid', isEqualTo: uid)
         .orderBy(
-          'date',
+          'dateTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<EntryModel>> getComingInTimeUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('uid', isEqualTo: uid)
+        .where('exDate',
+            isEqualTo: DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day, 0, 0, 0)
+                .millisecondsSinceEpoch)
+        .where(
+          'exTime',
+          isGreaterThanOrEqualTo:
+              DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, 0)
+                  .millisecondsSinceEpoch,
+        )
+        .orderBy(
+          'exTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<EntryModel>> getUpcomingUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('uid', isEqualTo: uid)
+        .where('exDate',
+            isGreaterThan: DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day, 0, 0, 0)
+                .millisecondsSinceEpoch)
+        .orderBy(
+          'exDate',
           descending: descendingType,
         )
         .orderBy(
-          'time',
+          'exTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<EntryModel>> getPastUserEntries(
+      String uid, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('uid', isEqualTo: uid)
+        .where('dateTime', isLessThan: DateTime.now().millisecondsSinceEpoch)
+        .orderBy(
+          'dateTime',
           descending: descendingType,
         )
         .snapshots()

@@ -17,7 +17,7 @@ class HistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
-  int k = 25;
+  int k = 10;
   void displayEndDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }
@@ -37,7 +37,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: Column(
             children: [
-              k > 25
+              k > 10
                   ? const SizedBox()
                   : Builder(builder: (context) {
                       return MainAppBar(
@@ -53,7 +53,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    k > 25
+                    k > 10
                         ? TextButton(
                             onPressed: () {
                               setState(() {
