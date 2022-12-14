@@ -31,7 +31,7 @@ class MenuOfSpec extends StatelessWidget {
           Text(
             specText,
             overflow: TextOverflow.ellipsis,
-            style: AppTheme.titleTextStyle,
+            style: AppTheme.dedicatedIndigoTextStyle,
           ),
         ],
       ),

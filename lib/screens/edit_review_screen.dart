@@ -5,7 +5,6 @@ import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/reviews/reviews_controller.dart';
-import 'package:routemaster/routemaster.dart';
 
 class EditReviewScreen extends ConsumerStatefulWidget {
   final String doctorId;

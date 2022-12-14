@@ -22,7 +22,12 @@ class EntryScreen extends ConsumerStatefulWidget {
 class _EntryScreenState extends ConsumerState<EntryScreen> {
   void createEntry(Doctor doctor) {
     ref.read(entryControllerProvider.notifier).createEntry(
-        doctor, date, time, date, pickedDateCellId.trim(), context);
+        doctor,
+        date,
+        time,
+        DateTime(date.year, date.month, date.day, 0, 0, 0),
+        pickedDateCellId.trim(),
+        context);
   }
 
   int currentMonthNumber = DateTime.now().month;
