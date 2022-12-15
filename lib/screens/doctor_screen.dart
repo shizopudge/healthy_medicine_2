@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/doctors_appbar.dart';
-import 'package:healthy_medicine_2/widgets/cards/service_card.dart';
 import 'package:healthy_medicine_2/widgets/screen_widgets/doctors_screen_info_widget.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';

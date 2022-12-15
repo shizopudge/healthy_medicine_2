@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:healthy_medicine_2/core/failure.dart';
 import 'package:healthy_medicine_2/core/firebase_constants.dart';
+import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/providers/firebase_providers.dart';
 import 'package:healthy_medicine_2/core/type_defs.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
@@ -19,6 +20,8 @@ class DoctorRepository {
 
   CollectionReference get _doctors =>
       _firestore.collection(FirebaseConstants.doctorsCollection);
+  CollectionReference get _users =>
+      _firestore.collection(FirebaseConstants.usersCollection);
 
   Stream<List<Doctor>> getDoctorsByClinicId(String clinicId) {
     return _doctors.where('clinicId', isEqualTo: clinicId).snapshots().map(
@@ -105,6 +108,18 @@ class DoctorRepository {
     } catch (e) {
       return left(Failure(e.toString()));
     }
+  }
+
+  Stream<List<UserTimes>> getUserTimes(String uid) {
+    return _users.doc(uid).collection('times').snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => UserTimes.fromMap(
+                  e.data(),
+                ),
+              )
+              .toList(),
+        );
   }
 
   // Stream<List<DateModel>> getEntryCells(String doctorId) {

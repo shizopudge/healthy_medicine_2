@@ -70,13 +70,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       floatingActionButton: isChanged
           ? ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  isChanged = false;
+                });
+              },
               child: Text(
                 'Сохранить',
-                style: AppTheme.dedicatedIndigoTextStyle,
+                style: AppTheme.dedicatedIndigoTextStyle.copyWith(fontSize: 14),
               ),
             )
           : null,
@@ -176,13 +180,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: isMale
-                                          ? AppTheme.redColor
-                                          : Colors.grey.shade200,
+                                          ? AppTheme.indigoColor
+                                          : Colors.grey.shade400,
                                       radius: 42,
                                       child: const Icon(
                                         Icons.male,
                                         size: 50,
-                                        color: AppTheme.indigoColor,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
@@ -197,13 +201,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: isFemale
-                                          ? AppTheme.redColor
-                                          : Colors.grey.shade200,
+                                          ? AppTheme.indigoColor
+                                          : Colors.grey.shade400,
                                       radius: 42,
                                       child: const Icon(
                                         Icons.female,
                                         size: 50,
-                                        color: AppTheme.indigoColor,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),

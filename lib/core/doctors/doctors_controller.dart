@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_repository.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
@@ -49,6 +50,10 @@ final getDoctorsByClinicIdProvider =
   return ref
       .watch(doctorControllerProvider.notifier)
       .getDoctorsByClinicId(clinicId);
+});
+
+final getUserTimesProvider = StreamProvider.family((ref, String uid) {
+  return ref.watch(doctorControllerProvider.notifier).getUserTimes(uid);
 });
 
 // final getEntryCellsProvider = StreamProvider.family((ref, String doctorId) {
@@ -100,6 +105,10 @@ class DoctorController extends StateNotifier<bool> {
       String doctorId, int monthNumber, int year, int day) {
     return _doctorRepository.getEntryCellsByMonthAndYear(
         doctorId, monthNumber, year, day);
+  }
+
+  Stream<List<UserTimes>> getUserTimes(String uid) {
+    return _doctorRepository.getUserTimes(uid);
   }
 
   void createEntryCells(

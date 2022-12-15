@@ -55,6 +55,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
     return InkWell(
       onTap: () {
         print(widget.entry.dateTime);
+        print(widget.entry.exTime);
         print(DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, 0)
             .millisecondsSinceEpoch);
       },
@@ -97,27 +98,20 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: InkWell(
-                              borderRadius: BorderRadius.circular(36),
-                              onTap: () => navigateToDoctorScreen(context),
-                              child: Container(
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(21),
-                                  image: DecorationImage(
-                                    image:
-                                        NetworkImage(widget.entry.doctorImage),
-                                    fit: BoxFit.cover,
-                                  ),
+                            borderRadius: BorderRadius.circular(36),
+                            onTap: () => navigateToDoctorScreen(context),
+                            child: Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(21),
+                                image: DecorationImage(
+                                  image: NetworkImage(widget.entry.doctorImage),
+                                  fit: BoxFit.cover,
                                 ),
-                              )
-                              // CircleAvatar(
-                              //   backgroundImage:
-                              //       NetworkImage(widget.entry.doctorImage),
-                              //   backgroundColor: Colors.white,
-                              //   radius: 55,
-                              // ),
                               ),
+                            ),
+                          ),
                         ),
                         Expanded(
                           child: Column(
