@@ -52,10 +52,6 @@ final getDoctorsByClinicIdProvider =
       .getDoctorsByClinicId(clinicId);
 });
 
-final getUserTimesProvider = StreamProvider.family((ref, String uid) {
-  return ref.watch(doctorControllerProvider.notifier).getUserTimes(uid);
-});
-
 // final getEntryCellsProvider = StreamProvider.family((ref, String doctorId) {
 //   final doctorController = ref.watch(doctorControllerProvider.notifier);
 //   return doctorController.getEntryCells(doctorId);
@@ -107,10 +103,6 @@ class DoctorController extends StateNotifier<bool> {
         doctorId, monthNumber, year, day);
   }
 
-  Stream<List<UserTimes>> getUserTimes(String uid) {
-    return _doctorRepository.getUserTimes(uid);
-  }
-
   void createEntryCells(
     BuildContext context,
     String doctorId,
@@ -132,7 +124,7 @@ class DoctorController extends StateNotifier<bool> {
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context,
-          'Вы добавили ячейку на ${date.day}/${date.month}/${date.year} записи!');
+          'Вы добавили ячейки на ${date.day}/${date.month}/${date.year} записи!');
       // Routemaster.of(context).pop();
     });
   }

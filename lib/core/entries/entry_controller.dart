@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/core/entries/entry_repository.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
@@ -24,6 +25,19 @@ class UserEntriesParameters extends Equatable {
   List<Object> get props => [uid, limit, descendingType];
 }
 
+class UserTimesParameters extends Equatable {
+  const UserTimesParameters({
+    required this.uid,
+    required this.userTimesId,
+  });
+
+  final String uid;
+  final String userTimesId;
+
+  @override
+  List<Object> get props => [uid, userTimesId];
+}
+
 final entryControllerProvider =
     StateNotifierProvider<EntryController, bool>((ref) {
   final entryRepository = ref.watch(entryRepositoryProvider);
@@ -31,6 +45,18 @@ final entryControllerProvider =
     entryRepository: entryRepository,
     ref: ref,
   );
+});
+
+final getUserTimesProvider = StreamProvider.family((ref, String uid) {
+  return ref.watch(entryControllerProvider.notifier).getUserTimes(uid);
+});
+
+final getUserTimesByIdProvider =
+    StreamProvider.family<UserTimes, UserTimesParameters>(
+        (ref, userTimesParameters) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getUserTimesById(
+      userTimesParameters.uid, userTimesParameters.userTimesId);
 });
 
 final getAllUserEntriesProvider = StreamProvider.autoDispose
@@ -99,6 +125,52 @@ class EntryController extends StateNotifier<bool> {
           'Вы записались на прием ${dateTime.day}/${dateTime.month}/${dateTime.year} в ${dateTime.hour}:${dateTime.minute}!');
       Routemaster.of(context).pop();
     });
+  }
+
+  void createUserTimesPreset(
+      List<DateTime> times, String title, BuildContext context) async {
+    state = true;
+    final uid = _ref.read(userProvider)?.uid ?? '';
+    String userTimesPresetId = const Uuid().v1();
+    UserTimes userTimes = UserTimes(
+        isStandart: false, times: times, title: title, id: userTimesPresetId);
+    final res = await _entryRepository.createUserTimesPreset(userTimes, uid);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Вы создали новое расписание!');
+    });
+  }
+
+  void editUserTimesPreset(List<DateTime> times, String title,
+      String userTimesPresetId, BuildContext context) async {
+    state = true;
+    final uid = _ref.read(userProvider)?.uid ?? '';
+    UserTimes userTimes = UserTimes(
+        isStandart: false, times: times, title: title, id: userTimesPresetId);
+    final res = await _entryRepository.editUserTimesPreset(userTimes, uid);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Вы изменили расписание $title!');
+    });
+  }
+
+  void deleteUserTimesPreset(
+      String userTimesId, String userTimesTitle, BuildContext context) async {
+    state = true;
+    final uid = _ref.read(userProvider)?.uid ?? '';
+    final res = await _entryRepository.deleteUserTimesPreset(userTimesId, uid);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Вы удалили свое расписание $userTimesTitle!');
+    });
+  }
+
+  Stream<List<UserTimes>> getUserTimes(String uid) {
+    return _entryRepository.getUserTimes(uid);
+  }
+
+  Stream<UserTimes> getUserTimesById(String uid, String userTimesId) {
+    return _entryRepository.getUserTimesById(uid, userTimesId);
   }
 
   Stream<List<EntryModel>> getAllUserEntries(

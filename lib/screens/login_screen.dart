@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/widgets/common/splashloader.dart';
 import 'package:healthy_medicine_2/widgets/text_widgets/password_text_field.dart';
@@ -135,22 +136,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    children: const [
+                                    children: [
                                       Text(
                                         'Форма регистрации',
-                                        style: TextStyle(
-                                            fontSize: 32,
-                                            color:
-                                                Color.fromARGB(255, 70, 73, 95),
-                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                        style:
+                                            AppTheme.headerTextStyle.copyWith(
+                                          fontSize: 32,
+                                        ),
                                       ),
                                       Text(
                                         'Пожалуйста, заполните все поля',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color:
-                                                Color.fromARGB(255, 70, 73, 95),
-                                            fontWeight: FontWeight.w300),
+                                        style: AppTheme.labelTextStyle,
                                       ),
                                     ],
                                   ),
@@ -240,17 +237,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
+                                          children: [
                                             Text(
                                               'Укажите ваш пол ',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 70, 73, 95),
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w400,
-                                              ),
+                                              style: AppTheme.titleTextStyle,
                                             ),
-                                            Text(
+                                            const Text(
                                               '*',
                                               style: TextStyle(
                                                 color: Colors.red,
@@ -275,14 +267,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             },
                                             child: CircleAvatar(
                                               backgroundColor: isMale
-                                                  ? Colors.amber.shade100
-                                                  : Colors.grey.shade200,
+                                                  ? Colors.indigo.shade300
+                                                  : Colors.grey.shade400,
                                               radius: 42,
                                               child: const Icon(
                                                 Icons.male,
                                                 size: 50,
-                                                color: Color.fromARGB(
-                                                    255, 70, 73, 95),
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
@@ -296,14 +287,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             },
                                             child: CircleAvatar(
                                               backgroundColor: isFemale
-                                                  ? Colors.amber.shade100
-                                                  : Colors.grey.shade200,
+                                                  ? Colors.indigo.shade300
+                                                  : Colors.grey.shade400,
                                               radius: 42,
                                               child: const Icon(
                                                 Icons.female,
                                                 size: 50,
-                                                color: Color.fromARGB(
-                                                    255, 70, 73, 95),
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
@@ -317,33 +307,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text(
+                                      Text(
                                         'Укажите ваш город ',
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 70, 73, 95),
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        style: AppTheme.titleTextStyle,
                                       ),
                                       DropdownButton<String>(
                                         value: cityValue,
                                         icon: const RotatedBox(
                                           quarterTurns: 3,
-                                          child: Icon(Icons
-                                              .arrow_back_ios_new_outlined),
+                                          child: Icon(
+                                            Icons.arrow_back_ios_new_outlined,
+                                            color: AppTheme.indigoColor,
+                                          ),
                                         ),
                                         elevation: 16,
-                                        style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 70, 73, 95),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                        ),
+                                        style:
+                                            AppTheme.dedicatedIndigoTextStyle,
                                         underline: Container(
                                           height: 2,
-                                          color: const Color.fromARGB(
-                                              255, 70, 73, 95),
+                                          color: AppTheme.indigoColor,
                                         ),
                                         onChanged: (String? value) {
                                           setState(() {
@@ -381,15 +363,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   ),
                                   minimumSize: const Size(double.infinity, 55),
                                   backgroundColor:
-                                      const Color.fromARGB(255, 70, 73, 95),
+                                      AppTheme.indigoColor.shade300,
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Войти',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: AppTheme.dedicatedWhiteTextStyle,
                                 ),
                               ),
                             )
@@ -413,15 +391,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   ),
                                   minimumSize: const Size(double.infinity, 55),
                                   backgroundColor:
-                                      const Color.fromARGB(255, 70, 73, 95),
+                                      AppTheme.indigoColor.shade300,
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Зарегистрироваться',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: AppTheme.dedicatedWhiteTextStyle,
                                 ),
                               ),
                             ),
@@ -432,21 +406,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           });
                         },
                         child: login
-                            ? const Text(
+                            ? Text(
                                 'Еще нет аккаунта?',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 70, 73, 95),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                style: AppTheme.dedicatedIndigoTextStyle,
                               )
-                            : const Text(
+                            : Text(
                                 'Уже есть аккаунт? Войти',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 70, 73, 95),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                style: AppTheme.dedicatedIndigoTextStyle,
                               ),
                       ),
                     ],

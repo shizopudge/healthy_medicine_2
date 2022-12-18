@@ -6,6 +6,7 @@ import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/models/entry_model.dart';
+import 'package:intl/intl.dart';
 import 'package:routemaster/routemaster.dart';
 
 class EntryCard extends ConsumerStatefulWidget {
@@ -23,6 +24,8 @@ class _EntryCardState extends ConsumerState<EntryCard> {
   void navigateToDoctorScreen(BuildContext context) {
     Routemaster.of(context).push('/doctor/${widget.entry.doctorId}');
   }
+
+  DateFormat myFormat = DateFormat('kk:mm');
 
   DateTime currentDate = DateTime(
     DateTime.now().year,
@@ -54,10 +57,18 @@ class _EntryCardState extends ConsumerState<EntryCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(widget.entry.dateTime);
-        print(widget.entry.exTime);
-        print(DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, 0)
-            .millisecondsSinceEpoch);
+        print(
+            'Сегодняшняя дата (exDate): ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0).millisecondsSinceEpoch}');
+        print(
+            'Желаемое время (exTime): ${DateTime(1970, 1, 1, 0, 20, 0).millisecondsSinceEpoch}');
+        print(
+            'Желаемое полное время (dateTime): ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 20, 0).millisecondsSinceEpoch}');
+        print(
+            'Полное время записи (datetime): ${widget.entry.dateTime.millisecondsSinceEpoch}');
+        print(
+            'Точная дата (exDate): ${widget.entry.exDate.millisecondsSinceEpoch}');
+        print(
+            'Точное время (exTime): ${widget.entry.exTime.millisecondsSinceEpoch}');
       },
       child: Card(
         color: //можно изменить и отпарвлять цвет из entriesList (например: где получаю getPastUserEntries
@@ -149,7 +160,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                                     style: AppTheme.dedicatedWhiteTextStyle,
                                   ),
                                   Text(
-                                    '${widget.entry.exTime.hour}:${widget.entry.exTime.minute}',
+                                    myFormat.format(widget.entry.exTime),
                                     style: AppTheme.whiteTextStyle,
                                   ),
                                 ],

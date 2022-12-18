@@ -1,18 +1,17 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 
 void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        backgroundColor: const Color.fromARGB(255, 70, 73, 95),
+        backgroundColor: AppTheme.indigoColor.shade100,
+        behavior: SnackBarBehavior.floating,
         content: Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
+          style: AppTheme.dedicatedWhiteTextStyle.copyWith(fontSize: 16),
         ),
       ),
     );

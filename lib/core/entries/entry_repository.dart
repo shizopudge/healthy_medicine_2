@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:healthy_medicine_2/core/failure.dart';
 import 'package:healthy_medicine_2/core/firebase_constants.dart';
+import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/providers/firebase_providers.dart';
 import 'package:healthy_medicine_2/core/type_defs.dart';
 import 'package:healthy_medicine_2/core/models/entry_model.dart';
@@ -22,6 +23,9 @@ class EntryRepository {
   CollectionReference get _doctors =>
       _firestore.collection(FirebaseConstants.doctorsCollection);
 
+  CollectionReference get _users =>
+      _firestore.collection(FirebaseConstants.usersCollection);
+
   FutureVoid createEntry(
     EntryModel entry,
     String doctorId,
@@ -30,7 +34,7 @@ class EntryRepository {
     try {
       _doctors.doc(doctorId).collection('entryCells').doc(entryCellId).update({
         'time': FieldValue.arrayRemove([
-          DateTime(0, 0, 0, entry.dateTime.hour, entry.dateTime.minute, 0)
+          DateTime(1970, 1, 1, entry.dateTime.hour, entry.dateTime.minute, 0)
               .millisecondsSinceEpoch
         ]),
       });
@@ -40,6 +44,71 @@ class EntryRepository {
     } catch (e) {
       return left(Failure(e.toString()));
     }
+  }
+
+  FutureVoid createUserTimesPreset(
+    UserTimes userTimes,
+    String uid,
+  ) async {
+    try {
+      return right(_users
+          .doc(uid)
+          .collection('times')
+          .doc(userTimes.id)
+          .set(userTimes.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid editUserTimesPreset(
+    UserTimes userTimes,
+    String uid,
+  ) async {
+    try {
+      return right(_users
+          .doc(uid)
+          .collection('times')
+          .doc(userTimes.id)
+          .update(userTimes.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid deleteUserTimesPreset(
+    String userTimesId,
+    String uid,
+  ) async {
+    try {
+      return right(
+          _users.doc(uid).collection('times').doc(userTimesId).delete());
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Stream<List<UserTimes>> getUserTimes(String uid) {
+    return _users.doc(uid).collection('times').snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => UserTimes.fromMap(
+                  e.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<UserTimes> getUserTimesById(String uid, String userTimesId) {
+    return _users.doc(uid).collection('times').doc(userTimesId).snapshots().map(
+        (event) => UserTimes.fromMap(event.data() as Map<String, dynamic>));
   }
 
   Stream<List<EntryModel>> getAllUserEntries(
@@ -74,9 +143,9 @@ class EntryRepository {
                 .millisecondsSinceEpoch)
         .where(
           'exTime',
-          isGreaterThanOrEqualTo:
-              DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, 0)
-                  .millisecondsSinceEpoch,
+          isGreaterThanOrEqualTo: DateTime(
+                  1970, 1, 1, DateTime.now().hour, DateTime.now().minute, 0)
+              .millisecondsSinceEpoch,
         )
         .orderBy(
           'exTime',

@@ -110,18 +110,6 @@ class DoctorRepository {
     }
   }
 
-  Stream<List<UserTimes>> getUserTimes(String uid) {
-    return _users.doc(uid).collection('times').snapshots().map(
-          (event) => event.docs
-              .map(
-                (e) => UserTimes.fromMap(
-                  e.data(),
-                ),
-              )
-              .toList(),
-        );
-  }
-
   // Stream<List<DateModel>> getEntryCells(String doctorId) {
   //   return _entryCells.where('doctorId', isEqualTo: doctorId).snapshots().map(
   //         (event) => event.docs

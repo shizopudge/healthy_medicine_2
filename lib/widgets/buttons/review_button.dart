@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
-import 'package:healthy_medicine_2/screens/add_review_screen.dart';
-import 'package:healthy_medicine_2/screens/edit_review_screen.dart';
 import 'package:healthy_medicine_2/screens/reviews_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -30,10 +27,12 @@ class ReviewButton extends StatefulWidget {
 
 class _EntryButtonState extends State<ReviewButton> {
   void navigateToAddReview(BuildContext context) {
+    Routemaster.of(context).pop();
     Routemaster.of(context).push('/add-review/${widget.doctorId}');
   }
 
   void navigateToEditReview(BuildContext context) {
+    Routemaster.of(context).pop();
     Routemaster.of(context).push('/edit-review/${widget.doctorId}');
   }
 
@@ -45,15 +44,17 @@ class _EntryButtonState extends State<ReviewButton> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: widget.isReviewsPage
-            ? () => showBottomSheet(
+            ? () => showModalBottomSheet(
                   context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  isScrollControlled: true,
                   builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 25,
-                      ),
-                      child: ReviewsScreen(doctorId: widget.doctorId),
-                    );
+                    return ReviewsScreen(doctorId: widget.doctorId);
                   },
                 )
             : widget.isEditReview

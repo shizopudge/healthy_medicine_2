@@ -6,6 +6,7 @@ import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/entries/entry_controller.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
+import 'package:intl/intl.dart';
 import 'package:routemaster/routemaster.dart';
 
 class EntryScreen extends ConsumerStatefulWidget {
@@ -29,6 +30,8 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
         pickedDateCellId.trim(),
         context);
   }
+
+  DateFormat myFormat = DateFormat('kk:mm');
 
   int currentMonthNumber = DateTime.now().month;
   int currentDay = DateTime.now().day;
@@ -111,7 +114,6 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                           time.hour, time.minute, 0);
                     });
                     createEntry(doctor);
-                    // deleteEntryTime();
                   },
                   child: const Text(
                     'Записаться',
@@ -361,7 +363,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                             : AppTheme.indigoColor,
                                         child: Center(
                                           child: Text(
-                                            '${timeCell.hour}:${timeCell.minute}',
+                                            myFormat.format(timeCell),
                                             style: AppTheme
                                                 .dedicatedWhiteTextStyle,
                                           ),

@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_repository.dart';
+import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/core/models/user_model.dart';
+import 'package:routemaster/routemaster.dart';
+import 'package:uuid/uuid.dart';
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
 

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/widgets/rating_bar.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -43,7 +42,6 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 8,
-        horizontal: 12,
       ),
       child: InkWell(
         onTap: () => navigateToDoctorScreen(context),

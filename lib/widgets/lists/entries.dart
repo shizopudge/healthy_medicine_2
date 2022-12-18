@@ -38,7 +38,9 @@ class ListOfEntries extends ConsumerWidget {
                     itemCount: entries.length,
                     itemBuilder: (BuildContext context, int index) {
                       final entry = entries[index];
-                      return EntryCard(entry: entry);
+                      return EntryCard(
+                        entry: entry,
+                      );
                     });
               }),
               error: ((error, stackTrace) => ErrorText(
@@ -59,7 +61,9 @@ class ListOfEntries extends ConsumerWidget {
                         itemCount: entries.length,
                         itemBuilder: (BuildContext context, int index) {
                           final entry = entries[index];
-                          return EntryCard(entry: entry);
+                          return EntryCard(
+                            entry: entry,
+                          );
                         });
                   }),
                   error: ((error, stackTrace) => ErrorText(
@@ -80,7 +84,9 @@ class ListOfEntries extends ConsumerWidget {
                             itemCount: entries.length,
                             itemBuilder: (BuildContext context, int index) {
                               final entry = entries[index];
-                              return EntryCard(entry: entry);
+                              return EntryCard(
+                                entry: entry,
+                              );
                             });
                       }),
                       error: ((error, stackTrace) => ErrorText(
@@ -102,7 +108,9 @@ class ListOfEntries extends ConsumerWidget {
                                 itemCount: entries.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   final entry = entries[index];
-                                  return EntryCard(entry: entry);
+                                  return EntryCard(
+                                    entry: entry,
+                                  );
                                 });
                           }),
                           error: ((error, stackTrace) => ErrorText(

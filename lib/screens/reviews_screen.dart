@@ -26,107 +26,119 @@ class _ReviewsScreenState extends ConsumerState<ReviewsScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
-    return Scaffold(
-      body: SafeArea(
-        child: ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
-            data: (doctor) {
-              return Column(
-                children: [
-                  doctor.comments.contains(user.uid)
-                      ? Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Ваш отзыв',
-                                    style: AppTheme.headerTextStyle,
-                                  ),
-                                  ReviewButton(
-                                    doctorId: doctor.id,
-                                    image: 'assets/images/edit_review.png',
-                                    isAddReview: false,
-                                    isEditReview: true,
-                                    isReviewsPage: false,
-                                    text: 'Изменить отзыв',
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ref
-                                .watch(getReviewByUserIdProvider(MyParameter(
-                                    uid: user.uid, doctorId: doctor.id)))
-                                .when(
-                                  data: (review) {
-                                    return ReviewCard(
-                                      review: review,
-                                    );
-                                  },
-                                  error: (error, stackTrace) => ErrorText(
-                                    error: error.toString(),
-                                  ),
-                                  loading: () => const Loader(),
-                                ),
-                            const Divider(
-                              thickness: 1.5,
-                              color: AppTheme.indigoColor,
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+    return FractionallySizedBox(
+      heightFactor: 0.9,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+        child: Scaffold(
+          body: SafeArea(
+            child: ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
+                data: (doctor) {
+                  return Column(
+                    children: [
+                      doctor.comments.contains(user.uid)
+                          ? Column(
                               children: [
-                                Text(
-                                  'Хотите оставить отзыв?',
-                                  style: AppTheme.titleTextStyle,
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Ваш отзыв',
+                                        style: AppTheme.headerTextStyle,
+                                      ),
+                                      ReviewButton(
+                                        doctorId: doctor.id,
+                                        image: 'assets/images/edit_review.png',
+                                        isAddReview: false,
+                                        isEditReview: true,
+                                        isReviewsPage: false,
+                                        text: 'Изменить отзыв',
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                ReviewButton(
-                                  doctorId: doctor.id,
-                                  image: 'assets/images/add_review.png',
-                                  isAddReview: true,
-                                  isEditReview: false,
-                                  isReviewsPage: false,
-                                  text: 'Оставить отзыв',
+                                ref
+                                    .watch(getReviewByUserIdProvider(
+                                        MyParameter(
+                                            uid: user.uid,
+                                            doctorId: doctor.id)))
+                                    .when(
+                                      data: (review) {
+                                        return ReviewCard(
+                                          review: review,
+                                        );
+                                      },
+                                      error: (error, stackTrace) => ErrorText(
+                                        error: error.toString(),
+                                      ),
+                                      loading: () => const Loader(),
+                                    ),
+                                const Divider(
+                                  thickness: 1.5,
+                                  color: AppTheme.indigoColor,
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Хотите оставить отзыв?',
+                                      style: AppTheme.titleTextStyle,
+                                    ),
+                                    ReviewButton(
+                                      doctorId: doctor.id,
+                                      image: 'assets/images/add_review.png',
+                                      isAddReview: true,
+                                      isEditReview: false,
+                                      isReviewsPage: false,
+                                      text: 'Оставить отзыв',
+                                    ),
+                                  ],
+                                ),
+                                const Divider(
+                                  thickness: 1.5,
+                                  color: AppTheme.indigoColor,
                                 ),
                               ],
                             ),
-                            const Divider(
-                              thickness: 1.5,
-                              color: AppTheme.indigoColor,
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Отзывы',
+                              style: AppTheme.headerTextStyle,
+                            ),
+                            const Gap(5),
+                            Image.asset(
+                              'assets/images/reviews.png',
+                              height: 50,
                             ),
                           ],
                         ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Отзывы',
-                          style: AppTheme.headerTextStyle,
+                      ),
+                      Expanded(
+                        child: Reviews(
+                          doctorId: doctor.id,
                         ),
-                        const Gap(5),
-                        Image.asset(
-                          'assets/images/reviews.png',
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Reviews(
-                      doctorId: doctor.id,
-                    ),
-                  ),
-                ],
-              );
-            },
-            error: (error, stackTrace) => ErrorText(error: error.toString()),
-            loading: () => const Loader()),
+                      ),
+                    ],
+                  );
+                },
+                error: (error, stackTrace) =>
+                    ErrorText(error: error.toString()),
+                loading: () => const Loader()),
+          ),
+        ),
       ),
     );
   }

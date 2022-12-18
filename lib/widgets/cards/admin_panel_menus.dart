@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/models/clinic_model.dart';
 
@@ -14,7 +15,7 @@ class AdminClinicMenuWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: Constants.secondColor,
+        color: Colors.grey.shade100,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(21),
         ),
@@ -24,10 +25,7 @@ class AdminClinicMenuWidget extends StatelessWidget {
             child: Text(
               clinic.address,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Constants.primaryColor,
-                fontSize: 24,
-              ),
+              style: AppTheme.dedicatedIndigoTextStyle,
             ),
           ),
         ),

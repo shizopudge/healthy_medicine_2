@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 
 class PasswordTextFieldWidget extends StatefulWidget {
   final TextEditingController textController;
@@ -80,7 +81,7 @@ class _TextFieldWidgetState extends State<PasswordTextFieldWidget> {
                     },
                     icon: const Icon(
                       Icons.remove_red_eye,
-                      color: Colors.red,
+                      color: AppTheme.indigoColor,
                     ),
                   ),
             border: InputBorder.none,
