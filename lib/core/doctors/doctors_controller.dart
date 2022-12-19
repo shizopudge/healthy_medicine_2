@@ -194,9 +194,9 @@ class DoctorController extends StateNotifier<bool> {
     }
     final res = await _doctorRepository.createDoctor(doctor);
     state = false;
-    res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Вы создали доктора!');
-      Routemaster.of(context).pop();
-    });
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => showSnackBar(context, 'Вы создали доктора!'),
+    );
   }
 }

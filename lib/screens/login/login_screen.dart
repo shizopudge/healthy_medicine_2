@@ -207,7 +207,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                   : Colors.green,
                                             )
                                           : const Icon(
-                                              Icons.cancel,
+                                              CupertinoIcons.check_mark,
                                               size: 24,
                                               color: Colors.red,
                                             )),
@@ -501,36 +501,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                               'Укажите ваш город',
                                               style: AppTheme.titleTextStyle,
                                             ),
-                                            DropdownButton<String>(
-                                              value: cityValue,
-                                              icon: const RotatedBox(
-                                                quarterTurns: 3,
-                                                child: Icon(
-                                                  Icons
-                                                      .arrow_back_ios_new_outlined,
-                                                  color: AppTheme.indigoColor,
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(21),
+                                                color: Colors.grey.shade200,
+                                              ),
+                                              padding: const EdgeInsets.all(8),
+                                              child: DropdownButton<String>(
+                                                value: cityValue,
+                                                icon: const RotatedBox(
+                                                  quarterTurns: 3,
+                                                  child: Icon(
+                                                    Icons
+                                                        .arrow_back_ios_new_outlined,
+                                                    color: AppTheme.indigoColor,
+                                                  ),
                                                 ),
+                                                elevation: 16,
+                                                style: AppTheme
+                                                    .dedicatedIndigoTextStyle,
+                                                underline: const SizedBox(),
+                                                onChanged: (String? value) {
+                                                  setState(() {
+                                                    cityValue = value!;
+                                                  });
+                                                },
+                                                items: cities.map<
+                                                        DropdownMenuItem<
+                                                            String>>(
+                                                    (String value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
                                               ),
-                                              elevation: 16,
-                                              style: AppTheme
-                                                  .dedicatedIndigoTextStyle,
-                                              underline: Container(
-                                                height: 2,
-                                                color: AppTheme.indigoColor,
-                                              ),
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  cityValue = value!;
-                                                });
-                                              },
-                                              items: cities.map<
-                                                      DropdownMenuItem<String>>(
-                                                  (String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
                                             ),
                                           ],
                                         ),

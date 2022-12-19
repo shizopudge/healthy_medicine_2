@@ -155,8 +155,36 @@ class AuthRepository {
         );
   }
 
+  Stream<List<UserModel>> getUsersAdmins() {
+    return _users.where('isAdmin', isEqualTo: true).snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => UserModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
   Stream<List<UserModel>> getUsers() {
-    return _users.where('isAdmin', isEqualTo: false).snapshots().map(
+    return _users
+        .where('isAdmin', isEqualTo: false)
+        .where('isDoctor', isEqualTo: false)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => UserModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<UserModel>> getAllUsers() {
+    return _users.snapshots().map(
           (event) => event.docs
               .map(
                 (e) => UserModel.fromMap(

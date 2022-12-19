@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/screens/history_screen.dart';
 import 'package:healthy_medicine_2/screens/main_screen.dart';
 
-// final bottomNavBarStateProvider = StateProvider<bool>((ref) => true);
-
 class Portal extends ConsumerStatefulWidget {
   const Portal({super.key});
 
@@ -28,7 +26,6 @@ class _PortalState extends ConsumerState<Portal> {
 
   @override
   Widget build(BuildContext context) {
-    // final isBottomNavBarShowed = ref.watch(bottomNavBarStateProvider);
     return Scaffold(
       body: tabWidgets[_page],
       extendBody: true,

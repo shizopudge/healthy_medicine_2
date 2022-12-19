@@ -22,8 +22,6 @@ class DoctorRepository {
 
   CollectionReference get _doctors =>
       _firestore.collection(FirebaseConstants.doctorsCollection);
-  CollectionReference get _users =>
-      _firestore.collection(FirebaseConstants.usersCollection);
 
   Stream<List<Doctor>> getDoctorsByClinicId(String clinicId) {
     return _doctors.where('clinicId', isEqualTo: clinicId).snapshots().map(

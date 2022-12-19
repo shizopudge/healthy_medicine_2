@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:healthy_medicine_2/screens/admin_panel/add_doctors_screend.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/add_doctors_screen.dart';
 import 'package:healthy_medicine_2/screens/add_review_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/admin_entry_panel.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/admin_panel_screen.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/admin_portal.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/admin_doctors_list_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_screen.dart';
-import 'package:healthy_medicine_2/screens/doctors_admin_panel_screen.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/doctors_admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/doctors_list_screen.dart';
 import 'package:healthy_medicine_2/screens/edit_review_screen.dart';
 import 'package:healthy_medicine_2/screens/entry_screen.dart';
@@ -23,7 +25,12 @@ final loggedOutRoute = RouteMap(routes: {
 
 final loggedInAdminRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(
-        child: AdminPanelScreen(),
+        child: AdminPortal(),
+      ),
+  '/doctors-list/:clinicId': (routeDocThings) => MaterialPage(
+        child: AdminDoctorsListScreen(
+          clinicId: routeDocThings.pathParameters['clinicId']!,
+        ),
       ),
   '/doctor/:doctorId': (routeDocThings) => MaterialPage(
         child: DoctorScreen(

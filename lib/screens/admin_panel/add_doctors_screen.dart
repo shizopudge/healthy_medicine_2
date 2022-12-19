@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,11 +7,11 @@ import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
-import 'package:healthy_medicine_2/widgets/app_bars/admin_entry_appbar.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/experience.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/widgets/text_widgets/add_doctor_textfield.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
 final selectedItemIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
@@ -50,6 +49,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
   TextEditingController serviceCostController = TextEditingController();
 
   String clinicId = '';
+  bool isPicPicked = false;
 
   File? profileFile;
   Uint8List? profileWebFile;
@@ -61,10 +61,12 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
       if (kIsWeb) {
         setState(() {
           profileWebFile = res.files.first.bytes;
+          isPicPicked = true;
         });
       } else {
         setState(() {
           profileFile = File(res.files.first.path!);
+          isPicPicked = true;
         });
       }
     }
@@ -124,12 +126,21 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
         child: InkWell(
           onTap: () {
-            if (_formKey.currentState!.validate()) {
+            if (_formKey.currentState!.validate() &&
+                clinicId != '' &&
+                isPicPicked == true) {
               _formKey.currentState!.save();
               addDoctor();
+              // clinicId = '';
             }
             if (clinicId == '') {
               showSnackBar(context, 'Вы не выбрали клинику!');
+            }
+            if (isPicPicked == false) {
+              showSnackBar(context, 'Вы не выбрали картинку!');
+            }
+            if (isPicPicked == false && clinicId == '') {
+              showSnackBar(context, 'Вы не выбрали картинку и клинику!');
             }
           },
           borderRadius: BorderRadius.circular(21),
@@ -158,7 +169,15 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Column(
                       children: [
-                        const AdminEntryAppBar(title: 'Добавление врача'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Добавление врача',
+                            overflow: TextOverflow.clip,
+                            textAlign: TextAlign.center,
+                            style: AppTheme.headerTextStyle,
+                          ),
+                        ),
                         InkWell(
                           onTap: () => selectProfileImage(),
                           radius: 60,
@@ -236,33 +255,38 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                                     'Специальность',
                                     style: AppTheme.titleTextStyle,
                                   ),
-                                  DropdownButton<String>(
-                                    value: specValue,
-                                    icon: const RotatedBox(
-                                      quarterTurns: 3,
-                                      child: Icon(
-                                        Icons.arrow_back_ios_new_outlined,
-                                        color: AppTheme.indigoColor,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(21),
+                                      color: Colors.grey.shade200,
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: DropdownButton<String>(
+                                      value: specValue,
+                                      icon: const RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Icon(
+                                          Icons.arrow_back_ios_new_outlined,
+                                          color: AppTheme.indigoColor,
+                                        ),
                                       ),
+                                      elevation: 16,
+                                      underline: const SizedBox(),
+                                      style: AppTheme.dedicatedIndigoTextStyle,
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          specValue = value!;
+                                        });
+                                      },
+                                      items: specs
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
                                     ),
-                                    elevation: 16,
-                                    style: AppTheme.dedicatedIndigoTextStyle,
-                                    underline: Container(
-                                      height: 2,
-                                      color: AppTheme.indigoColor,
-                                    ),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        specValue = value!;
-                                      });
-                                    },
-                                    items: specs.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
                                   ),
                                 ],
                               ),
@@ -332,34 +356,39 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                                     'Укажите город',
                                     style: AppTheme.titleTextStyle,
                                   ),
-                                  DropdownButton<String>(
-                                    value: cityValue,
-                                    icon: const RotatedBox(
-                                      quarterTurns: 3,
-                                      child: Icon(
-                                        Icons.arrow_back_ios_new_outlined,
-                                        color: AppTheme.indigoColor,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(21),
+                                      color: Colors.grey.shade200,
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: DropdownButton<String>(
+                                      value: cityValue,
+                                      icon: const RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Icon(
+                                          Icons.arrow_back_ios_new_outlined,
+                                          color: AppTheme.indigoColor,
+                                        ),
                                       ),
+                                      elevation: 16,
+                                      style: AppTheme.dedicatedIndigoTextStyle,
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          cityValue = value!;
+                                          clinicId = '';
+                                        });
+                                      },
+                                      underline: const SizedBox(),
+                                      items: cities
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
                                     ),
-                                    elevation: 16,
-                                    style: AppTheme.dedicatedIndigoTextStyle,
-                                    underline: Container(
-                                      height: 2,
-                                      color: AppTheme.indigoColor,
-                                    ),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        cityValue = value!;
-                                        clinicId = '';
-                                      });
-                                    },
-                                    items: cities.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
                                   ),
                                 ],
                               ),
@@ -372,13 +401,18 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 150,
+                              height: 180,
                               child: ref
                                   .watch(getCityClinicsProvider(cityValue))
                                   .when(
                                     data: (data) {
                                       return Container(
-                                        color: Colors.grey.shade200,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade200,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        margin: const EdgeInsets.all(8),
                                         child: ListView.builder(
                                           itemCount: data.length,
                                           itemBuilder: (BuildContext context,

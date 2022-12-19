@@ -63,7 +63,7 @@ class _AddDoctorTextFieldState extends State<AddDoctorTextField> {
                       : null,
                   counterText: '',
                 ),
-                maxLength: widget.isNumber ? 5 : null,
+                maxLength: widget.isNumber ? 4 : null,
                 cursorColor: AppTheme.indigoColor,
                 style: AppTheme.dedicatedIndigoTextStyle,
                 validator: widget.validator,

@@ -29,6 +29,16 @@ final getUsersDoctorsProvider = StreamProvider((ref) {
   return authController.getUsersDoctors();
 });
 
+final getUsersAdminsProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUsersAdmins();
+});
+
+final getAllUsersProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getAllUsers();
+});
+
 final getUsersProvider = StreamProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUsers();
@@ -100,6 +110,14 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<List<UserModel>> getUsersDoctors() {
     return _authRepository.getUsersDoctors();
+  }
+
+  Stream<List<UserModel>> getUsersAdmins() {
+    return _authRepository.getUsersAdmins();
+  }
+
+  Stream<List<UserModel>> getAllUsers() {
+    return _authRepository.getAllUsers();
   }
 
   Stream<List<UserModel>> getUsers() {

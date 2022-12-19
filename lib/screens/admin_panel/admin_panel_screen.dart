@@ -35,7 +35,7 @@ class AdminPanelScreen extends ConsumerWidget {
             onTap: () => logOut(ref),
             child: const Icon(
               Icons.logout_rounded,
-              size: 36,
+              size: 28,
               color: Colors.red,
             ),
           ),
