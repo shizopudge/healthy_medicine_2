@@ -3,20 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:healthy_medicine_2/core/failure.dart';
 import 'package:healthy_medicine_2/core/firebase_constants.dart';
-import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/providers/firebase_providers.dart';
 import 'package:healthy_medicine_2/core/type_defs.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:healthy_medicine_2/core/models/date_entry_model.dart';
 
 final doctorRepositoryProvider = Provider((ref) {
-  return DoctorRepository(firestore: ref.watch(firestoreProvider));
+  return DoctorRepository(
+    firestore: ref.watch(firestoreProvider),
+  );
 });
 
 class DoctorRepository {
   final FirebaseFirestore _firestore;
-  DoctorRepository({required FirebaseFirestore firestore})
-      : _firestore = firestore;
+  DoctorRepository({
+    required FirebaseFirestore firestore,
+  }) : _firestore = firestore;
 
   CollectionReference get _doctors =>
       _firestore.collection(FirebaseConstants.doctorsCollection);
@@ -25,6 +27,35 @@ class DoctorRepository {
 
   Stream<List<Doctor>> getDoctorsByClinicId(String clinicId) {
     return _doctors.where('clinicId', isEqualTo: clinicId).snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => Doctor.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<Doctor>> getDoctorsByClinicIdAndSpec(
+      String clinicId, String spec) {
+    return _doctors
+        .where('clinicId', isEqualTo: clinicId)
+        .where('spec', isEqualTo: spec)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => Doctor.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<Doctor>> getDoctors() {
+    return _doctors.snapshots().map(
           (event) => event.docs
               .map(
                 (e) => Doctor.fromMap(
@@ -102,6 +133,17 @@ class DoctorRepository {
           .collection(FirebaseConstants.entryCellsCollection)
           .doc(entry.id)
           .set(entry.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+      // throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid createDoctor(Doctor doctor) async {
+    try {
+      return right(_doctors.doc(doctor.id).set(doctor.toMap()));
     } on FirebaseException catch (e) {
       return left(Failure(e.message!));
       // throw e.message!;

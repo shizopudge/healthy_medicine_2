@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:healthy_medicine_2/app_theme.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController textController;
@@ -38,6 +39,7 @@ class TextFieldWidget extends StatelessWidget {
             ),
           ],
           controller: textController,
+          style: AppTheme.dedicatedIndigoTextStyle,
           keyboardType: isNumber
               ? TextInputType.phone
               : isEmail
@@ -52,7 +54,7 @@ class TextFieldWidget extends StatelessWidget {
                   )
                 : null,
             hintText: hintText,
-            hintStyle: const TextStyle(fontSize: 20, color: Colors.white),
+            hintStyle: AppTheme.dedicatedIndigoTextStyle,
             border: InputBorder.none,
           ),
           validator: validator,

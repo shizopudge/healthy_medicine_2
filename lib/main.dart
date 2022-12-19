@@ -6,7 +6,6 @@ import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/firebase_options.dart';
 import 'package:healthy_medicine_2/core/models/user_model.dart';
 import 'package:healthy_medicine_2/router.dart';
@@ -50,7 +49,9 @@ class _MyAppState extends ConsumerState<MyApp> {
                 if (data != null) {
                   getData(ref, data);
                   if (userModel != null) {
-                    return loggedInRoute;
+                    return userModel!.isAdmin
+                        ? loggedInAdminRoute
+                        : loggedInRoute;
                   }
                 }
                 return loggedOutRoute;

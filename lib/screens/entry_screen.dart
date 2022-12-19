@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
@@ -99,32 +100,36 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
   late DateTime time;
   @override
   Widget build(BuildContext context) {
+    final user = ref.read(userProvider)!;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: isDataEntered
-          ? ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
-              data: (doctor) {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(250, 42),
-                  ),
-                  onPressed: () async {
-                    setState(() {
-                      date = DateTime(date.year, date.month, date.day,
-                          time.hour, time.minute, 0);
-                    });
-                    createEntry(doctor);
+          ? user.isAdmin
+              ? null
+              : ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
+                  data: (doctor) {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(250, 42),
+                      ),
+                      onPressed: () async {
+                        setState(() {
+                          date = DateTime(date.year, date.month, date.day,
+                              time.hour, time.minute, 0);
+                        });
+                        createEntry(doctor);
+                      },
+                      child: const Text(
+                        'Записаться',
+                        style: TextStyle(
+                          fontSize: 22,
+                        ),
+                      ),
+                    );
                   },
-                  child: const Text(
-                    'Записаться',
-                    style: TextStyle(
-                      fontSize: 22,
-                    ),
-                  ),
-                );
-              },
-              error: (error, stackTrace) => ErrorText(error: error.toString()),
-              loading: () => const Loader())
+                  error: (error, stackTrace) =>
+                      ErrorText(error: error.toString()),
+                  loading: () => const Loader())
           : null,
       body: SafeArea(
         child: ref

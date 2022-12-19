@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 
-class ProfileTextField extends StatefulWidget {
-  final TextEditingController controller;
+class AddDoctorTextField extends StatefulWidget {
   final String title;
-  final void Function(String)? func;
-  const ProfileTextField({
+  final TextEditingController controller;
+  final bool isNumber;
+  final String? Function(String?)? validator;
+  const AddDoctorTextField({
     super.key,
-    required this.controller,
     required this.title,
-    required this.func,
+    required this.controller,
+    required this.isNumber,
+    required this.validator,
   });
 
   @override
-  State<ProfileTextField> createState() => _ProfileTextFieldState();
+  State<AddDoctorTextField> createState() => _AddDoctorTextFieldState();
 }
 
-class _ProfileTextFieldState extends State<ProfileTextField> {
+class _AddDoctorTextFieldState extends State<AddDoctorTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 12,
-        vertical: 8,
+        vertical: 2,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,13 +53,20 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: widget.isNumber ? TextInputType.number : null,
                 controller: widget.controller,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
+                  suffixText: widget.isNumber ? 'руб.' : null,
+                  suffixStyle: widget.isNumber
+                      ? AppTheme.dedicatedIndigoTextStyle
+                      : null,
+                  counterText: '',
                 ),
-                style: AppTheme.dedicatedWhiteTextStyle,
-                onChanged: widget.func,
+                maxLength: widget.isNumber ? 5 : null,
+                cursorColor: AppTheme.indigoColor,
+                style: AppTheme.dedicatedIndigoTextStyle,
+                validator: widget.validator,
               ),
             ),
           ),

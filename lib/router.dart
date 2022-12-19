@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/add_doctors_screend.dart';
 import 'package:healthy_medicine_2/screens/add_review_screen.dart';
-import 'package:healthy_medicine_2/screens/admin_entry_panel.dart';
-import 'package:healthy_medicine_2/screens/admin_panel_screen.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/admin_entry_panel.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/admin_panel_screen.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_screen.dart';
+import 'package:healthy_medicine_2/screens/doctors_admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/doctors_list_screen.dart';
 import 'package:healthy_medicine_2/screens/edit_review_screen.dart';
 import 'package:healthy_medicine_2/screens/entry_screen.dart';
-import 'package:healthy_medicine_2/screens/login_screen.dart';
+import 'package:healthy_medicine_2/screens/login/login_screen.dart';
 import 'package:healthy_medicine_2/screens/portal.dart';
 import 'package:healthy_medicine_2/screens/profile_screen.dart';
 import 'package:healthy_medicine_2/screens/reviews_screen.dart';
@@ -16,6 +19,41 @@ import 'package:routemaster/routemaster.dart';
 
 final loggedOutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),
+});
+
+final loggedInAdminRoute = RouteMap(routes: {
+  '/': (_) => const MaterialPage(
+        child: AdminPanelScreen(),
+      ),
+  '/doctor/:doctorId': (routeDocThings) => MaterialPage(
+        child: DoctorScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/reviews/:doctorId': (routeDocThings) => MaterialPage(
+        child: ReviewsScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/entry/:doctorId': (routeDocThings) => MaterialPage(
+        child: EntryScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/admin-entry-panel/:doctorId': (routeDocThings) => MaterialPage(
+        child: AdminEntryPanel(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/admin-doctor-panel': (routeAdmin) => const MaterialPage(
+        child: DoctorsAdminPanel(),
+      ),
+  '/admin-add-doctor-panel': (routeAdmin) => const MaterialPage(
+        child: AddDoctorScreen(),
+      ),
+  '/admin-users-panel': (routeAdmin) => const MaterialPage(
+        child: UsersPanel(),
+      ),
 });
 
 final loggedInRoute = RouteMap(routes: {
@@ -71,5 +109,11 @@ final loggedInRoute = RouteMap(routes: {
         child: AdminEntryPanel(
           doctorId: routeDocThings.pathParameters['doctorId']!,
         ),
+      ),
+  '/admin-doctor-panel': (routeAdmin) => const MaterialPage(
+        child: DoctorsAdminPanel(),
+      ),
+  '/admin-add-doctor-panel': (routeAdmin) => const MaterialPage(
+        child: AddDoctorScreen(),
       ),
 });

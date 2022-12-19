@@ -2,11 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_repository.dart';
-import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/core/models/user_model.dart';
-import 'package:routemaster/routemaster.dart';
-import 'package:uuid/uuid.dart';
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
 
@@ -25,6 +22,16 @@ final authStateChangeProvider = StreamProvider((ref) {
 final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
+});
+
+final getUsersDoctorsProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUsersDoctors();
+});
+
+final getUsersProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUsers();
 });
 
 class AuthController extends StateNotifier<bool> {
@@ -62,10 +69,23 @@ class AuthController extends StateNotifier<bool> {
     String phone,
     String city,
     DateTime birthday,
+    bool isDoctor,
+    String doctorId,
   ) async {
     state = true;
-    final user = await _authRepository.signUp(email, password, firstName,
-        lastName, patronymic, avatar, gender, phone, city, birthday);
+    final user = await _authRepository.signUp(
+        email,
+        password,
+        firstName,
+        lastName,
+        patronymic,
+        avatar,
+        gender,
+        phone,
+        city,
+        birthday,
+        isDoctor,
+        doctorId);
     state = false;
     user.fold(
       (l) => showSnackBar(context, l.message),
@@ -76,6 +96,14 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
+  }
+
+  Stream<List<UserModel>> getUsersDoctors() {
+    return _authRepository.getUsersDoctors();
+  }
+
+  Stream<List<UserModel>> getUsers() {
+    return _authRepository.getUsers();
   }
 
   void logOut() async {

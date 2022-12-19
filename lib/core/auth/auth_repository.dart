@@ -65,6 +65,8 @@ class AuthRepository {
     String phone,
     String city,
     DateTime birthday,
+    bool isDoctor,
+    String doctorId,
   ) async {
     UserCredential userCredential;
     try {
@@ -81,7 +83,10 @@ class AuthRepository {
         city: city,
         uid: userCredential.user!.uid,
         birthday: birthday,
+        password: password,
         isAdmin: false,
+        isDoctor: isDoctor,
+        doctorId: doctorId,
       );
       await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       String firstChangeTimesId = const Uuid().v1();
@@ -136,6 +141,30 @@ class AuthRepository {
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  Stream<List<UserModel>> getUsersDoctors() {
+    return _users.where('isDoctor', isEqualTo: true).snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => UserModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<UserModel>> getUsers() {
+    return _users.where('isAdmin', isEqualTo: false).snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => UserModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
   }
 
   void logOut() async {

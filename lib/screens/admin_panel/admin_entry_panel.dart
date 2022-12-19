@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -48,6 +47,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
   String selectedTimePresetId = '';
   String selectedTimePresetTitle = '';
   bool selectedTimePresetTypeIsStandart = false;
+  bool isEdited = false;
 
   void createEntryCell(BuildContext context) {
     ref
@@ -328,6 +328,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                           hintStyle:
                                               AppTheme.dedicatedIndigoTextStyle,
                                         ),
+                                        style:
+                                            AppTheme.dedicatedIndigoTextStyle,
                                         cursorColor: AppTheme.indigoColor,
                                       ),
                                     ),
@@ -630,6 +632,11 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                             hintStyle: AppTheme
                                                 .dedicatedIndigoTextStyle,
                                           ),
+                                          style:
+                                              AppTheme.dedicatedIndigoTextStyle,
+                                          onChanged: (value) {
+                                            isEdited = true;
+                                          },
                                           cursorColor: AppTheme.indigoColor,
                                         ),
                                       ),
@@ -719,6 +726,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                                       0),
                                                 );
                                                 editTimes.sort();
+                                                isEdited = true;
                                               }
                                             },
                                             child: const Icon(
@@ -801,57 +809,67 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                                 ),
                                               ],
                                             ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            if (editTimes.isNotEmpty &&
-                                                editTimesTittleController.text
-                                                        .trim() !=
-                                                    '') {
-                                              editUserTimesPreset();
-                                              editTimesTittleController.text =
-                                                  '';
-                                              selectedTimePresetId = '';
-                                              selectedTimePresetTitle = '';
-                                              selectedTimePresetTypeIsStandart =
-                                                  false;
-                                              Routemaster.of(context).pop();
-                                            } else {
-                                              if (editTimes.isEmpty) {
-                                                showSnackBar(context,
-                                                    'Вы не добавили ни 1 ячейки...');
-                                              }
-                                              if (editTimesTittleController.text
-                                                      .trim() ==
-                                                  '') {
-                                                showSnackBar(context,
-                                                    'Вы не ввели название для расписания');
-                                              }
-                                              if (editTimesTittleController.text
-                                                          .trim() ==
-                                                      '' &&
-                                                  editTimes.isEmpty) {
-                                                showSnackBar(context,
-                                                    'Вы не ввели название для расписания и не добавили ни 1 ячейки...');
-                                              }
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            elevation: 16,
-                                            backgroundColor: Colors.white,
-                                          ),
-                                          child: Text(
-                                            'Изменить',
-                                            style: AppTheme
-                                                .dedicatedIndigoTextStyle,
-                                          ),
-                                        ),
-                                      ),
+                                      isEdited
+                                          ? Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  if (editTimes.isNotEmpty &&
+                                                      editTimesTittleController
+                                                              .text
+                                                              .trim() !=
+                                                          '') {
+                                                    editUserTimesPreset();
+                                                    editTimesTittleController
+                                                        .text = '';
+                                                    selectedTimePresetId = '';
+                                                    selectedTimePresetTitle =
+                                                        '';
+                                                    selectedTimePresetTypeIsStandart =
+                                                        false;
+                                                    isEdited = false;
+                                                    Routemaster.of(context)
+                                                        .pop();
+                                                  } else {
+                                                    if (editTimes.isEmpty) {
+                                                      showSnackBar(context,
+                                                          'Вы не добавили ни 1 ячейки...');
+                                                    }
+                                                    if (editTimesTittleController
+                                                            .text
+                                                            .trim() ==
+                                                        '') {
+                                                      showSnackBar(context,
+                                                          'Вы не ввели название для расписания');
+                                                    }
+                                                    if (editTimesTittleController
+                                                                .text
+                                                                .trim() ==
+                                                            '' &&
+                                                        editTimes.isEmpty) {
+                                                      showSnackBar(context,
+                                                          'Вы не ввели название для расписания и не добавили ни 1 ячейки...');
+                                                    }
+                                                  }
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  elevation: 16,
+                                                  backgroundColor: Colors.white,
+                                                ),
+                                                child: Text(
+                                                  'Изменить',
+                                                  style: AppTheme
+                                                      .dedicatedIndigoTextStyle,
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox(),
                                     ],
                                   ),
                                 ),
@@ -928,11 +946,11 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                             ),
                             children: [
                               SizedBox(
-                                height: 250,
+                                height: 230,
                                 child: Column(
                                   children: [
                                     SizedBox(
-                                      height: 200,
+                                      height: 180,
                                       child: GridView.builder(
                                         itemCount: userTimes.times.length,
                                         gridDelegate:

@@ -16,16 +16,16 @@ class Doctors extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //getDoctorsByClinicIdAndSpecProvider
-    return ref.watch(getDoctorsByClinicIdProvider(clinicId)).when(
+    return ref
+        .watch(getDoctorsByClinicIdAndSpecProvider(
+            DoctorsParametrs(clinicId: clinicId, spec: spec)))
+        .when(
           data: (data) {
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 final doctor = data[index];
-                return doctor.spec == spec
-                    ? DoctorsCard(doctor: doctor)
-                    : const SizedBox();
+                return DoctorsCard(doctor: doctor);
               },
             );
           },
