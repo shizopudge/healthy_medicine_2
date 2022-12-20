@@ -213,6 +213,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             )),
                                   cursorColor: AppTheme.indigoColor,
                                   style: AppTheme.dedicatedIndigoTextStyle,
+                                  onFieldSubmitted: ((value) {
+                                    setState(() {
+                                      isCheckDoctorsCode =
+                                          checkDoctorsCode(value);
+                                      isCheckUserDoctorsExist =
+                                          checkUserDoctorsExist(value);
+                                    });
+                                  }),
                                   onChanged: ((value) {
                                     setState(() {
                                       isCheckDoctorsCode =
@@ -224,6 +232,62 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                               ),
                             ),
+                            TextFieldWidget(
+                              textController: firstNameController,
+                              hintText: 'ИМЯ',
+                              isNumber: false,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите ИМЯ';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            TextFieldWidget(
+                              textController: lastNameController,
+                              hintText: 'ФАМИЛИЯ',
+                              isNumber: false,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите ФАМИЛИЮ';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            TextFieldWidget(
+                              textController: patronymicController,
+                              hintText: 'ОТЧЕСТВО',
+                              isNumber: false,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите ОТЧЕСТВО';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            TextFieldWidget(
+                              textController: phoneController,
+                              hintText: 'НОМЕР ТЕЛЕФОНА',
+                              isNumber: true,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите НОМЕР ТЕЛЕФОНА';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextButton(
@@ -234,12 +298,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     _formKey.currentState!.save();
 
                                     signUp(context, ref);
-                                  }
-                                  if (isCheckDoctorsCode == false) {
+                                  } else if (isCheckDoctorsCode == false) {
                                     showSnackBar(
                                         context, 'Ваш код врача не верен');
-                                  }
-                                  if (isCheckUserDoctorsExist == true) {
+                                  } else if (isCheckUserDoctorsExist == true) {
                                     showSnackBar(context,
                                         'Аккаунт с этим кодом врача уже существует');
                                   }

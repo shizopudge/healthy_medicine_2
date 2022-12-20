@@ -62,14 +62,14 @@ class _EntryButtonState extends State<ReviewButton> {
                 : widget.isAddReview
                     ? () => navigateToAddReview(context)
                     : null,
-        onLongPress: widget.isAddReview
-            ? null
-            : () {
-                isLongPressed = true;
-                Future.delayed(const Duration(seconds: 2), () {
-                  isLongPressed = false;
-                });
-              },
+        // onLongPress: widget.isAddReview
+        //     ? null
+        //     : () {
+        //         isLongPressed = true;
+        //         Future.delayed(const Duration(seconds: 2), () {
+        //           isLongPressed = false;
+        //         });
+        //       },
         borderRadius: BorderRadius.circular(21),
         child: Container(
           padding: const EdgeInsets.all(12),
@@ -80,22 +80,24 @@ class _EntryButtonState extends State<ReviewButton> {
             borderRadius: BorderRadius.circular(32),
             gradient: AppTheme.gradientIndigoToRed,
           ),
-          child: isLongPressed
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(widget.image),
-                    const Gap(5),
-                    Expanded(
-                      child: Text(
-                        widget.text,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.titleTextStyle,
-                      ),
-                    ),
-                  ],
-                )
-              : Image.asset(widget.image),
+          child:
+              // isLongPressed
+              //     ? Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Image.asset(widget.image),
+              //           const Gap(5),
+              //           Expanded(
+              //             child: Text(
+              //               widget.text,
+              //               overflow: TextOverflow.ellipsis,
+              //               style: AppTheme.titleTextStyle,
+              //             ),
+              //           ),
+              //         ],
+              //       )
+              //     :
+              Image.asset(widget.image),
         ),
       ),
     );

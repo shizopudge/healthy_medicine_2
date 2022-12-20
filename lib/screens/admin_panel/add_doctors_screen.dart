@@ -11,7 +11,6 @@ import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/experience.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/widgets/text_widgets/add_doctor_textfield.dart';
-import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
 final selectedItemIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
@@ -45,7 +44,6 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController patronymicController = TextEditingController();
-  TextEditingController specController = TextEditingController();
   TextEditingController serviceCostController = TextEditingController();
 
   String clinicId = '';
@@ -98,7 +96,6 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
   @override
   void dispose() {
     super.dispose();
-    specController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
     patronymicController.dispose();
@@ -131,15 +128,24 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                 isPicPicked == true) {
               _formKey.currentState!.save();
               addDoctor();
-              // clinicId = '';
-            }
-            if (clinicId == '') {
+              clinicId = '';
+              _expirienceController.initialItem;
+              profileFile = null;
+              profileWebFile = null;
+              isPicPicked = false;
+              specValue = specs.first;
+              cityValue = cities.first;
+              firstNameController.clear();
+              lastNameController.clear();
+              patronymicController.clear();
+              serviceCostController.clear();
+            } else if (clinicId == '' && isLoading == false) {
               showSnackBar(context, 'Вы не выбрали клинику!');
-            }
-            if (isPicPicked == false) {
+            } else if (isPicPicked == false && isLoading == false) {
               showSnackBar(context, 'Вы не выбрали картинку!');
-            }
-            if (isPicPicked == false && clinicId == '') {
+            } else if (isPicPicked == false &&
+                clinicId == '' &&
+                isLoading == false) {
               showSnackBar(context, 'Вы не выбрали картинку и клинику!');
             }
           },

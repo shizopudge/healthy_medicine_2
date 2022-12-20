@@ -5,6 +5,7 @@ import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/reviews/reviews_controller.dart';
+import 'package:routemaster/routemaster.dart';
 
 class EditReviewScreen extends ConsumerStatefulWidget {
   final String doctorId;
@@ -26,7 +27,6 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
   @override
   void initState() {
     super.initState();
-
     uid = ref.read(userProvider)!.uid;
     reviewController = TextEditingController(
         text: ref
@@ -46,14 +46,12 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
         .rating;
     listRating =
         ref.read(getDoctorByIdProvider(widget.doctorId)).value!.rating.toList();
-    print(listRating);
     comments = ref.read(getDoctorByIdProvider(widget.doctorId)).value!.comments;
   }
 
   late TextEditingController reviewController;
   late int rating;
   bool isReviewText = false;
-  // bool isRatingChanged = false;
   void createReview(
     BuildContext context,
   ) {
@@ -82,15 +80,11 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
                 minimumSize: const Size(250, 42),
               ),
               onPressed: () {
-                print(listRating);
                 listRating.remove(
                     listRating.firstWhere((element) => element == userRating));
-                print(listRating);
-                listRating = listRating + [rating];
-                print(listRating);
+                listRating.add(rating);
                 editRating();
                 createReview(context);
-                //ЗАЩИТА ЧТОБЫ НЕЛЬЗЯ БЫЛО 1 ЧЕЛУ ДОБАВЛЯТЬ БЕСКОНЕЧНОСТЬ ОТЗЫВОВ
               },
               child: const Text(
                 'Отправить отзыв',
@@ -100,6 +94,18 @@ class _AddReviewScreenState extends ConsumerState<EditReviewScreen> {
               ),
             )
           : null,
+      appBar: AppBar(
+        elevation: 0,
+        leading: InkWell(
+          onTap: () => Routemaster.of(context).pop(),
+          borderRadius: BorderRadius.circular(21),
+          child: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 24,
+            color: AppTheme.indigoColor,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(

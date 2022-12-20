@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/widgets/cards/text_info_card.dart';
 import 'package:healthy_medicine_2/widgets/rating_bar.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
@@ -24,6 +27,7 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
   double avg = 0;
   String lastWord = '';
   List<dynamic> rating = [];
+  late TextEditingController docIdController;
 
   getAvgRating() {
     for (var element in widget.doctor.rating) {
@@ -36,9 +40,12 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
 
   getLastWord() {
     int n = (widget.doctor.experience % 10).floor();
-    if (n > 1 && n < 5) {
+    if (widget.doctor.experience >= 11 && widget.doctor.experience <= 14) {
+      lastWord = 'лет';
+    } else if (n > 1 && n < 5) {
       lastWord = 'года';
-    } else if (n == 1) {
+    } else if (n == 1 &&
+        !(widget.doctor.experience >= 11 && widget.doctor.experience <= 14)) {
       lastWord = 'год';
     } else {
       lastWord = 'лет';
@@ -50,12 +57,15 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
     super.initState();
     getAvgRating();
     getLastWord();
+    docIdController = TextEditingController(text: widget.doctor.id);
   }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     final isPicFullScreen = ref.watch(isPicFullScreenProvider);
+    final isAdmin = ref.read(userProvider)!.isAdmin;
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -109,6 +119,51 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      isAdmin
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey.shade200,
+                                ),
+                                padding: const EdgeInsets.all(8),
+                                child: Align(
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    toolbarOptions: const ToolbarOptions(
+                                      copy: true,
+                                      cut: false,
+                                      paste: false,
+                                      selectAll: true,
+                                    ),
+                                    controller: docIdController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      prefixText: 'DocID: ',
+                                      prefixStyle:
+                                          AppTheme.dedicatedIndigoTextStyle,
+                                      suffixIcon: InkWell(
+                                        onTap: () {
+                                          Clipboard.setData(
+                                            ClipboardData(
+                                                text: docIdController.text),
+                                          );
+                                          showSnackBar(context, 'Скопировано');
+                                        },
+                                        child: const Icon(
+                                          Icons.copy_rounded,
+                                          size: 32,
+                                          color: AppTheme.indigoColor,
+                                        ),
+                                      ),
+                                    ),
+                                    style: AppTheme.dedicatedIndigoTextStyle,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
                       TextInfoCard(
                         text:
                             'Д-р. ${widget.doctor.firstName} ${widget.doctor.lastName}',
@@ -181,25 +236,6 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
                               textAlign: TextAlign.center,
                               style: AppTheme.titleTextStyle.copyWith(
                                 fontSize: 28,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          color: Colors.grey.shade300,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(21),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Маленький текст с информацией о докторе.',
-                              textAlign: TextAlign.center,
-                              style: AppTheme.titleTextStyle.copyWith(
-                                fontSize: 21,
                               ),
                             ),
                           ),

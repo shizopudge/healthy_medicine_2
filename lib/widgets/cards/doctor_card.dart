@@ -21,16 +21,37 @@ class DoctorsCard extends ConsumerStatefulWidget {
 class _DoctorsCardState extends ConsumerState<DoctorsCard> {
   double sum = 0;
   double avg = 0;
+  String lastWord = '';
   List<dynamic> rating = [];
-  @override
-  void initState() {
-    super.initState();
+
+  getAvgRating() {
     for (var element in widget.doctor.rating) {
       sum = element + sum;
     }
     rating = widget.doctor.rating.toList();
-    rating.removeAt(0); // не работает похоже опять написал rating.length - 1
+    rating.removeAt(0);
     rating.isNotEmpty ? avg = sum / rating.length : null;
+  }
+
+  getLastWord() {
+    int n = (widget.doctor.experience % 10).floor();
+    if (widget.doctor.experience >= 11 && widget.doctor.experience <= 14) {
+      lastWord = 'лет';
+    } else if (n > 1 && n < 5) {
+      lastWord = 'года';
+    } else if (n == 1 &&
+        !(widget.doctor.experience >= 11 && widget.doctor.experience <= 14)) {
+      lastWord = 'год';
+    } else {
+      lastWord = 'лет';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAvgRating();
+    getLastWord();
   }
 
   void navigateToDoctorScreen(BuildContext context) {
@@ -71,25 +92,9 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Опыт: ${widget.doctor.experience} ',
+                            'Опыт: ${widget.doctor.experience} $lastWord',
                             style: AppTheme.dedicatedWhiteTextStyle,
                           ),
-                          // защита слабого типа))) лучше бы поменять
-                          widget.doctor.experience > 1 &&
-                                  widget.doctor.experience < 5
-                              ? Text(
-                                  'года',
-                                  style: AppTheme.dedicatedWhiteTextStyle,
-                                )
-                              : widget.doctor.experience == 1
-                                  ? Text(
-                                      'год',
-                                      style: AppTheme.dedicatedWhiteTextStyle,
-                                    )
-                                  : Text(
-                                      'лет',
-                                      style: AppTheme.dedicatedWhiteTextStyle,
-                                    ),
                         ],
                       ),
                       rating.isNotEmpty

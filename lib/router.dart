@@ -5,6 +5,7 @@ import 'package:healthy_medicine_2/screens/admin_panel/admin_entry_panel.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/admin_portal.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/admin_doctors_list_screen.dart';
+import 'package:healthy_medicine_2/screens/admin_panel/admin_edit_doctors_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_screen.dart';
@@ -49,6 +50,11 @@ final loggedInAdminRoute = RouteMap(routes: {
       ),
   '/admin-entry-panel/:doctorId': (routeDocThings) => MaterialPage(
         child: AdminEntryPanel(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/admin-edit-doctor-panel/:doctorId': (routeDocThings) => MaterialPage(
+        child: AdminEditDoctorsScreen(
           doctorId: routeDocThings.pathParameters['doctorId']!,
         ),
       ),

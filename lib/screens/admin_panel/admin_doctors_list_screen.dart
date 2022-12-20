@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
+import 'package:healthy_medicine_2/core/models/doctor_model.dart';
+import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/widgets/cards/doctor_card.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
@@ -33,6 +37,10 @@ class AdminDoctorsListScreen extends ConsumerStatefulWidget {
 
 class _AdminDoctorsListScreenState
     extends ConsumerState<AdminDoctorsListScreen> {
+  void deleteDoctor(Doctor doctor) {
+    ref.read(doctorControllerProvider.notifier).deleteDoctor(doctor, context);
+  }
+
   String spec = specs.first;
   @override
   Widget build(BuildContext context) {
@@ -125,7 +133,40 @@ class _AdminDoctorsListScreenState
                             itemCount: data.length,
                             itemBuilder: (BuildContext context, int index) {
                               final doctor = data[index];
-                              return DoctorsCard(doctor: doctor);
+                              return Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) =>
+                                            deleteDoctor(doctor),
+                                        backgroundColor: Colors.red,
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete,
+                                        borderRadius: BorderRadius.circular(21),
+                                        label: 'Удалить',
+                                      ),
+                                    ],
+                                  ),
+                                  startActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) {
+                                          Clipboard.setData(
+                                            ClipboardData(text: doctor.id),
+                                          );
+                                          showSnackBar(context, 'Скопировано');
+                                        },
+                                        backgroundColor: Colors.indigo,
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.copy_rounded,
+                                        borderRadius: BorderRadius.circular(12),
+                                        label: 'Скопировать DocID',
+                                      ),
+                                    ],
+                                  ),
+                                  child: DoctorsCard(doctor: doctor));
                             },
                           );
                         }),

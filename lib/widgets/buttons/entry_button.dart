@@ -27,12 +27,12 @@ class _EntryButtonState extends State<EntryButton> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () => navigateToEntryScreen(context),
-        onLongPress: () {
-          isLongPressed = true;
-          Future.delayed(const Duration(seconds: 2), () {
-            isLongPressed = false;
-          });
-        },
+        // onLongPress: () {
+        //   isLongPressed = true;
+        //   Future.delayed(const Duration(seconds: 2), () {
+        //     isLongPressed = false;
+        //   });
+        // },
         borderRadius: BorderRadius.circular(21),
         child: Container(
             padding: const EdgeInsets.all(12),
@@ -43,22 +43,24 @@ class _EntryButtonState extends State<EntryButton> {
               borderRadius: BorderRadius.circular(32),
               gradient: AppTheme.gradientIndigoToRed,
             ),
-            child: isLongPressed
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/calendar.png'),
-                      const Gap(5),
-                      Expanded(
-                        child: Text(
-                          'Записаться',
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme.titleTextStyle,
-                        ),
-                      ),
-                    ],
-                  )
-                : Image.asset('assets/images/calendar.png')),
+            child:
+                // isLongPressed
+                //     ? Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           Image.asset('assets/images/calendar.png'),
+                //           const Gap(5),
+                //           Expanded(
+                //             child: Text(
+                //               'Записаться',
+                //               overflow: TextOverflow.ellipsis,
+                //               style: AppTheme.titleTextStyle,
+                //             ),
+                //           ),
+                //         ],
+                //       )
+                //     :
+                Image.asset('assets/images/calendar.png')),
       ),
     );
   }

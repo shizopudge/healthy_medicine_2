@@ -199,4 +199,39 @@ class DoctorController extends StateNotifier<bool> {
       (r) => showSnackBar(context, 'Вы создали доктора!'),
     );
   }
+
+  void editDoctor({
+    required File? profileFile,
+    required Uint8List? profileWebFile,
+    required BuildContext context,
+    required Doctor doctor,
+    required bool isPicPicked,
+  }) async {
+    state = true;
+    if (profileFile != null || profileWebFile != null && isPicPicked == true) {
+      // communities/profile/memes
+      final res = await _storageRepository.storeFile(
+        path: 'doctors/images/',
+        id: doctor.id,
+        file: profileFile,
+        webFile: profileWebFile,
+      );
+      res.fold(
+        (l) => showSnackBar(context, l.message),
+        (r) => doctor = doctor.copyWith(image: r),
+      );
+    }
+
+    final res = await _doctorRepository.editDoctor(doctor);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Вы изменили информацию о враче!');
+      Routemaster.of(context).pop();
+    });
+  }
+
+  void deleteDoctor(Doctor doctor, BuildContext context) async {
+    final res = await _doctorRepository.deleteDoctor(doctor);
+    res.fold((l) => null, (r) => showSnackBar(context, 'Вы удалили врача!'));
+  }
 }

@@ -50,12 +50,6 @@ class ReviewsRepository {
     });
   }
 
-  // void minusRating(String doctorId, List<dynamic> rating) async {
-  //   _doctors.doc(doctorId).update({
-  //     'rating': rating,
-  //   });
-  // }
-
   Stream<List<ReviewModel>> getDoctorsReviews(String doctorId) {
     return _doctors
         .doc(doctorId)

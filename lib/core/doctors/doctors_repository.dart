@@ -150,6 +150,26 @@ class DoctorRepository {
     }
   }
 
+  FutureVoid editDoctor(Doctor doctor) async {
+    try {
+      return right(_doctors.doc(doctor.id).update(doctor.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid deleteDoctor(Doctor doctor) async {
+    try {
+      return right(_doctors.doc(doctor.id).delete());
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   // Stream<List<DateModel>> getEntryCells(String doctorId) {
   //   return _entryCells.where('doctorId', isEqualTo: doctorId).snapshots().map(
   //         (event) => event.docs

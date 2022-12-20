@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
-import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/reviews/reviews_controller.dart';
+import 'package:routemaster/routemaster.dart';
 
 class AddReviewScreen extends ConsumerStatefulWidget {
   final String doctorId;
@@ -21,16 +21,12 @@ class AddReviewScreen extends ConsumerStatefulWidget {
 class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
   List<dynamic> listRating = [];
   List<String> comments = [];
-  String uid = '';
   int userRating = 0;
   @override
   void initState() {
     super.initState();
-    uid = ref.read(userProvider)!.uid;
     listRating =
         ref.read(getDoctorByIdProvider(widget.doctorId)).value!.rating.toList();
-    print(listRating);
-    comments = ref.read(getDoctorByIdProvider(widget.doctorId)).value!.comments;
   }
 
   TextEditingController reviewController = TextEditingController();
@@ -53,12 +49,6 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
         .editRating(widget.doctorId, listRating);
   }
 
-  // void minusRating() {
-  //   ref
-  //       .read(reviewsControllerProvider.notifier)
-  //       .minusRating(widget.doctorId, listRating);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,19 +60,8 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
                 minimumSize: const Size(250, 42),
               ),
               onPressed: () {
-                print(listRating);
-                if (comments.contains(uid)) {
-                  listRating.remove(
-                      listRating.firstWhere((element) => element == rating));
-                  editRating();
-                }
-                print(listRating);
+                listRating.add(rating);
                 createReview(context);
-                listRating = listRating +
-                    [
-                      rating
-                    ]; //ЗАЩИТА ЧТОБЫ НЕЛЬЗЯ БЫЛО 1 ЧЕЛУ ДОБАВЛЯТЬ БЕСКОНЕЧНОСТЬ ОТЗЫВОВ
-                print(listRating);
                 editRating();
               },
               child: const Text(
@@ -93,6 +72,18 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
               ),
             )
           : null,
+      appBar: AppBar(
+        elevation: 0,
+        leading: InkWell(
+          onTap: () => Routemaster.of(context).pop(),
+          borderRadius: BorderRadius.circular(21),
+          child: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 24,
+            color: AppTheme.indigoColor,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
