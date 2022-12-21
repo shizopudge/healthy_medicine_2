@@ -166,6 +166,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                       times = [];
                       isDatePicked = false;
                       isTimePicked = false;
+                      selectedTimePresetId = '';
+                      selectedTimePresetTitle = '';
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -569,18 +571,20 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                   onTap: () {
                     if (selectedTimePresetId != '' &&
                         selectedTimePresetTypeIsStandart == false) {
-                      final editingUserTimes = ref
-                              .read(getUserTimesByIdProvider(
-                                  UserTimesParameters(
-                                      uid: user.uid,
-                                      userTimesId: selectedTimePresetId)))
-                              .value ??
-                          UserTimes(
-                              isStandart: false,
-                              times: times,
-                              title: '',
-                              id: '');
-                      editTimes = editingUserTimes.times;
+                      // final editingUserTimes = ref
+                      //         .read(getUserTimesByIdProvider(
+                      //             UserTimesParameters(
+                      //                 uid: user.uid,
+                      //                 userTimesId: selectedTimePresetId)))
+                      //         .value ??
+                      //     UserTimes(
+                      //         isStandart: false,
+                      //         times: times,
+                      //         title: '',
+                      //         id: '');
+                      editTimes.clear();
+                      editTimes = editTimes + times;
+                      print(editTimes);
                       showModalBottomSheet(
                         context: context,
                         shape: const RoundedRectangleBorder(
@@ -742,12 +746,15 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                                 editTimes.removeAt(
                                                     selectedEdititngTimeIndex);
                                                 selectedEdititngTimeIndex = -1;
+                                                isEdited = true;
                                               }
                                             },
-                                            onLongPress: () =>
-                                                editTimes.isNotEmpty
-                                                    ? editTimes.clear()
-                                                    : null,
+                                            onLongPress: editTimes.isNotEmpty
+                                                ? () {
+                                                    editTimes.clear();
+                                                    isEdited = true;
+                                                  }
+                                                : null,
                                             child: Icon(
                                               Icons.delete_rounded,
                                               size: 42,
@@ -988,6 +995,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                         selectedTimePresetId == userTimes.id
                                             ? setState(() {
                                                 times = [];
+                                                // editTimes = [];
                                                 selectedTimePresetId = '';
                                                 selectedTimePresetTypeIsStandart =
                                                     false;
@@ -996,6 +1004,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                             : setState(() {
                                                 times =
                                                     userTimes.times.toList();
+                                                // editTimes =
+                                                //     userTimes.times.toList();
                                                 selectedTimePresetId =
                                                     userTimes.id;
                                                 selectedTimePresetTitle =
@@ -1008,6 +1018,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                                         text: userTimes.title);
                                               });
                                         print(times);
+                                        print(editTimes);
                                         print(selectedTimePresetId);
                                       },
                                       style: ElevatedButton.styleFrom(

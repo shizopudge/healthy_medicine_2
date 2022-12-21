@@ -63,6 +63,7 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 8,
+        horizontal: 12,
       ),
       child: InkWell(
         onTap: () => navigateToDoctorScreen(context),
@@ -131,28 +132,28 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
                         widget.doctor.lastName,
                         overflow: TextOverflow.ellipsis,
                         style: AppTheme.dedicatedWhiteTextStyle
-                            .copyWith(fontSize: 21),
+                            .copyWith(fontSize: 24),
                       ),
                       const Gap(2.5),
                       Text(
                         widget.doctor.firstName,
                         overflow: TextOverflow.ellipsis,
                         style: AppTheme.dedicatedWhiteTextStyle
-                            .copyWith(fontSize: 21),
+                            .copyWith(fontSize: 24),
                       ),
                       const Gap(2.5),
                       Text(
                         widget.doctor.patronymic,
                         overflow: TextOverflow.ellipsis,
                         style: AppTheme.dedicatedWhiteTextStyle
-                            .copyWith(fontSize: 21),
+                            .copyWith(fontSize: 24),
                       ),
                       const Gap(15),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),
                         ),
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           '${widget.doctor.serviceCost} руб.',
                           style: AppTheme.dedicatedWhiteTextStyle,

@@ -363,7 +363,9 @@ class UsersList extends ConsumerWidget {
                                     Text(
                                       user.isDoctor
                                           ? 'Врач'
-                                          : 'Обычный пользователь',
+                                          : user.isAdmin
+                                              ? 'Админ'
+                                              : 'Обычный пользователь',
                                       style: AppTheme.dedicatedWhiteTextStyle
                                           .copyWith(
                                         fontSize: 14,

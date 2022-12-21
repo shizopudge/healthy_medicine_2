@@ -36,6 +36,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController doctorsCodeController = TextEditingController();
   bool isDoctor = false;
+  bool isSubmited = false;
   bool isCheckDoctorsCode = false;
   bool isCheckUserDoctorsExist = false;
 
@@ -50,7 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     phoneController.dispose();
   }
 
-  final String avatar = '';
+  String avatar = '';
   String gender = '';
 
   int age = 0;
@@ -132,212 +133,286 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               child: SingleChildScrollView(
                 child: SafeArea(
                   child: isDoctor
-                      ? Column(
-                          children: [
-                            Column(
+                      ? isSubmited
+                          ? Column(
                               children: [
-                                const Gap(40),
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 60,
-                                  child: Image.asset(Constants.logoPath),
-                                ),
-                                Text(
-                                  'Создание аккаунта врача',
-                                  overflow: TextOverflow.clip,
-                                  textAlign: TextAlign.center,
-                                  style: AppTheme.headerTextStyle,
-                                ),
-                              ],
-                            ),
-                            TextFieldWidget(
-                                textController: emailController,
-                                hintText: 'EMAIL',
-                                isNumber: false,
-                                isRequired: true,
-                                isEmail: true,
-                                validator: (value) {
-                                  if (value!.isEmpty || !value.contains('@')) {
-                                    return 'Введите существующий Email';
-                                  } else {
-                                    return null;
-                                  }
-                                }),
-                            PasswordTextFieldWidget(
-                              textController: passwordController,
-                              hintText: 'ПАРОЛЬ',
-                              isObscured: true,
-                              fromLogin: false,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(21),
-                                    color: Colors.grey.shade300),
-                                child: TextFormField(
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                      RegExp('[ ]'),
+                                Column(
+                                  children: [
+                                    const Gap(40),
+                                    CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 60,
+                                      child: Image.asset(Constants.logoPath),
+                                    ),
+                                    Text(
+                                      'Создание аккаунта врача',
+                                      overflow: TextOverflow.clip,
+                                      textAlign: TextAlign.center,
+                                      style: AppTheme.headerTextStyle,
                                     ),
                                   ],
-                                  controller: doctorsCodeController,
+                                ),
+                                TextFieldWidget(
+                                    textController: emailController,
+                                    hintText: 'EMAIL',
+                                    isNumber: false,
+                                    isRequired: true,
+                                    isEmail: true,
+                                    validator: (value) {
+                                      if (value!.isEmpty ||
+                                          !value.contains('@')) {
+                                        return 'Введите существующий Email';
+                                      } else {
+                                        return null;
+                                      }
+                                    }),
+                                PasswordTextFieldWidget(
+                                  textController: passwordController,
+                                  hintText: 'ПАРОЛЬ',
+                                  isObscured: true,
+                                  fromLogin: false,
+                                ),
+                                TextFieldWidget(
+                                  textController: firstNameController,
+                                  hintText: 'ИМЯ',
+                                  isNumber: false,
+                                  isRequired: true,
+                                  isEmail: false,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Введите ваш код врача';
+                                      return 'Введите ИМЯ';
                                     } else {
                                       return null;
                                     }
                                   },
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'ВАШ КОД ВРАЧА',
-                                      hintStyle:
-                                          AppTheme.dedicatedIndigoTextStyle,
-                                      suffixIcon: isCheckDoctorsCode
-                                          ? Icon(
-                                              CupertinoIcons.check_mark,
-                                              size: 24,
-                                              color: isCheckUserDoctorsExist
-                                                  ? Colors.orange
-                                                  : Colors.green,
-                                            )
-                                          : const Icon(
-                                              CupertinoIcons.check_mark,
-                                              size: 24,
-                                              color: Colors.red,
-                                            )),
-                                  cursorColor: AppTheme.indigoColor,
-                                  style: AppTheme.dedicatedIndigoTextStyle,
-                                  onFieldSubmitted: ((value) {
-                                    setState(() {
-                                      isCheckDoctorsCode =
-                                          checkDoctorsCode(value);
-                                      isCheckUserDoctorsExist =
-                                          checkUserDoctorsExist(value);
-                                    });
-                                  }),
-                                  onChanged: ((value) {
-                                    setState(() {
-                                      isCheckDoctorsCode =
-                                          checkDoctorsCode(value);
-                                      isCheckUserDoctorsExist =
-                                          checkUserDoctorsExist(value);
-                                    });
-                                  }),
                                 ),
-                              ),
-                            ),
-                            TextFieldWidget(
-                              textController: firstNameController,
-                              hintText: 'ИМЯ',
-                              isNumber: false,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите ИМЯ';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              textController: lastNameController,
-                              hintText: 'ФАМИЛИЯ',
-                              isNumber: false,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите ФАМИЛИЮ';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              textController: patronymicController,
-                              hintText: 'ОТЧЕСТВО',
-                              isNumber: false,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите ОТЧЕСТВО';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              textController: phoneController,
-                              hintText: 'НОМЕР ТЕЛЕФОНА',
-                              isNumber: true,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите НОМЕР ТЕЛЕФОНА';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate() &&
-                                      isCheckDoctorsCode == true &&
-                                      isCheckUserDoctorsExist == false) {
-                                    _formKey.currentState!.save();
+                                TextFieldWidget(
+                                  textController: lastNameController,
+                                  hintText: 'ФАМИЛИЯ',
+                                  isNumber: false,
+                                  isRequired: true,
+                                  isEmail: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Введите ФАМИЛИЮ';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                TextFieldWidget(
+                                  textController: patronymicController,
+                                  hintText: 'ОТЧЕСТВО',
+                                  isNumber: false,
+                                  isRequired: true,
+                                  isEmail: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Введите ОТЧЕСТВО';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                TextFieldWidget(
+                                  textController: phoneController,
+                                  hintText: 'НОМЕР ТЕЛЕФОНА',
+                                  isNumber: true,
+                                  isRequired: true,
+                                  isEmail: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Введите НОМЕР ТЕЛЕФОНА';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate() &&
+                                          isCheckDoctorsCode == true &&
+                                          isCheckUserDoctorsExist == false) {
+                                        _formKey.currentState!.save();
 
-                                    signUp(context, ref);
-                                  } else if (isCheckDoctorsCode == false) {
-                                    showSnackBar(
-                                        context, 'Ваш код врача не верен');
-                                  } else if (isCheckUserDoctorsExist == true) {
-                                    showSnackBar(context,
-                                        'Аккаунт с этим кодом врача уже существует');
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  minimumSize: const Size(double.infinity, 55),
-                                  backgroundColor:
-                                      AppTheme.indigoColor.shade300,
-                                ),
-                                child: Text(
-                                  'Зарегистрироваться',
-                                  style: AppTheme.dedicatedWhiteTextStyle,
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  isDoctor = !isDoctor;
-                                });
-                              },
-                              child: isDoctor
-                                  ? Text(
-                                      'Нет, я не врач...',
-                                      style: AppTheme.dedicatedIndigoTextStyle,
-                                    )
-                                  : Text(
-                                      'Я врач',
-                                      style: AppTheme.dedicatedIndigoTextStyle,
+                                        signUp(context, ref);
+                                      } else if (isCheckDoctorsCode == false) {
+                                        showSnackBar(
+                                            context, 'Ваш код врача не верен');
+                                      } else if (isCheckUserDoctorsExist ==
+                                          true) {
+                                        showSnackBar(context,
+                                            'Аккаунт с этим кодом врача уже существует');
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      minimumSize:
+                                          const Size(double.infinity, 55),
+                                      backgroundColor:
+                                          AppTheme.indigoColor.shade300,
                                     ),
-                            ),
-                          ],
-                        )
+                                    child: Text(
+                                      'Зарегистрироваться',
+                                      style: AppTheme.dedicatedWhiteTextStyle,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isDoctor = !isDoctor;
+                                    });
+                                  },
+                                  child: isDoctor
+                                      ? Text(
+                                          'Нет, я не врач...',
+                                          style:
+                                              AppTheme.dedicatedIndigoTextStyle,
+                                        )
+                                      : Text(
+                                          'Я врач',
+                                          style:
+                                              AppTheme.dedicatedIndigoTextStyle,
+                                        ),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                const Gap(120),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Введите ваш DocID',
+                                      textAlign: TextAlign.center,
+                                      style: AppTheme.headerTextStyle),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(21),
+                                        color: Colors.grey.shade300),
+                                    child: TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                          RegExp('[ ]'),
+                                        ),
+                                      ],
+                                      controller: doctorsCodeController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Введите ваш DocID';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'ВАШ DocID',
+                                          hintStyle:
+                                              AppTheme.dedicatedIndigoTextStyle,
+                                          suffixIcon: isCheckDoctorsCode
+                                              ? Icon(
+                                                  CupertinoIcons.check_mark,
+                                                  size: 24,
+                                                  color: isCheckUserDoctorsExist
+                                                      ? Colors.orange
+                                                      : Colors.green,
+                                                )
+                                              : const Icon(
+                                                  CupertinoIcons.check_mark,
+                                                  size: 24,
+                                                  color: Colors.red,
+                                                )),
+                                      cursorColor: AppTheme.indigoColor,
+                                      style: AppTheme.dedicatedIndigoTextStyle,
+                                      onFieldSubmitted: ((value) {
+                                        setState(() {
+                                          isCheckDoctorsCode =
+                                              checkDoctorsCode(value);
+                                          isCheckUserDoctorsExist =
+                                              checkUserDoctorsExist(value);
+                                        });
+                                      }),
+                                      onChanged: ((value) {
+                                        setState(() {
+                                          isCheckDoctorsCode =
+                                              checkDoctorsCode(value);
+                                          isCheckUserDoctorsExist =
+                                              checkUserDoctorsExist(value);
+                                        });
+                                      }),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isCheckDoctorsCode = checkDoctorsCode(
+                                            doctorsCodeController.text.trim());
+                                        isCheckUserDoctorsExist =
+                                            checkUserDoctorsExist(
+                                                doctorsCodeController.text
+                                                    .trim());
+                                      });
+                                      if (isCheckDoctorsCode == true &&
+                                          isCheckUserDoctorsExist == false) {
+                                        isSubmited = true;
+                                      } else if (isCheckDoctorsCode == false) {
+                                        showSnackBar(
+                                            context, 'Вы ввели неверный DocID');
+                                      } else if (isCheckUserDoctorsExist ==
+                                          true) {
+                                        showSnackBar(context,
+                                            'Аккаунт с таким DocID уже существует');
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      minimumSize:
+                                          const Size(double.infinity, 55),
+                                      backgroundColor:
+                                          AppTheme.indigoColor.shade300,
+                                    ),
+                                    child: Text(
+                                      'Отправить',
+                                      style: AppTheme.dedicatedWhiteTextStyle,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isDoctor = !isDoctor;
+                                    });
+                                  },
+                                  child: isDoctor
+                                      ? Text(
+                                          'Нет, я не врач...',
+                                          style:
+                                              AppTheme.dedicatedIndigoTextStyle,
+                                        )
+                                      : Text(
+                                          'Я врач',
+                                          style:
+                                              AppTheme.dedicatedIndigoTextStyle,
+                                        ),
+                                ),
+                              ],
+                            )
                       : Column(
                           children: [
                             login
@@ -684,6 +759,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               onPressed: () {
                                 setState(() {
                                   isDoctor = !isDoctor;
+                                  isSubmited = false;
                                 });
                               },
                               child: isDoctor

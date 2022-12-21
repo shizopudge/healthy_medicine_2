@@ -55,60 +55,74 @@ class _UsersPanelState extends ConsumerState<UsersPanel> {
                     ),
                   ),
                   const Gap(15),
-                  Row(
-                    children: [
-                      Text(
-                        userType,
-                        style: AppTheme.dedicatedIndigoTextStyle
-                            .copyWith(fontSize: 16),
-                      ),
-                      PopupMenuButton(
-                        iconSize: 32,
-                        elevation: 0,
-                        itemBuilder: (BuildContext context) => [
-                          PopupMenuItem(
-                            child: Text(
-                              'Обычные пользователи',
-                              style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                                  color: AppTheme.indigoColor, fontSize: 14),
-                            ),
-                            onTap: () => ref
-                                .read(userTypeProvider.notifier)
-                                .state = 'Обычные пользователи',
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            userType,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                            style: AppTheme.dedicatedIndigoTextStyle
+                                .copyWith(fontSize: 14),
                           ),
-                          PopupMenuItem(
-                            child: Text(
-                              'Админы',
-                              style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                                  color: AppTheme.indigoColor, fontSize: 14),
+                        ),
+                        PopupMenuButton(
+                          iconSize: 32,
+                          elevation: 0,
+                          itemBuilder: (BuildContext context) => [
+                            PopupMenuItem(
+                              child: Text(
+                                'Обычные пользователи',
+                                style: AppTheme.dedicatedWhiteTextStyle
+                                    .copyWith(
+                                        color: AppTheme.indigoColor,
+                                        fontSize: 14),
+                              ),
+                              onTap: () => ref
+                                  .read(userTypeProvider.notifier)
+                                  .state = 'Обычные пользователи',
                             ),
-                            onTap: () => ref
-                                .read(userTypeProvider.notifier)
-                                .state = 'Админы',
-                          ),
-                          PopupMenuItem(
-                            child: Text(
-                              'Врачи',
-                              style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                                  color: AppTheme.indigoColor, fontSize: 14),
+                            PopupMenuItem(
+                              child: Text(
+                                'Админы',
+                                style: AppTheme.dedicatedWhiteTextStyle
+                                    .copyWith(
+                                        color: AppTheme.indigoColor,
+                                        fontSize: 14),
+                              ),
+                              onTap: () => ref
+                                  .read(userTypeProvider.notifier)
+                                  .state = 'Админы',
                             ),
-                            onTap: () => ref
-                                .read(userTypeProvider.notifier)
-                                .state = 'Врачи',
-                          ),
-                          PopupMenuItem(
-                            child: Text(
-                              'Все',
-                              style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                                  color: AppTheme.indigoColor, fontSize: 14),
+                            PopupMenuItem(
+                              child: Text(
+                                'Врачи',
+                                style: AppTheme.dedicatedWhiteTextStyle
+                                    .copyWith(
+                                        color: AppTheme.indigoColor,
+                                        fontSize: 14),
+                              ),
+                              onTap: () => ref
+                                  .read(userTypeProvider.notifier)
+                                  .state = 'Врачи',
                             ),
-                            onTap: () => ref
-                                .read(userTypeProvider.notifier)
-                                .state = 'Все',
-                          ),
-                        ],
-                      ),
-                    ],
+                            PopupMenuItem(
+                              child: Text(
+                                'Все',
+                                style: AppTheme.dedicatedWhiteTextStyle
+                                    .copyWith(
+                                        color: AppTheme.indigoColor,
+                                        fontSize: 14),
+                              ),
+                              onTap: () => ref
+                                  .read(userTypeProvider.notifier)
+                                  .state = 'Все',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
