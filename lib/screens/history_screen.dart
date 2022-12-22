@@ -81,7 +81,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         borderRadius: BorderRadius.circular(21),
                         color: Colors.grey.shade200,
                         border: Border.all(
-                          color: AppTheme.indigoColor,
+                          color: Colors.indigo,
                         ),
                       ),
                       child: Padding(
@@ -97,7 +97,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                               child: Text(
                                 sortType,
                                 style: AppTheme.labelTextStyle
-                                    .copyWith(color: AppTheme.indigoColor),
+                                    .copyWith(color: Colors.indigo),
                               ),
                             ),
                             PopupMenuButton<HistoryMenu>(
@@ -161,8 +161,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                           'Все',
                                           style: AppTheme
                                               .dedicatedWhiteTextStyle
-                                              .copyWith(
-                                                  color: AppTheme.indigoColor),
+                                              .copyWith(color: Colors.indigo),
                                         ),
                                       ),
                                       PopupMenuItem<HistoryMenu>(
@@ -171,8 +170,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                           'Ближайшие',
                                           style: AppTheme
                                               .dedicatedWhiteTextStyle
-                                              .copyWith(
-                                                  color: AppTheme.indigoColor),
+                                              .copyWith(color: Colors.indigo),
                                         ),
                                       ),
                                       PopupMenuItem<HistoryMenu>(
@@ -181,8 +179,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                           'Предстоящие',
                                           style: AppTheme
                                               .dedicatedWhiteTextStyle
-                                              .copyWith(
-                                                  color: AppTheme.indigoColor),
+                                              .copyWith(color: Colors.indigo),
                                         ),
                                       ),
                                       PopupMenuItem<HistoryMenu>(
@@ -191,8 +188,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                           'Прошедшие',
                                           style: AppTheme
                                               .dedicatedWhiteTextStyle
-                                              .copyWith(
-                                                  color: AppTheme.indigoColor),
+                                              .copyWith(color: Colors.indigo),
                                         ),
                                       ),
                                     ]),
@@ -212,7 +208,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       Text(
                         'Сортировка',
                         style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                          color: AppTheme.indigoColor,
+                          color: Colors.indigo,
                           fontSize: 14,
                         ),
                       ),

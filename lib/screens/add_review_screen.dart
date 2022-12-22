@@ -80,7 +80,7 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
           child: const Icon(
             Icons.arrow_back_ios_new_outlined,
             size: 24,
-            color: AppTheme.indigoColor,
+            color: Colors.indigo,
           ),
         ),
       ),

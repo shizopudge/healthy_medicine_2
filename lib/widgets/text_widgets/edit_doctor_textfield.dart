@@ -66,7 +66,7 @@ class _EditDoctorTextFieldState extends State<EditDoctorTextField> {
                   counterText: '',
                 ),
                 maxLength: widget.isNumber ? 4 : null,
-                cursorColor: AppTheme.indigoColor,
+                cursorColor: Colors.indigo,
                 style: AppTheme.dedicatedIndigoTextStyle,
                 validator: widget.validator,
                 onChanged: widget.onChanged,

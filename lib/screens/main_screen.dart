@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/drawers/profile_drawer.dart';
-import 'package:healthy_medicine_2/screens/portal.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/main_appbar.dart';
 import 'package:healthy_medicine_2/widgets/buttons/menu_spec_widget.dart';
 
@@ -18,9 +17,6 @@ class MainScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       endDrawer: const ProfileDrawer(),
-      // onEndDrawerChanged: (isOpened) => isOpened
-      //     ? ref.read(bottomNavBarStateProvider.notifier).state = false
-      //     : ref.read(bottomNavBarStateProvider.notifier).state = true,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),

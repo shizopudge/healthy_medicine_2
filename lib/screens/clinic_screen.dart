@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/top_appbar.dart';
 import 'package:healthy_medicine_2/widgets/lists/clinics.dart';
-
-const List<String> cities = [
-  'Москва',
-  'Уфа',
-  'Санкт-Петербург',
-  'Казань',
-];
 
 class ClinicScreen extends ConsumerStatefulWidget {
   final String spec;
@@ -50,7 +44,7 @@ class _ClinicScreenState extends ConsumerState<ClinicScreen> {
                       borderRadius: BorderRadius.circular(21),
                       color: Colors.grey.shade200,
                       border: Border.all(
-                        color: AppTheme.indigoColor,
+                        color: Colors.indigo,
                       ),
                     ),
                     child: Padding(
@@ -59,7 +53,7 @@ class _ClinicScreenState extends ConsumerState<ClinicScreen> {
                         value: cityValue,
                         icon: const Icon(
                           Icons.more_vert,
-                          color: AppTheme.indigoColor,
+                          color: Colors.indigo,
                           size: 28,
                         ),
                         underline: const SizedBox(),

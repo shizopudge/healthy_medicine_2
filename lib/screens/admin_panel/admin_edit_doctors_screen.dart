@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
@@ -176,7 +177,7 @@ class _AdminEditDoctorsScreenState
           child: const Icon(
             Icons.arrow_back_ios_new_outlined,
             size: 24,
-            color: AppTheme.indigoColor,
+            color: Colors.indigo,
           ),
         ),
         centerTitle: true,
@@ -281,8 +282,7 @@ class _AdminEditDoctorsScreenState
                                                     child: const Icon(
                                                       Icons.add_a_photo_rounded,
                                                       size: 42,
-                                                      color:
-                                                          AppTheme.indigoColor,
+                                                      color: Colors.indigo,
                                                     ),
                                                   ),
                                   ),
@@ -431,7 +431,7 @@ class _AdminEditDoctorsScreenState
                                               child: Icon(
                                                 Icons
                                                     .arrow_back_ios_new_outlined,
-                                                color: AppTheme.indigoColor,
+                                                color: Colors.indigo,
                                               ),
                                             ),
                                             dropdownColor: Colors.grey.shade100,
@@ -488,7 +488,7 @@ class _AdminEditDoctorsScreenState
                                               child: Icon(
                                                 Icons
                                                     .arrow_back_ios_new_outlined,
-                                                color: AppTheme.indigoColor,
+                                                color: Colors.indigo,
                                               ),
                                             ),
                                             elevation: 16,

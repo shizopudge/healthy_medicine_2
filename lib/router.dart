@@ -18,7 +18,12 @@ import 'package:healthy_medicine_2/screens/portal.dart';
 import 'package:healthy_medicine_2/screens/profile_screen.dart';
 import 'package:healthy_medicine_2/screens/reviews_screen.dart';
 import 'package:healthy_medicine_2/screens/main_screen.dart';
+import 'package:healthy_medicine_2/widgets/common/splashloader.dart';
 import 'package:routemaster/routemaster.dart';
+
+final loaderRoute = RouteMap(routes: {
+  '/': (_) => const MaterialPage(child: SplashLoader()),
+});
 
 final loggedOutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),

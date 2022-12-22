@@ -32,12 +32,16 @@ class ProfileDrawer extends ConsumerWidget {
       child: SafeArea(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundImage: AssetImage(Constants.avatarDefault),
-                backgroundColor: Colors.white,
-                radius: 70,
+                backgroundImage: user.isAdmin
+                    ? const AssetImage(Constants.adminIconDefault)
+                    : user.isDoctor
+                        ? const AssetImage(Constants.doctorIconDefault)
+                        : const AssetImage(Constants.avatarDefault),
+                backgroundColor: Colors.transparent,
+                radius: 75,
               ),
             ),
             const Gap(10),
@@ -60,35 +64,37 @@ class ProfileDrawer extends ConsumerWidget {
             ),
             const Gap(10),
             const Divider(),
-            ListTile(
-              title: Text(
-                'Профиль',
-                style: AppTheme.labelTextStyle,
-              ),
-              leading: const Icon(
-                Icons.person,
-                color: AppTheme.indigoColor,
-                size: 32,
-              ),
-              onTap: () => navigateToProfileScreen(
-                context,
-                user.uid,
-              ),
-            ),
             user.isAdmin
-                ? ListTile(
+                ? const SizedBox()
+                : ListTile(
                     title: Text(
-                      'Панель управления',
+                      'Профиль',
                       style: AppTheme.labelTextStyle,
                     ),
                     leading: const Icon(
-                      Icons.admin_panel_settings,
-                      color: AppTheme.indigoColor,
+                      Icons.person,
+                      color: Colors.indigo,
                       size: 32,
                     ),
-                    onTap: () => navigateToAdminPanelScreen(context),
-                  )
-                : const SizedBox(),
+                    onTap: () => navigateToProfileScreen(
+                      context,
+                      user.uid,
+                    ),
+                  ),
+            // user.isAdmin
+            //     ? ListTile(
+            //         title: Text(
+            //           'Панель управления',
+            //           style: AppTheme.labelTextStyle,
+            //         ),
+            //         leading: const Icon(
+            //           Icons.admin_panel_settings,
+            //           color: Colors.indigo,
+            //           size: 32,
+            //         ),
+            //         onTap: () => navigateToAdminPanelScreen(context),
+            //       )
+            //     : const SizedBox(),
             ListTile(
               title: Text(
                 'Выйти',
@@ -101,11 +107,27 @@ class ProfileDrawer extends ConsumerWidget {
               ),
               onTap: () => logOut(ref),
             ),
-            Switch.adaptive(
-              value: ref.watch(themeNotifierProvider.notifier).mode ==
-                  ThemeMode.dark,
-              onChanged: (value) => toggleTheme(ref),
-              activeColor: AppTheme.indigoColor,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ref.watch(themeNotifierProvider.notifier).mode == ThemeMode.dark
+                    ? const Icon(
+                        Icons.mode_night_rounded,
+                        color: Colors.indigo,
+                        size: 42,
+                      )
+                    : const Icon(
+                        Icons.light_mode_rounded,
+                        color: Colors.indigo,
+                        size: 42,
+                      ),
+                Switch.adaptive(
+                  value: ref.watch(themeNotifierProvider.notifier).mode ==
+                      ThemeMode.dark,
+                  onChanged: (value) => toggleTheme(ref),
+                  activeColor: Colors.indigo,
+                ),
+              ],
             ),
           ],
         ),

@@ -148,7 +148,8 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                   return Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 12),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: InkWell(
@@ -184,7 +185,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                           currentYear.toString(),
                           textAlign: TextAlign.center,
                           style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                            color: AppTheme.indigoColor,
+                            color: Colors.indigo,
                           ),
                         ),
                       ),
@@ -234,7 +235,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                               currentMonth,
                               textAlign: TextAlign.center,
                               style: AppTheme.dedicatedWhiteTextStyle.copyWith(
-                                color: AppTheme.indigoColor,
+                                color: Colors.indigo,
                               ),
                             ),
                           ),
@@ -303,7 +304,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                       color: pickedDateCellId == dateCell.id
                                           ? AppTheme.redColor
                                           : dateCell.time.isNotEmpty
-                                              ? AppTheme.indigoColor
+                                              ? Colors.indigo
                                               : Colors.grey,
                                       child: Center(
                                         child: Text(
@@ -337,7 +338,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                 textAlign: TextAlign.center,
                                 style:
                                     AppTheme.dedicatedWhiteTextStyle.copyWith(
-                                  color: AppTheme.indigoColor,
+                                  color: Colors.indigo,
                                 ),
                               ),
                             )
@@ -365,7 +366,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                       child: Card(
                                         color: pickedTime == timeCell
                                             ? AppTheme.redColor
-                                            : AppTheme.indigoColor,
+                                            : Colors.indigo,
                                         child: Center(
                                           child: Text(
                                             myFormat.format(timeCell),

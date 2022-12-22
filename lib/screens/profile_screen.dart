@@ -180,7 +180,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: isMale
-                                          ? AppTheme.indigoColor
+                                          ? Colors.indigo
                                           : Colors.grey.shade400,
                                       radius: 42,
                                       child: const Icon(
@@ -201,7 +201,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: isFemale
-                                          ? AppTheme.indigoColor
+                                          ? Colors.indigo
                                           : Colors.grey.shade400,
                                       radius: 42,
                                       child: const Icon(

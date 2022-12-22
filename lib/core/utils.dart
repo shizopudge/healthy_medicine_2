@@ -7,7 +7,7 @@ void showSnackBar(BuildContext context, String text) {
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        backgroundColor: AppTheme.indigoColor.shade100,
+        backgroundColor: Colors.indigo.shade100,
         behavior: SnackBarBehavior.floating,
         content: Text(
           text,

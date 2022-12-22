@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
@@ -14,22 +15,6 @@ import 'package:healthy_medicine_2/widgets/text_widgets/add_doctor_textfield.dar
 import 'package:uuid/uuid.dart';
 
 final selectedItemIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
-
-const List<String> specs = [
-  'Хирург',
-  'Педиатр',
-  'Терапевт',
-  'Окулист',
-  'Уролог',
-  'Дантист',
-];
-
-const List<String> cities = [
-  'Москва',
-  'Уфа',
-  'Санкт-Петербург',
-  'Казань',
-];
 
 class AddDoctorScreen extends ConsumerStatefulWidget {
   const AddDoctorScreen({super.key});
@@ -150,18 +135,9 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
             }
           },
           borderRadius: BorderRadius.circular(21),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            height: 60,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(32),
-              color: Colors.grey.shade200,
-            ),
-            child: const Icon(
-              Icons.save_rounded,
-              size: 42,
-            ),
+          child: const Icon(
+            Icons.save_rounded,
+            size: 64,
           ),
         ),
       ),
@@ -206,7 +182,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                                       child: const Icon(
                                         Icons.add_a_photo_rounded,
                                         size: 42,
-                                        color: AppTheme.indigoColor,
+                                        color: Colors.indigo,
                                       ),
                                     ),
                         ),
@@ -273,7 +249,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                                         quarterTurns: 3,
                                         child: Icon(
                                           Icons.arrow_back_ios_new_outlined,
-                                          color: AppTheme.indigoColor,
+                                          color: Colors.indigo,
                                         ),
                                       ),
                                       elevation: 16,
@@ -374,7 +350,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                                         quarterTurns: 3,
                                         child: Icon(
                                           Icons.arrow_back_ios_new_outlined,
-                                          color: AppTheme.indigoColor,
+                                          color: Colors.indigo,
                                         ),
                                       ),
                                       elevation: 16,

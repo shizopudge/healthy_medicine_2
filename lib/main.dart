@@ -49,10 +49,15 @@ class _MyAppState extends ConsumerState<MyApp> {
                 if (data != null) {
                   getData(ref, data);
                   if (userModel != null) {
-                    return userModel!.isAdmin
-                        ? loggedInAdminRoute
-                        : loggedInRoute;
+                    if (userModel!.isAdmin) {
+                      return loggedInAdminRoute;
+                    }
+                    if (!userModel!.isAdmin && !userModel!.isDoctor) {
+                      return loggedInRoute;
+                    }
+                    return loaderRoute;
                   }
+                  return loaderRoute;
                 }
                 return loggedOutRoute;
               },

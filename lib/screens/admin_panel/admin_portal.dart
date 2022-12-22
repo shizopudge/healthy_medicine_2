@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/add_doctors_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/doctors_admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
+import 'package:healthy_medicine_2/widgets/common/splashloader.dart';
 
 class AdminPortal extends ConsumerStatefulWidget {
   const AdminPortal({super.key});

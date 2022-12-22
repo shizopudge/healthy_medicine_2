@@ -82,7 +82,7 @@ class _TextFieldWidgetState extends State<PasswordTextFieldWidget> {
                     },
                     icon: const Icon(
                       Icons.remove_red_eye,
-                      color: AppTheme.indigoColor,
+                      color: Colors.indigo,
                     ),
                   ),
             border: InputBorder.none,

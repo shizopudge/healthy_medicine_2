@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/widgets/lists/users.dart';
-import 'package:routemaster/routemaster.dart';
 
 final userTypeProvider =
     StateProvider.autoDispose<String>((ref) => 'Обычные пользователи');
@@ -76,8 +75,7 @@ class _UsersPanelState extends ConsumerState<UsersPanel> {
                                 'Обычные пользователи',
                                 style: AppTheme.dedicatedWhiteTextStyle
                                     .copyWith(
-                                        color: AppTheme.indigoColor,
-                                        fontSize: 14),
+                                        color: Colors.indigo, fontSize: 14),
                               ),
                               onTap: () => ref
                                   .read(userTypeProvider.notifier)
@@ -88,8 +86,7 @@ class _UsersPanelState extends ConsumerState<UsersPanel> {
                                 'Админы',
                                 style: AppTheme.dedicatedWhiteTextStyle
                                     .copyWith(
-                                        color: AppTheme.indigoColor,
-                                        fontSize: 14),
+                                        color: Colors.indigo, fontSize: 14),
                               ),
                               onTap: () => ref
                                   .read(userTypeProvider.notifier)
@@ -100,8 +97,7 @@ class _UsersPanelState extends ConsumerState<UsersPanel> {
                                 'Врачи',
                                 style: AppTheme.dedicatedWhiteTextStyle
                                     .copyWith(
-                                        color: AppTheme.indigoColor,
-                                        fontSize: 14),
+                                        color: Colors.indigo, fontSize: 14),
                               ),
                               onTap: () => ref
                                   .read(userTypeProvider.notifier)
@@ -112,8 +108,7 @@ class _UsersPanelState extends ConsumerState<UsersPanel> {
                                 'Все',
                                 style: AppTheme.dedicatedWhiteTextStyle
                                     .copyWith(
-                                        color: AppTheme.indigoColor,
-                                        fontSize: 14),
+                                        color: Colors.indigo, fontSize: 14),
                               ),
                               onTap: () => ref
                                   .read(userTypeProvider.notifier)

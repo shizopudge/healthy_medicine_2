@@ -13,11 +13,7 @@ class AdminEntryAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 15,
-        right: 5,
-        left: 5,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
       child: Column(
         children: [
           Align(

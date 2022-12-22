@@ -3,16 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/clinics/clinics_controller.dart';
+import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:routemaster/routemaster.dart';
 
-const List<String> cities = [
-  'Москва',
-  'Уфа',
-  'Санкт-Петербург',
-  'Казань',
-];
+import '../../drawers/profile_drawer.dart';
 
 class DoctorsAdminPanel extends ConsumerStatefulWidget {
   const DoctorsAdminPanel({super.key});
@@ -39,25 +35,28 @@ class _DoctorsAdminPanelState extends ConsumerState<DoctorsAdminPanel> {
     Routemaster.of(context).push('/doctors-list/$clinicId');
   }
 
+  void displayEndDrawer(BuildContext context) {
+    Scaffold.of(context).openEndDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.read(userProvider)!;
     return Scaffold(
+      endDrawer: const ProfileDrawer(),
       appBar: AppBar(
         actions: [
-          InkWell(
-            onTap: () => logOut(ref),
-            child: const Icon(
-              Icons.logout_rounded,
-              size: 28,
-              color: Colors.red,
-            ),
-          ),
+          Builder(builder: (context) {
+            return InkWell(
+              onTap: () => displayEndDrawer(context),
+              child: const Icon(
+                Icons.menu,
+                size: 32,
+                color: Colors.indigo,
+              ),
+            );
+          }),
         ],
-        title: Text(
-          user.email,
-          style: AppTheme.dedicatedIndigoTextStyle.copyWith(fontSize: 16),
-        ),
       ),
       body: SafeArea(
         child: Column(
@@ -83,7 +82,7 @@ class _DoctorsAdminPanelState extends ConsumerState<DoctorsAdminPanel> {
                   quarterTurns: 3,
                   child: Icon(
                     Icons.arrow_back_ios_new_outlined,
-                    color: AppTheme.indigoColor,
+                    color: Colors.indigo,
                   ),
                 ),
                 dropdownColor: Colors.grey.shade100,
@@ -135,7 +134,7 @@ class _DoctorsAdminPanelState extends ConsumerState<DoctorsAdminPanel> {
                                     clinic.address,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      color: AppTheme.indigoColor,
+                                      color: Colors.indigo,
                                       fontSize: 24,
                                     ),
                                   ),

@@ -5,7 +5,6 @@ import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/core/doctors/doctors_controller.dart';
 import 'package:healthy_medicine_2/core/entries/entry_controller.dart';
-import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/admin_entry_appbar.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
@@ -273,7 +272,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
               ),
             ),
             Text(
-              'Выберите время',
+              'Выберите расписание',
+              textAlign: TextAlign.center,
               style: AppTheme.headerTextStyle,
             ),
             Row(
@@ -292,14 +292,14 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                       isScrollControlled: true,
                       builder: (context) {
                         return FractionallySizedBox(
-                          heightFactor: 0.85,
+                          heightFactor: 0.8,
                           child: ClipRRect(
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(32),
                               topRight: Radius.circular(32),
                             ),
                             child: Scaffold(
-                              backgroundColor: AppTheme.indigoColor.shade300,
+                              backgroundColor: Colors.indigo.shade300,
                               body: SingleChildScrollView(
                                 child: Column(
                                   children: [
@@ -332,7 +332,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                         ),
                                         style:
                                             AppTheme.dedicatedIndigoTextStyle,
-                                        cursorColor: AppTheme.indigoColor,
+                                        cursorColor: Colors.indigo,
                                       ),
                                     ),
                                     SizedBox(
@@ -542,6 +542,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
+                                          minimumSize:
+                                              const Size(double.infinity, 50),
                                           elevation: 16,
                                           backgroundColor: Colors.white,
                                         ),
@@ -584,6 +586,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                       //         id: '');
                       editTimes.clear();
                       editTimes = editTimes + times;
+                      isEdited = false;
                       print(editTimes);
                       showModalBottomSheet(
                         context: context,
@@ -596,14 +599,14 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                         isScrollControlled: true,
                         builder: (context) {
                           return FractionallySizedBox(
-                            heightFactor: 0.85,
+                            heightFactor: 0.8,
                             child: ClipRRect(
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(32),
                                 topRight: Radius.circular(32),
                               ),
                               child: Scaffold(
-                                backgroundColor: AppTheme.indigoColor.shade300,
+                                backgroundColor: Colors.indigo.shade300,
                                 body: SingleChildScrollView(
                                   child: Column(
                                     children: [
@@ -641,7 +644,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                           onChanged: (value) {
                                             isEdited = true;
                                           },
-                                          cursorColor: AppTheme.indigoColor,
+                                          cursorColor: Colors.indigo,
                                         ),
                                       ),
                                       SizedBox(
@@ -866,6 +869,8 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                                         BorderRadius.circular(
                                                             8),
                                                   ),
+                                                  minimumSize: const Size(
+                                                      double.infinity, 50),
                                                   elevation: 16,
                                                   backgroundColor: Colors.white,
                                                 ),
@@ -899,7 +904,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                   child: const Icon(
                     Icons.edit_rounded,
                     size: 42,
-                    color: AppTheme.indigoColor,
+                    color: Colors.indigo,
                   ),
                 ),
                 const Gap(15),
@@ -940,8 +945,14 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                             onExpansionChanged: (value) {
                               print(userTimes.id);
                             },
-                            backgroundColor: AppTheme.indigoColor.shade100,
-                            collapsedBackgroundColor: Colors.grey.shade200,
+                            backgroundColor:
+                                selectedTimePresetId == userTimes.id
+                                    ? Colors.red
+                                    : Colors.indigo.shade100,
+                            collapsedBackgroundColor:
+                                selectedTimePresetId == userTimes.id
+                                    ? Colors.red
+                                    : Colors.grey.shade200,
                             title: Text(
                               userTimes.title,
                               style: selectedTimePresetId == userTimes.id
@@ -953,98 +964,93 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                             ),
                             children: [
                               SizedBox(
-                                height: 230,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 180,
-                                      child: GridView.builder(
-                                        itemCount: userTimes.times.length,
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 5),
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemBuilder: ((context, index) {
-                                          final userSingleTime =
-                                              userTimes.times[index];
-                                          return Card(
+                                height: 150,
+                                child: GridView.builder(
+                                  itemCount: userTimes.times.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 6),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: ((context, index) {
+                                    final userSingleTime =
+                                        userTimes.times[index];
+                                    return Card(
+                                      color:
+                                          selectedTimePresetId == userTimes.id
+                                              ? Colors.red.shade300
+                                              : Colors.grey.shade200,
+                                      child: Center(
+                                        child: Text(
+                                          myFormat.format(userSingleTime),
+                                          style: AppTheme
+                                              .dedicatedIndigoTextStyle
+                                              .copyWith(
                                             color: selectedTimePresetId ==
                                                     userTimes.id
-                                                ? Colors.red.shade300
-                                                : Colors.grey.shade200,
-                                            child: Center(
-                                              child: Text(
-                                                myFormat.format(userSingleTime),
-                                                style: AppTheme
-                                                    .dedicatedIndigoTextStyle
-                                                    .copyWith(
-                                                  color: selectedTimePresetId ==
-                                                          userTimes.id
-                                                      ? Colors.white
-                                                      : null,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        selectedTimePresetId == userTimes.id
-                                            ? setState(() {
-                                                times = [];
-                                                // editTimes = [];
-                                                selectedTimePresetId = '';
-                                                selectedTimePresetTypeIsStandart =
-                                                    false;
-                                                isTimePicked = false;
-                                              })
-                                            : setState(() {
-                                                times =
-                                                    userTimes.times.toList();
-                                                // editTimes =
-                                                //     userTimes.times.toList();
-                                                selectedTimePresetId =
-                                                    userTimes.id;
-                                                selectedTimePresetTitle =
-                                                    userTimes.title;
-                                                selectedTimePresetTypeIsStandart =
-                                                    userTimes.isStandart;
-                                                isTimePicked = true;
-                                                editTimesTittleController =
-                                                    TextEditingController(
-                                                        text: userTimes.title);
-                                              });
-                                        print(times);
-                                        print(editTimes);
-                                        print(selectedTimePresetId);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        backgroundColor:
-                                            selectedTimePresetId == userTimes.id
-                                                ? Colors.red.shade300
+                                                ? Colors.white
                                                 : null,
-                                        elevation: 16,
+                                            fontSize: 16,
+                                          ),
+                                        ),
                                       ),
-                                      child: Text(
-                                        selectedTimePresetId == userTimes.id
-                                            ? 'Отмена'
-                                            : 'Выбрать',
-                                        style: AppTheme.dedicatedIndigoTextStyle
-                                            .copyWith(
-                                                color: selectedTimePresetId ==
-                                                        userTimes.id
-                                                    ? Colors.white
-                                                    : null),
-                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    selectedTimePresetId == userTimes.id
+                                        ? setState(() {
+                                            times = [];
+                                            // editTimes = [];
+                                            selectedTimePresetId = '';
+                                            selectedTimePresetTypeIsStandart =
+                                                false;
+                                            isTimePicked = false;
+                                          })
+                                        : setState(() {
+                                            times = userTimes.times.toList();
+                                            // editTimes =
+                                            //     userTimes.times.toList();
+                                            selectedTimePresetId = userTimes.id;
+                                            selectedTimePresetTitle =
+                                                userTimes.title;
+                                            selectedTimePresetTypeIsStandart =
+                                                userTimes.isStandart;
+                                            isTimePicked = true;
+                                            editTimesTittleController =
+                                                TextEditingController(
+                                                    text: userTimes.title);
+                                          });
+                                    print(times);
+                                    print(editTimes);
+                                    print(selectedTimePresetId);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                  ],
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
+                                    backgroundColor:
+                                        selectedTimePresetId == userTimes.id
+                                            ? Colors.red.shade300
+                                            : null,
+                                    elevation: 16,
+                                  ),
+                                  child: Text(
+                                    selectedTimePresetId == userTimes.id
+                                        ? 'Отмена'
+                                        : 'Выбрать',
+                                    style: AppTheme.dedicatedIndigoTextStyle
+                                        .copyWith(
+                                            color: selectedTimePresetId ==
+                                                    userTimes.id
+                                                ? Colors.white
+                                                : null),
+                                  ),
                                 ),
                               ),
                             ],

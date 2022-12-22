@@ -75,7 +75,7 @@ class _CreateDoctorsAccountScreenState
                             borderRadius: BorderRadius.circular(15),
                           ),
                           minimumSize: const Size(double.infinity, 55),
-                          backgroundColor: AppTheme.indigoColor.shade300,
+                          backgroundColor: Colors.indigo.shade300,
                         ),
                         child: Text(
                           'Зарегистрироваться',

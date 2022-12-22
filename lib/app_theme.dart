@@ -16,7 +16,6 @@ final drawerNotifierProvider =
 class AppTheme {
   // Colors
   static const blackColor = Color.fromRGBO(1, 1, 1, 1); // primary color
-  static const indigoColor = Colors.indigo; // secondary color
   static const widgetsBgColor = Color.fromARGB(255, 120, 122, 122);
   static const drawerColor = Color.fromRGBO(18, 18, 18, 1);
   static const whiteColor = Colors.white;
@@ -31,12 +30,12 @@ class AppTheme {
   static TextStyle headerTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.bold,
     fontSize: 36,
-    color: indigoColor,
+    color: Colors.indigo,
   );
   static TextStyle titleTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.w700,
     fontSize: 18,
-    color: indigoColor,
+    color: Colors.indigo,
   );
   static TextStyle whiteTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.w400,
@@ -51,7 +50,7 @@ class AppTheme {
   static TextStyle dedicatedIndigoTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.bold,
     fontSize: 18,
-    color: indigoColor,
+    color: Colors.indigo,
   );
   static TextStyle dedicatedTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.w400,
@@ -66,7 +65,12 @@ class AppTheme {
   static TextStyle noDataTextStyle = GoogleFonts.montserrat(
     fontWeight: FontWeight.bold,
     fontSize: 16,
-    color: indigoColor,
+    color: Colors.indigo,
+  );
+  static TextStyle defaultIngidgoText = GoogleFonts.montserrat(
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    color: Colors.indigo,
   );
 
   // Themes
@@ -89,7 +93,7 @@ class AppTheme {
 
   static var lightModeAppTheme = ThemeData.light().copyWith(
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: indigoColor,
+      color: Colors.indigo,
       // circularTrackColor: whiteColor70,
     ),
     scaffoldBackgroundColor: whiteColor,
@@ -101,10 +105,11 @@ class AppTheme {
         size: 32,
       ),
     ),
-    iconTheme: const IconThemeData(color: indigoColor),
+    colorScheme: const ColorScheme.light(primary: Colors.indigo),
+    iconTheme: const IconThemeData(color: Colors.indigo),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-      foregroundColor: indigoColor,
+      foregroundColor: Colors.indigo,
       backgroundColor: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
@@ -115,7 +120,7 @@ class AppTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       elevation: 0,
       backgroundColor: Colors.transparent,
-      selectedItemColor: indigoColor,
+      selectedItemColor: Colors.indigo,
       unselectedItemColor: Colors.grey,
       showSelectedLabels: false,
       showUnselectedLabels: false,

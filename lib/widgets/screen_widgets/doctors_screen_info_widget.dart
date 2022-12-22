@@ -154,7 +154,7 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
                                         child: const Icon(
                                           Icons.copy_rounded,
                                           size: 32,
-                                          color: AppTheme.indigoColor,
+                                          color: Colors.indigo,
                                         ),
                                       ),
                                     ),

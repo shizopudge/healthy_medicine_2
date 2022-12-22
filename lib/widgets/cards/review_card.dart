@@ -99,7 +99,7 @@ class _ReviewCardState extends State<ReviewCard> {
                                 ),
                                 const Icon(
                                   Icons.star_rounded,
-                                  color: AppTheme.indigoColor,
+                                  color: Colors.indigo,
                                   size: 30,
                                 ),
                               ],

@@ -85,7 +85,7 @@ class _ReviewsScreenState extends ConsumerState<ReviewsScreen> {
                                         ),
                                     const Divider(
                                       thickness: 1.5,
-                                      color: AppTheme.indigoColor,
+                                      color: Colors.indigo,
                                     ),
                                   ],
                                 )
@@ -111,7 +111,7 @@ class _ReviewsScreenState extends ConsumerState<ReviewsScreen> {
                                     ),
                                     const Divider(
                                       thickness: 1.5,
-                                      color: AppTheme.indigoColor,
+                                      color: Colors.indigo,
                                     ),
                                   ],
                                 ),
