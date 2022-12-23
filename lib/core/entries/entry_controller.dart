@@ -25,6 +25,21 @@ class UserEntriesParameters extends Equatable {
   List<Object> get props => [uid, limit, descendingType];
 }
 
+class DoctorEntriesParameters extends Equatable {
+  const DoctorEntriesParameters({
+    required this.limit,
+    required this.doctorId,
+    required this.descendingType,
+  });
+
+  final String doctorId;
+  final int limit;
+  final bool descendingType;
+
+  @override
+  List<Object> get props => [doctorId, limit, descendingType];
+}
+
 class UserTimesParameters extends Equatable {
   const UserTimesParameters({
     required this.uid,
@@ -64,6 +79,13 @@ final getAllUserEntriesProvider = StreamProvider.autoDispose
   final entryController = ref.watch(entryControllerProvider.notifier);
   return entryController.getAllUserEntries(
       parametr.uid, parametr.limit, parametr.descendingType);
+});
+
+final getAllDoctorEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, DoctorEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getAllDoctorEntries(
+      parametr.doctorId, parametr.limit, parametr.descendingType);
 });
 
 final getComingInTimeUserEntriesProvider = StreamProvider.autoDispose
@@ -176,6 +198,12 @@ class EntryController extends StateNotifier<bool> {
   Stream<List<EntryModel>> getAllUserEntries(
       String uid, int limit, bool descendingType) {
     return _entryRepository.getAllUserEntries(uid, limit, descendingType);
+  }
+
+  Stream<List<EntryModel>> getAllDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entryRepository.getAllDoctorEntries(
+        doctorId, limit, descendingType);
   }
 
   Stream<List<EntryModel>> getComingInTimeUserEntries(

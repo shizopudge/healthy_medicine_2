@@ -39,7 +39,7 @@ class _ReviewsScreenState extends ConsumerState<ReviewsScreen> {
                 data: (doctor) {
                   return Column(
                     children: [
-                      user.isAdmin
+                      user.isAdmin || user.isDoctor
                           ? const SizedBox()
                           : doctor.comments.contains(user.uid)
                               ? Column(

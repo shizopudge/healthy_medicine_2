@@ -53,6 +53,9 @@ class TextFieldWidget extends StatelessWidget {
                     textAlign: TextAlign.right,
                   )
                 : null,
+            errorStyle: AppTheme.dedicatedIndigoTextStyle.copyWith(
+              fontSize: 14,
+            ),
             hintText: hintText,
             hintStyle: AppTheme.dedicatedIndigoTextStyle,
             border: InputBorder.none,

@@ -104,7 +104,7 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: isDataEntered
-          ? user.isAdmin
+          ? user.isAdmin || user.isDoctor
               ? null
               : ref.watch(getDoctorByIdProvider(widget.doctorId)).when(
                   data: (doctor) {

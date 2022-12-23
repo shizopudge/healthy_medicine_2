@@ -213,4 +213,25 @@ class EntryRepository {
               .toList(),
         );
   }
+
+  Stream<List<EntryModel>> getAllDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('doctorId', isEqualTo: doctorId)
+        .orderBy(
+          'dateTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
 }

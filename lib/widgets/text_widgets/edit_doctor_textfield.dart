@@ -58,6 +58,9 @@ class _EditDoctorTextFieldState extends State<EditDoctorTextField> {
                 keyboardType: widget.isNumber ? TextInputType.number : null,
                 controller: widget.controller,
                 decoration: InputDecoration(
+                  errorStyle: AppTheme.dedicatedIndigoTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
                   border: InputBorder.none,
                   suffixText: widget.isNumber ? 'руб.' : null,
                   suffixStyle: widget.isNumber

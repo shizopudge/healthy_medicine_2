@@ -8,6 +8,7 @@ import 'package:healthy_medicine_2/screens/admin_panel/admin_doctors_list_screen
 import 'package:healthy_medicine_2/screens/admin_panel/admin_edit_doctors_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
+import 'package:healthy_medicine_2/screens/doctor_panel/doctor_portal.dart';
 import 'package:healthy_medicine_2/screens/doctor_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/doctors_admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/doctors_list_screen.dart';
@@ -71,6 +72,40 @@ final loggedInAdminRoute = RouteMap(routes: {
       ),
   '/admin-users-panel': (routeAdmin) => const MaterialPage(
         child: UsersPanel(),
+      ),
+});
+
+final loggedInDoctorRoute = RouteMap(routes: {
+  '/': (_) => const MaterialPage(
+        child: DoctorPortal(),
+      ),
+  '/doctor/:doctorId': (routeDocThings) => MaterialPage(
+        child: DoctorScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/reviews/:doctorId': (routeDocThings) => MaterialPage(
+        child: ReviewsScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/entry/:doctorId': (routeDocThings) => MaterialPage(
+        child: EntryScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/admin-entry-panel/:doctorId': (routeDocThings) => MaterialPage(
+        child: AdminEntryPanel(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/admin-edit-doctor-panel/:doctorId': (routeDocThings) => MaterialPage(
+        child: AdminEditDoctorsScreen(
+          doctorId: routeDocThings.pathParameters['doctorId']!,
+        ),
+      ),
+  '/admin-doctor-panel': (routeAdmin) => const MaterialPage(
+        child: DoctorsAdminPanel(),
       ),
 });
 

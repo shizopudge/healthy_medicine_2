@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/core/constants.dart';
 
 class MainAppBar extends ConsumerWidget {
   final String title;
@@ -18,7 +19,7 @@ class MainAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider)!;
+    final isDoctor = ref.watch(userProvider)!.isDoctor;
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 15,
@@ -55,28 +56,45 @@ class MainAppBar extends ConsumerWidget {
                 ),
               ),
               const Gap(5),
-              Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: onAvatarTap,
-                  borderRadius: BorderRadius.circular(21),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    height: 65,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(32),
-                      gradient: AppTheme.gradientIndigoToRed,
+              isDoctor
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: onAvatarTap,
+                        borderRadius: BorderRadius.circular(21),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(32),
+                            gradient: AppTheme.gradientIndigoToRed,
+                          ),
+                          child: const Icon(
+                            Icons.menu,
+                            size: 32,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: onAvatarTap,
+                        borderRadius: BorderRadius.circular(21),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          height: 65,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(32),
+                            gradient: AppTheme.gradientIndigoToRed,
+                          ),
+                          child: Image.asset(Constants.avatarDefault),
+                        ),
+                      ),
                     ),
-                    child: user.avatar == ''
-                        ? const Icon(
-                            Icons.person,
-                            size: 36,
-                          )
-                        : Image.network(user.avatar),
-                  ),
-                ),
-              ),
             ],
           ),
         ],

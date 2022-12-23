@@ -113,7 +113,7 @@ class AppTheme {
       backgroundColor: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
-          50,
+          24,
         ),
       ),
     )),

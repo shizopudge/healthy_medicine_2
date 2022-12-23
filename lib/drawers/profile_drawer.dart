@@ -34,15 +34,21 @@ class ProfileDrawer extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage: user.isAdmin
-                    ? const AssetImage(Constants.adminIconDefault)
-                    : user.isDoctor
-                        ? const AssetImage(Constants.doctorIconDefault)
-                        : const AssetImage(Constants.avatarDefault),
-                backgroundColor: Colors.transparent,
-                radius: 75,
-              ),
+              child: user.avatar != ''
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(user.avatar),
+                      backgroundColor: Colors.transparent,
+                      radius: 75,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: user.isAdmin
+                          ? const AssetImage(Constants.adminIconDefault)
+                          : user.isDoctor
+                              ? const AssetImage(Constants.doctorIconDefault)
+                              : const AssetImage(Constants.avatarDefault),
+                      backgroundColor: Colors.transparent,
+                      radius: 75,
+                    ),
             ),
             const Gap(10),
             Column(
@@ -58,13 +64,14 @@ class ProfileDrawer extends ConsumerWidget {
                 Text(
                   user.email,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTheme.dedicatedTextStyle,
+                  textAlign: TextAlign.center,
+                  style: AppTheme.dedicatedTextStyle.copyWith(fontSize: 18),
                 ),
               ],
             ),
             const Gap(10),
             const Divider(),
-            user.isAdmin
+            user.isAdmin || user.isDoctor
                 ? const SizedBox()
                 : ListTile(
                     title: Text(
@@ -81,20 +88,6 @@ class ProfileDrawer extends ConsumerWidget {
                       user.uid,
                     ),
                   ),
-            // user.isAdmin
-            //     ? ListTile(
-            //         title: Text(
-            //           'Панель управления',
-            //           style: AppTheme.labelTextStyle,
-            //         ),
-            //         leading: const Icon(
-            //           Icons.admin_panel_settings,
-            //           color: Colors.indigo,
-            //           size: 32,
-            //         ),
-            //         onTap: () => navigateToAdminPanelScreen(context),
-            //       )
-            //     : const SizedBox(),
             ListTile(
               title: Text(
                 'Выйти',

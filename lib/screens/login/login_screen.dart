@@ -453,62 +453,62 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               isObscured: true,
                               fromLogin: false,
                             ),
-                            TextFieldWidget(
-                              textController: firstNameController,
-                              hintText: 'ИМЯ',
-                              isNumber: false,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите ИМЯ';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              textController: lastNameController,
-                              hintText: 'ФАМИЛИЯ',
-                              isNumber: false,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите ФАМИЛИЮ';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              textController: patronymicController,
-                              hintText: 'ОТЧЕСТВО',
-                              isNumber: false,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите ОТЧЕСТВО';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              textController: phoneController,
-                              hintText: 'НОМЕР ТЕЛЕФОНА',
-                              isNumber: true,
-                              isRequired: true,
-                              isEmail: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Введите НОМЕР ТЕЛЕФОНА';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
+                            // TextFieldWidget(
+                            //   textController: firstNameController,
+                            //   hintText: 'ИМЯ',
+                            //   isNumber: false,
+                            //   isRequired: true,
+                            //   isEmail: false,
+                            //   validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return 'Введите ИМЯ';
+                            //     } else {
+                            //       return null;
+                            //     }
+                            //   },
+                            // ),
+                            // TextFieldWidget(
+                            //   textController: lastNameController,
+                            //   hintText: 'ФАМИЛИЯ',
+                            //   isNumber: false,
+                            //   isRequired: true,
+                            //   isEmail: false,
+                            //   validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return 'Введите ФАМИЛИЮ';
+                            //     } else {
+                            //       return null;
+                            //     }
+                            //   },
+                            // ),
+                            // TextFieldWidget(
+                            //   textController: patronymicController,
+                            //   hintText: 'ОТЧЕСТВО',
+                            //   isNumber: false,
+                            //   isRequired: true,
+                            //   isEmail: false,
+                            //   validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return 'Введите ОТЧЕСТВО';
+                            //     } else {
+                            //       return null;
+                            //     }
+                            //   },
+                            // ),
+                            // TextFieldWidget(
+                            //   textController: phoneController,
+                            //   hintText: 'НОМЕР ТЕЛЕФОНА',
+                            //   isNumber: true,
+                            //   isRequired: true,
+                            //   isEmail: false,
+                            //   validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return 'Введите НОМЕР ТЕЛЕФОНА';
+                            //     } else {
+                            //       return null;
+                            //     }
+                            //   },
+                            // ),
                           ],
                         ),
                       ),
@@ -777,50 +777,50 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Укажите ваш город',
-                          style: AppTheme.titleTextStyle,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(21),
-                            color: Colors.grey.shade200,
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: DropdownButton<String>(
-                            value: cityValue,
-                            icon: const RotatedBox(
-                              quarterTurns: 3,
-                              child: Icon(
-                                Icons.arrow_back_ios_new_outlined,
-                                color: Colors.indigo,
-                              ),
-                            ),
-                            elevation: 16,
-                            style: AppTheme.dedicatedIndigoTextStyle,
-                            underline: const SizedBox(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                cityValue = value!;
-                              });
-                            },
-                            items: cities
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(
+                  //         'Укажите ваш город',
+                  //         style: AppTheme.titleTextStyle,
+                  //       ),
+                  //       Container(
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(21),
+                  //           color: Colors.grey.shade200,
+                  //         ),
+                  //         padding: const EdgeInsets.all(8),
+                  //         child: DropdownButton<String>(
+                  //           value: cityValue,
+                  //           icon: const RotatedBox(
+                  //             quarterTurns: 3,
+                  //             child: Icon(
+                  //               Icons.arrow_back_ios_new_outlined,
+                  //               color: Colors.indigo,
+                  //             ),
+                  //           ),
+                  //           elevation: 16,
+                  //           style: AppTheme.dedicatedIndigoTextStyle,
+                  //           underline: const SizedBox(),
+                  //           onChanged: (String? value) {
+                  //             setState(() {
+                  //               cityValue = value!;
+                  //             });
+                  //           },
+                  //           items: cities
+                  //               .map<DropdownMenuItem<String>>((String value) {
+                  //             return DropdownMenuItem<String>(
+                  //               value: value,
+                  //               child: Text(value),
+                  //             );
+                  //           }).toList(),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextButton(

@@ -19,12 +19,12 @@ class DoctorsAdminPanel extends ConsumerStatefulWidget {
 }
 
 class _DoctorsAdminPanelState extends ConsumerState<DoctorsAdminPanel> {
-  String cityValue = '';
+  String cityValue = cities.first;
 
   @override
   void initState() {
     super.initState();
-    cityValue = ref.read(userProvider)!.city;
+    // cityValue = ref.read(userProvider)!.city;
   }
 
   void logOut(WidgetRef ref) {
@@ -41,7 +41,6 @@ class _DoctorsAdminPanelState extends ConsumerState<DoctorsAdminPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.read(userProvider)!;
     return Scaffold(
       endDrawer: const ProfileDrawer(),
       appBar: AppBar(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,21 +85,6 @@ final getDoctorsByClinicIdAndSpecProvider =
           getDoctorsParametrs.clinicId, getDoctorsParametrs.spec);
 });
 
-// final getEntryCellsProvider = StreamProvider.family((ref, String doctorId) {
-//   final doctorController = ref.watch(doctorControllerProvider.notifier);
-//   return doctorController.getEntryCells(doctorId);
-// });
-
-// final getEntryTimeCellsProvider = StreamProvider.family((ref, String dateId) {
-//   final doctorController = ref.watch(doctorControllerProvider.notifier);
-//   return doctorController.getEntryTimeCells(dateId);
-// });
-
-// final getEntryCellsProvider = StreamProvider.family((ref, String doctorId) {
-//   final doctorController = ref.watch(doctorControllerProvider.notifier);
-//   return doctorController.getEntryCells(doctorId);
-// });
-
 class DoctorController extends StateNotifier<bool> {
   final DoctorRepository _doctorRepository;
   final Ref _ref;
@@ -128,18 +114,6 @@ class DoctorController extends StateNotifier<bool> {
   Stream<Doctor> getDoctorById(String doctorId) {
     return _doctorRepository.getDoctorById(doctorId);
   }
-
-  // Stream<List<DateModel>> getEntryCells(String doctorId) {
-  //   return _doctorRepository.getEntryCells(doctorId);
-  // }
-
-  // Stream<List<TimeModel>> getEntryTimeCells(String dateId) {
-  //   return _doctorRepository.getEntryTimeCells(dateId);
-  // }
-
-  // Stream<List<DateTimeEntryModel>> getEntryCells(String doctorId) {
-  //   return _doctorRepository.getEntryCells(doctorId);
-  // }
 
   Stream<List<DateTimeEntryModel>> getEntryCellsByMonthAndYear(
       String doctorId, int monthNumber, int year, int day) {
@@ -231,6 +205,12 @@ class DoctorController extends StateNotifier<bool> {
   }
 
   void deleteDoctor(Doctor doctor, BuildContext context) async {
+    var imgRef =
+        FirebaseStorage.instance.ref().child('doctors/images/${doctor.id}');
+    imgRef
+        .delete()
+        .whenComplete(() => print('Img deleted'))
+        .onError((error, stackTrace) => print('Error'));
     final res = await _doctorRepository.deleteDoctor(doctor);
     res.fold((l) => null, (r) => showSnackBar(context, 'Вы удалили врача!'));
   }

@@ -71,27 +71,6 @@ class DoctorRepository {
         .map((event) => Doctor.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  // Stream<List<DateTimeEntryModel>> getEntryCells(String doctorId) {
-  //   return _doctors
-  //       .doc(doctorId)
-  //       .collection(FirebaseConstants.entryCellsCollection)
-  //       .orderBy(
-  //         'date',
-  //         descending: false,
-  //       )
-  //       .snapshots()
-  //       .map(
-  //         (event) => event.docs
-  //             .map(
-  //               (e) => DateTimeEntryModel.fromMap(
-  //                 e.data(),
-  //               ),
-  //             )
-  //             .toList(),
-  //       );
-  // }
-
-//ПОКА ПРОСТО МЫСЛИ
   Stream<List<DateTimeEntryModel>> getEntryCellsByMonthAndYear(
       String doctorId, int monthNumber, int year, int day) {
     return _doctors
@@ -162,6 +141,15 @@ class DoctorRepository {
 
   FutureVoid deleteDoctor(Doctor doctor) async {
     try {
+      final batch = _firestore.batch();
+      var collection = _doctors
+          .doc(doctor.id)
+          .collection(FirebaseConstants.entryCellsCollection);
+      var snapshots = await collection.get();
+      for (var doc in snapshots.docs) {
+        batch.delete(doc.reference);
+      }
+      batch.commit();
       return right(_doctors.doc(doctor.id).delete());
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -169,34 +157,4 @@ class DoctorRepository {
       return left(Failure(e.toString()));
     }
   }
-
-  // Stream<List<DateModel>> getEntryCells(String doctorId) {
-  //   return _entryCells.where('doctorId', isEqualTo: doctorId).snapshots().map(
-  //         (event) => event.docs
-  //             .map(
-  //               (e) => DateModel.fromMap(
-  //                 e.data() as Map<String, dynamic>,
-  //               ),
-  //             )
-  //             .toList(),
-  //       );
-  // }
-
-  // Stream<List<TimeModel>> getEntryTimeCells(String dateId) {
-  //   return _entryCells
-  //       .doc(dateId)
-  //       .collection(FirebaseConstants.entryCellTimeCollection)
-  //       .where('isAvailable', isEqualTo: true)
-  //       .snapshots()
-  //       .map(
-  //         (event) => event.docs
-  //             .map(
-  //               (e) => TimeModel.fromMap(
-  //                 e.data(),
-  //               ),
-  //             )
-  //             .toList(),
-  //       );
-  // }
-
 }

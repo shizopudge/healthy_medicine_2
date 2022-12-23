@@ -195,6 +195,16 @@ class AuthRepository {
         );
   }
 
+  FutureVoid editUser(UserModel user) async {
+    try {
+      return right(_users.doc(user.uid).update(user.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   void logOut() async {
     await _auth.signOut();
   }

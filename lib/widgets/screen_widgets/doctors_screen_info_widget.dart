@@ -26,7 +26,9 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
   double sum = 0;
   double avg = 0;
   String lastWord = '';
+  double _containerHeightScale = 0;
   List<dynamic> rating = [];
+
   late TextEditingController docIdController;
 
   getAvgRating() {
@@ -52,18 +54,28 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
     }
   }
 
+  void containerAppearance() {
+    Future.delayed(
+        const Duration(milliseconds: 100),
+        () => setState(
+              () {
+                _containerHeightScale = .5;
+              },
+            ));
+  }
+
   @override
   void initState() {
     super.initState();
     getAvgRating();
     getLastWord();
     docIdController = TextEditingController(text: widget.doctor.id);
+    containerAppearance();
   }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     final isPicFullScreen = ref.watch(isPicFullScreenProvider);
     final isAdmin = ref.read(userProvider)!.isAdmin;
     return Stack(
@@ -87,180 +99,200 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
           ),
         ),
         AnimatedSwitcher(
-          duration: const Duration(seconds: 2),
-          reverseDuration: const Duration(seconds: 2),
+          duration: const Duration(seconds: 1),
+          reverseDuration: const Duration(seconds: 1),
           transitionBuilder: (child, animation) {
             return Transform.translate(
-              offset:
-                  isPicFullScreen ? Offset(0, height * .3) : const Offset(0, 0),
+              offset: isPicFullScreen
+                  ? Offset(0, height * .05)
+                  : const Offset(0, 0),
               child: child,
             );
           },
-          child: GestureDetector(
-            onTap: isPicFullScreen
-                ? () => ref.read(isPicFullScreenProvider.notifier).state = false
-                : () {},
-            child: Container(
-              key: const ValueKey('second'),
-              width: double.infinity,
-              height: height * .5,
-              padding: const EdgeInsets.only(
-                top: 12,
-              ),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(32),
-                  topRight: Radius.circular(32),
+          child: AnimatedSize(
+            curve: Curves.easeInOutCubicEmphasized,
+            duration: const Duration(seconds: 1),
+            child: GestureDetector(
+              onTap: isPicFullScreen
+                  ? () =>
+                      ref.read(isPicFullScreenProvider.notifier).state = false
+                  : () {},
+              child: Container(
+                width: double.infinity,
+                height: isPicFullScreen
+                    ? height * .1
+                    : height * _containerHeightScale,
+                padding: const EdgeInsets.only(
+                  top: 12,
                 ),
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      isAdmin
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.grey.shade200,
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                child: Align(
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    toolbarOptions: const ToolbarOptions(
-                                      copy: true,
-                                      cut: false,
-                                      paste: false,
-                                      selectAll: true,
-                                    ),
-                                    controller: docIdController,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      prefixText: 'DocID: ',
-                                      prefixStyle:
-                                          AppTheme.dedicatedIndigoTextStyle,
-                                      suffixIcon: InkWell(
-                                        onTap: () {
-                                          Clipboard.setData(
-                                            ClipboardData(
-                                                text: docIdController.text),
-                                          );
-                                          showSnackBar(context, 'Скопировано');
-                                        },
-                                        child: const Icon(
-                                          Icons.copy_rounded,
-                                          size: 32,
-                                          color: Colors.indigo,
+                decoration: BoxDecoration(
+                  borderRadius: isPicFullScreen
+                      ? BorderRadius.circular(12)
+                      : const BorderRadius.only(
+                          topLeft: Radius.circular(21),
+                          topRight: Radius.circular(21),
+                        ),
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: isPicFullScreen
+                      ? const SizedBox()
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              isAdmin
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: Colors.grey.shade200,
                                         ),
-                                      ),
-                                    ),
-                                    style: AppTheme.dedicatedIndigoTextStyle,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
-                      TextInfoCard(
-                        text:
-                            'Д-р. ${widget.doctor.firstName} ${widget.doctor.lastName}',
-                      ),
-                      TextInfoCard(
-                        text: widget.doctor.spec,
-                      ),
-                      rating.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Card(
-                                color: Colors.grey.shade300,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(21),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RatingBar(
-                                    rating: avg,
-                                    ratingCount: rating.length,
-                                    size: 50,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Card(
-                                color: Colors.grey.shade300,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(21),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      for (var i = 0; i < 5; i++)
-                                        const Icon(
-                                          Icons.star_rounded,
-                                          color: Colors.grey,
-                                          size: 50,
-                                        ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: Text(
-                                          '(0)',
-                                          style:
-                                              AppTheme.titleTextStyle.copyWith(
-                                            fontSize: 28,
+                                        padding: const EdgeInsets.all(8),
+                                        child: Align(
+                                          child: TextFormField(
+                                            readOnly: true,
+                                            toolbarOptions:
+                                                const ToolbarOptions(
+                                              copy: true,
+                                              cut: false,
+                                              paste: false,
+                                              selectAll: true,
+                                            ),
+                                            controller: docIdController,
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              prefixText: 'DocID: ',
+                                              prefixStyle: AppTheme
+                                                  .dedicatedIndigoTextStyle,
+                                              suffixIcon: InkWell(
+                                                onTap: () {
+                                                  Clipboard.setData(
+                                                    ClipboardData(
+                                                        text: docIdController
+                                                            .text),
+                                                  );
+                                                  showSnackBar(
+                                                      context, 'Скопировано');
+                                                },
+                                                child: const Icon(
+                                                  Icons.copy_rounded,
+                                                  size: 32,
+                                                  color: Colors.indigo,
+                                                ),
+                                              ),
+                                            ),
+                                            style: AppTheme
+                                                .dedicatedIndigoTextStyle,
                                           ),
                                         ),
                                       ),
-                                    ],
+                                    )
+                                  : const SizedBox(),
+                              TextInfoCard(
+                                text:
+                                    'Д-р. ${widget.doctor.firstName} ${widget.doctor.lastName}',
+                              ),
+                              TextInfoCard(
+                                text: widget.doctor.spec,
+                              ),
+                              rating.isNotEmpty
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        color: Colors.grey.shade300,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(21),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: RatingBar(
+                                            rating: avg,
+                                            ratingCount: rating.length,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        color: Colors.grey.shade300,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(21),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              for (var i = 0; i < 5; i++)
+                                                const Icon(
+                                                  Icons.star_rounded,
+                                                  color: Colors.grey,
+                                                  size: 50,
+                                                ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Text(
+                                                  '(0)',
+                                                  style: AppTheme.titleTextStyle
+                                                      .copyWith(
+                                                    fontSize: 28,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Card(
+                                  color: Colors.grey.shade300,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(21),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Опыт работы: ${widget.doctor.experience} $lastWord',
+                                      textAlign: TextAlign.center,
+                                      style: AppTheme.titleTextStyle.copyWith(
+                                        fontSize: 28,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          color: Colors.grey.shade300,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(21),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Опыт работы: ${widget.doctor.experience} $lastWord',
-                              textAlign: TextAlign.center,
-                              style: AppTheme.titleTextStyle.copyWith(
-                                fontSize: 28,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Card(
+                                  color: Colors.grey.shade300,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(21),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      '${widget.doctor.serviceCost} руб.',
+                                      style: AppTheme.titleTextStyle.copyWith(
+                                        fontSize: 28,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          color: Colors.grey.shade300,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(21),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${widget.doctor.serviceCost} руб.',
-                              style: AppTheme.titleTextStyle.copyWith(
-                                fontSize: 28,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ),

@@ -56,7 +56,7 @@ class UserCard extends ConsumerWidget {
                       image: user.avatar != ''
                           ? DecorationImage(
                               image: NetworkImage(user.avatar),
-                              fit: BoxFit.scaleDown,
+                              fit: BoxFit.cover,
                             )
                           : const DecorationImage(
                               image: AssetImage(Constants.avatarDefault),

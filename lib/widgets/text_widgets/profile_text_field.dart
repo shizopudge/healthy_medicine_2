@@ -5,11 +5,13 @@ class ProfileTextField extends StatefulWidget {
   final TextEditingController controller;
   final String title;
   final void Function(String)? func;
+  final String? Function(String?)? validator;
   const ProfileTextField({
     super.key,
     required this.controller,
     required this.title,
     required this.func,
+    required this.validator,
   });
 
   @override
@@ -53,11 +55,15 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.controller,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
+                  errorStyle: AppTheme.dedicatedIndigoTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
                 ),
                 style: AppTheme.dedicatedWhiteTextStyle,
                 onChanged: widget.func,
+                validator: widget.validator,
               ),
             ),
           ),

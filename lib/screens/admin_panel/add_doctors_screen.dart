@@ -85,6 +85,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
     lastNameController.dispose();
     patronymicController.dispose();
     serviceCostController.dispose();
+    _expirienceController.dispose();
   }
 
   @override

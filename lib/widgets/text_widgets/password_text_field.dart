@@ -62,6 +62,9 @@ class _TextFieldWidgetState extends State<PasswordTextFieldWidget> {
           decoration: InputDecoration(
             hintText: widget.hintText,
             hintStyle: AppTheme.dedicatedIndigoTextStyle,
+            errorStyle: AppTheme.dedicatedIndigoTextStyle.copyWith(
+              fontSize: 14,
+            ),
             suffixIcon: widget.isObscured
                 ? IconButton(
                     onPressed: () {

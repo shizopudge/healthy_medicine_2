@@ -33,7 +33,6 @@ class _AdminEditDoctorsScreenState
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController patronymicController;
-  late TextEditingController specController;
   late TextEditingController serviceCostController;
   late String spec;
   late String cityValue;
@@ -48,6 +47,8 @@ class _AdminEditDoctorsScreenState
     firstNameController.dispose();
     lastNameController.dispose();
     patronymicController.dispose();
+    serviceCostController.dispose();
+    _expirienceController.dispose();
   }
 
   @override
@@ -64,8 +65,7 @@ class _AdminEditDoctorsScreenState
     patronymicController = TextEditingController(
         text:
             ref.read(getDoctorByIdProvider(widget.doctorId)).value!.patronymic);
-    specController = TextEditingController(
-        text: ref.read(getDoctorByIdProvider(widget.doctorId)).value!.spec);
+
     serviceCostController = TextEditingController(
         text: ref
             .read(getDoctorByIdProvider(widget.doctorId))

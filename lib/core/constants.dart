@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const List<String> specs = [
+  'Все',
   'Хирург',
   'Педиатр',
   'Терапевт',
