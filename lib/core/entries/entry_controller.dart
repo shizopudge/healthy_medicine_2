@@ -2,13 +2,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/core/models/diagnose_model.dart';
 import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/utils.dart';
 import 'package:healthy_medicine_2/core/entries/entry_repository.dart';
 import 'package:healthy_medicine_2/core/models/doctor_model.dart';
 import 'package:healthy_medicine_2/core/models/entry_model.dart';
+import 'package:intl/intl.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
+
+DateFormat myFormat = DateFormat('kk:mm');
 
 class UserEntriesParameters extends Equatable {
   const UserEntriesParameters({
@@ -53,6 +57,19 @@ class UserTimesParameters extends Equatable {
   List<Object> get props => [uid, userTimesId];
 }
 
+class DiagnoseParameters extends Equatable {
+  const DiagnoseParameters({
+    required this.uid,
+    required this.diagnoseId,
+  });
+
+  final String uid;
+  final String diagnoseId;
+
+  @override
+  List<Object> get props => [uid, diagnoseId];
+}
+
 final entryControllerProvider =
     StateNotifierProvider<EntryController, bool>((ref) {
   final entryRepository = ref.watch(entryRepositoryProvider);
@@ -64,6 +81,18 @@ final entryControllerProvider =
 
 final getUserTimesProvider = StreamProvider.family((ref, String uid) {
   return ref.watch(entryControllerProvider.notifier).getUserTimes(uid);
+});
+
+final getUserDiagnosesProvider = StreamProvider.family((ref, String uid) {
+  return ref.watch(entryControllerProvider.notifier).getUserDiagnoses(uid);
+});
+
+final getUserDiagnoseByIdProvider =
+    StreamProvider.family<Diagnose, DiagnoseParameters>(
+        (ref, diagnoseParameters) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getUserDiagnoseById(
+      diagnoseParameters.uid, diagnoseParameters.diagnoseId);
 });
 
 final getUserTimesByIdProvider =
@@ -95,6 +124,13 @@ final getComingInTimeUserEntriesProvider = StreamProvider.autoDispose
       parametr.uid, parametr.limit, parametr.descendingType);
 });
 
+final getComingInTimeDoctorEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, DoctorEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getComingInTimeDoctorEntries(
+      parametr.doctorId, parametr.limit, parametr.descendingType);
+});
+
 final getUpcomingUserEntriesProvider = StreamProvider.autoDispose
     .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
   final entryController = ref.watch(entryControllerProvider.notifier);
@@ -102,11 +138,25 @@ final getUpcomingUserEntriesProvider = StreamProvider.autoDispose
       parametr.uid, parametr.limit, parametr.descendingType);
 });
 
+final getUpcomingDoctorEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, DoctorEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getUpcomingDoctorEntries(
+      parametr.doctorId, parametr.limit, parametr.descendingType);
+});
+
 final getPastUserEntriesProvider = StreamProvider.autoDispose
     .family<List<EntryModel>, UserEntriesParameters>((ref, parametr) {
   final entryController = ref.watch(entryControllerProvider.notifier);
   return entryController.getPastUserEntries(
       parametr.uid, parametr.limit, parametr.descendingType);
+});
+
+final getPastDoctorEntriesProvider = StreamProvider.autoDispose
+    .family<List<EntryModel>, DoctorEntriesParameters>((ref, parametr) {
+  final entryController = ref.watch(entryControllerProvider.notifier);
+  return entryController.getPastDoctorEntries(
+      parametr.doctorId, parametr.limit, parametr.descendingType);
 });
 
 class EntryController extends StateNotifier<bool> {
@@ -124,6 +174,8 @@ class EntryController extends StateNotifier<bool> {
     state = true;
     final uid = _ref.read(userProvider)?.uid ?? '';
     String entryId = const Uuid().v1();
+    String time = myFormat.format(dateTime);
+    String date = DateFormat('yMd').format(dateTime);
     EntryModel entry = EntryModel(
       clinicId: doctor.clinicId,
       dateTime: dateTime,
@@ -138,13 +190,24 @@ class EntryController extends StateNotifier<bool> {
       doctorId: doctor.id,
       id: entryId,
       uid: uid,
+      isDiagnosisCreated: false,
     );
     final res =
         await _entryRepository.createEntry(entry, doctor.id, entryCellId);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context,
-          'Вы записались на прием ${dateTime.day}/${dateTime.month}/${dateTime.year} в ${dateTime.hour}:${dateTime.minute}!');
+      showSnackBar(context, 'Вы записались на прием $date в $time!');
+      Routemaster.of(context).pop();
+    });
+  }
+
+  void createDiagnose(Diagnose getDiagnose, BuildContext context) async {
+    state = true;
+    Diagnose diagnose = getDiagnose;
+    final res = await _entryRepository.createDiagnose(diagnose);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Вы заполнили форму по приему!');
       Routemaster.of(context).pop();
     });
   }
@@ -212,13 +275,39 @@ class EntryController extends StateNotifier<bool> {
         uid, limit, descendingType);
   }
 
+  Stream<List<EntryModel>> getComingInTimeDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entryRepository.getComingInTimeDoctorEntries(
+        doctorId, limit, descendingType);
+  }
+
   Stream<List<EntryModel>> getUpcomingUserEntries(
       String uid, int limit, bool descendingType) {
     return _entryRepository.getUpcomingUserEntries(uid, limit, descendingType);
   }
 
+  Stream<List<EntryModel>> getUpcomingDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entryRepository.getUpcomingDoctorEntries(
+        doctorId, limit, descendingType);
+  }
+
   Stream<List<EntryModel>> getPastUserEntries(
       String uid, int limit, bool descendingType) {
     return _entryRepository.getPastUserEntries(uid, limit, descendingType);
+  }
+
+  Stream<List<EntryModel>> getPastDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entryRepository.getPastDoctorEntries(
+        doctorId, limit, descendingType);
+  }
+
+  Stream<Diagnose> getUserDiagnoseById(String uid, String diagnoseId) {
+    return _entryRepository.getUserDiagnoseById(uid, diagnoseId);
+  }
+
+  Stream<List<Diagnose>> getUserDiagnoses(String uid) {
+    return _entryRepository.getUserDiagnoses(uid);
   }
 }

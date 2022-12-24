@@ -4,9 +4,8 @@ import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/drawers/profile_drawer.dart';
 import 'package:healthy_medicine_2/widgets/app_bars/main_appbar.dart';
 import 'package:healthy_medicine_2/widgets/lists/doctor_entries.dart';
-import 'package:healthy_medicine_2/widgets/lists/entries.dart';
 
-final descendingTypeProvider = StateProvider<bool>((ref) => false);
+final doctorsDescendingTypeProvider = StateProvider<bool>((ref) => false);
 
 enum DoctorsHistoryMenu { all, past, upcoming, comingInTime }
 
@@ -114,7 +113,8 @@ class _DoctorsHistoryScreenState extends ConsumerState<DoctorsHistoryScreen> {
                                     isPast = false;
                                     sortType = 'Все';
                                     ref
-                                        .read(descendingTypeProvider.notifier)
+                                        .read(doctorsDescendingTypeProvider
+                                            .notifier)
                                         .state = false;
                                   });
                                 }
@@ -126,7 +126,8 @@ class _DoctorsHistoryScreenState extends ConsumerState<DoctorsHistoryScreen> {
                                     isNothing = false;
                                     sortType = 'Ближайшие';
                                     ref
-                                        .read(descendingTypeProvider.notifier)
+                                        .read(doctorsDescendingTypeProvider
+                                            .notifier)
                                         .state = false;
                                   });
                                 }
@@ -138,7 +139,8 @@ class _DoctorsHistoryScreenState extends ConsumerState<DoctorsHistoryScreen> {
                                     isNothing = false;
                                     sortType = 'Предстоящие';
                                     ref
-                                        .read(descendingTypeProvider.notifier)
+                                        .read(doctorsDescendingTypeProvider
+                                            .notifier)
                                         .state = false;
                                   });
                                 }
@@ -150,7 +152,8 @@ class _DoctorsHistoryScreenState extends ConsumerState<DoctorsHistoryScreen> {
                                     isNothing = false;
                                     sortType = 'Прошедшие';
                                     ref
-                                        .read(descendingTypeProvider.notifier)
+                                        .read(doctorsDescendingTypeProvider
+                                            .notifier)
                                         .state = true;
                                   });
                                 }
@@ -212,13 +215,17 @@ class _DoctorsHistoryScreenState extends ConsumerState<DoctorsHistoryScreen> {
                         ),
                       ),
                       RotatedBox(
-                        quarterTurns: ref.read(descendingTypeProvider) ? 3 : 1,
+                        quarterTurns:
+                            ref.read(doctorsDescendingTypeProvider) ? 3 : 1,
                         child: IconButton(
                           onPressed: () {
                             setState(() {
-                              ref.read(descendingTypeProvider.notifier).state =
+                              ref
+                                      .read(doctorsDescendingTypeProvider.notifier)
+                                      .state =
                                   !ref
-                                      .read(descendingTypeProvider.notifier)
+                                      .read(doctorsDescendingTypeProvider
+                                          .notifier)
                                       .state;
                             });
                           },

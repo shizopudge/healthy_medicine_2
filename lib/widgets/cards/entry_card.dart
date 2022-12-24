@@ -26,6 +26,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
   }
 
   DateFormat myFormat = DateFormat('kk:mm');
+  DateFormat dateFormat = DateFormat('yMd');
 
   DateTime currentDate = DateTime(
     DateTime.now().year,
@@ -60,9 +61,9 @@ class _EntryCardState extends ConsumerState<EntryCard> {
         print(
             'Сегодняшняя дата (exDate): ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0).millisecondsSinceEpoch}');
         print(
-            'Желаемое время (exTime): ${DateTime(1970, 1, 1, 0, 20, 0).millisecondsSinceEpoch}');
+            'Желаемое время (exTime): ${DateTime(1970, 1, 1, 11, 20, 0).millisecondsSinceEpoch}');
         print(
-            'Желаемое полное время (dateTime): ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 20, 0).millisecondsSinceEpoch}');
+            'Желаемое полное время (dateTime): ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20, 0).millisecondsSinceEpoch}');
         print(
             'Полное время записи (datetime): ${widget.entry.dateTime.millisecondsSinceEpoch}');
         print(
@@ -147,7 +148,7 @@ class _EntryCardState extends ConsumerState<EntryCard> {
                                     style: AppTheme.dedicatedWhiteTextStyle,
                                   ),
                                   Text(
-                                    '${widget.entry.exDate.day}/${widget.entry.exDate.month}/${widget.entry.exDate.year}',
+                                    dateFormat.format(widget.entry.exDate),
                                     style: AppTheme.whiteTextStyle,
                                   ),
                                 ],

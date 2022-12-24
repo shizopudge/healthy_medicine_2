@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
 import 'package:healthy_medicine_2/core/constants.dart';
 import 'package:healthy_medicine_2/core/models/review_model.dart';
+import 'package:intl/intl.dart';
 
 class ReviewCard extends StatefulWidget {
   final ReviewModel review;
@@ -87,7 +88,7 @@ class _ReviewCardState extends State<ReviewCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${widget.review.createdAt.day}/${widget.review.createdAt.month}/${widget.review.createdAt.year}',
+                              DateFormat('yMd').format(widget.review.createdAt),
                               style: AppTheme.dedicatedWhiteTextStyle,
                             ),
                             Row(

@@ -8,13 +8,16 @@ import 'package:healthy_medicine_2/screens/admin_panel/admin_doctors_list_screen
 import 'package:healthy_medicine_2/screens/admin_panel/admin_edit_doctors_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
+import 'package:healthy_medicine_2/screens/doctor_panel/create_diagnose_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/doctor_portal.dart';
+import 'package:healthy_medicine_2/screens/doctor_panel/edit_diagnose_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/doctors_admin_panel_screen.dart';
 import 'package:healthy_medicine_2/screens/doctors_list_screen.dart';
 import 'package:healthy_medicine_2/screens/edit_review_screen.dart';
 import 'package:healthy_medicine_2/screens/entry_screen.dart';
 import 'package:healthy_medicine_2/screens/login/login_screen.dart';
+import 'package:healthy_medicine_2/screens/medicine_card_screen.dart';
 import 'package:healthy_medicine_2/screens/portal.dart';
 import 'package:healthy_medicine_2/screens/profile_screen.dart';
 import 'package:healthy_medicine_2/screens/reviews_screen.dart';
@@ -106,6 +109,23 @@ final loggedInDoctorRoute = RouteMap(routes: {
       ),
   '/admin-doctor-panel': (routeAdmin) => const MaterialPage(
         child: DoctorsAdminPanel(),
+      ),
+  '/doctor-create-diagnose/:uid/:entryId': (routeDocThings) => MaterialPage(
+        child: CreateDiagnoseScreen(
+          uid: routeDocThings.pathParameters['uid']!,
+          entryId: routeDocThings.pathParameters['entryId']!,
+        ),
+      ),
+  '/doctor-edit-diagnose/:uid/:entryId': (routeDocThings) => MaterialPage(
+        child: EditDiagnoseScreen(
+          uid: routeDocThings.pathParameters['uid']!,
+          entryId: routeDocThings.pathParameters['entryId']!,
+        ),
+      ),
+  '/medicine-card/:uid': (routeDocThings) => MaterialPage(
+        child: MedicineCardScreen(
+          uid: routeDocThings.pathParameters['uid']!,
+        ),
       ),
 });
 

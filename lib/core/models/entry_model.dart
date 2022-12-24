@@ -9,6 +9,7 @@ class EntryModel {
   final String doctorPatronymic;
   final String doctorSpec;
   final int serviceCost;
+  final bool isDiagnosisCreated;
   final String doctorId;
   final String id;
   final String uid;
@@ -23,6 +24,7 @@ class EntryModel {
     required this.doctorPatronymic,
     required this.doctorSpec,
     required this.serviceCost,
+    required this.isDiagnosisCreated,
     required this.doctorId,
     required this.id,
     required this.uid,
@@ -39,6 +41,7 @@ class EntryModel {
     String? doctorPatronymic,
     String? doctorSpec,
     int? serviceCost,
+    bool? isDiagnosisCreated,
     String? doctorId,
     String? id,
     String? uid,
@@ -54,6 +57,7 @@ class EntryModel {
       doctorPatronymic: doctorPatronymic ?? this.doctorPatronymic,
       doctorSpec: doctorSpec ?? this.doctorSpec,
       serviceCost: serviceCost ?? this.serviceCost,
+      isDiagnosisCreated: isDiagnosisCreated ?? this.isDiagnosisCreated,
       doctorId: doctorId ?? this.doctorId,
       id: id ?? this.id,
       uid: uid ?? this.uid,
@@ -72,6 +76,7 @@ class EntryModel {
       'doctorPatronymic': doctorPatronymic,
       'doctorSpec': doctorSpec,
       'serviceCost': serviceCost,
+      'isDiagnosisCreated': isDiagnosisCreated,
       'doctorId': doctorId,
       'id': id,
       'uid': uid,
@@ -90,6 +95,7 @@ class EntryModel {
       doctorPatronymic: map['doctorPatronymic'] as String,
       doctorSpec: map['doctorSpec'] as String,
       serviceCost: map['serviceCost'] as int,
+      isDiagnosisCreated: map['isDiagnosisCreated'] as bool,
       doctorId: map['doctorId'] as String,
       id: map['id'] as String,
       uid: map['uid'] as String,
@@ -98,7 +104,7 @@ class EntryModel {
 
   @override
   String toString() {
-    return 'EntryModel(clinicId: $clinicId, dateTime: $dateTime, exTime: $exTime, exDate: $exDate, doctorImage: $doctorImage, doctorLastName: $doctorLastName, doctorFirstName: $doctorFirstName, doctorPatronymic: $doctorPatronymic, doctorSpec: $doctorSpec, serviceCost: $serviceCost, doctorId: $doctorId, id: $id, uid: $uid)';
+    return 'EntryModel(clinicId: $clinicId, dateTime: $dateTime, exTime: $exTime, exDate: $exDate, doctorImage: $doctorImage, doctorLastName: $doctorLastName, doctorFirstName: $doctorFirstName, doctorPatronymic: $doctorPatronymic, doctorSpec: $doctorSpec, serviceCost: $serviceCost, isDiagnosisCreated: $isDiagnosisCreated, doctorId: $doctorId, id: $id, uid: $uid)';
   }
 
   @override
@@ -115,6 +121,7 @@ class EntryModel {
         other.doctorPatronymic == doctorPatronymic &&
         other.doctorSpec == doctorSpec &&
         other.serviceCost == serviceCost &&
+        other.isDiagnosisCreated == isDiagnosisCreated &&
         other.doctorId == doctorId &&
         other.id == id &&
         other.uid == uid;
@@ -132,12 +139,12 @@ class EntryModel {
         doctorPatronymic.hashCode ^
         doctorSpec.hashCode ^
         serviceCost.hashCode ^
+        isDiagnosisCreated.hashCode ^
         doctorId.hashCode ^
         id.hashCode ^
         uid.hashCode;
   }
 }
-
 // class EntryModel {
 //   final String clinicId;
 //   final DateTime date;

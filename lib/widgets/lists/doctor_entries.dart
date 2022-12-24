@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
+import 'package:healthy_medicine_2/screens/doctor_panel/doctors_history_screen.dart';
 import 'package:healthy_medicine_2/screens/history_screen.dart';
 import 'package:healthy_medicine_2/widgets/cards/doctor_entry_card.dart';
-import 'package:healthy_medicine_2/widgets/cards/entry_card.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';
 import 'package:healthy_medicine_2/core/entries/entry_controller.dart';
@@ -28,18 +28,18 @@ class DoctorsListOfEntries extends ConsumerWidget {
     final user = ref.watch(userProvider)!;
     return isComingInTime
         ? ref
-            .watch(getComingInTimeUserEntriesProvider(UserEntriesParameters(
+            .watch(getComingInTimeDoctorEntriesProvider(DoctorEntriesParameters(
                 limit: limit,
-                uid: user.uid,
+                doctorId: user.doctorId,
                 descendingType:
-                    ref.read(descendingTypeProvider.notifier).state)))
+                    ref.read(doctorsDescendingTypeProvider.notifier).state)))
             .when(
               data: ((entries) {
                 return ListView.builder(
                     itemCount: entries.length,
                     itemBuilder: (BuildContext context, int index) {
                       final entry = entries[index];
-                      return EntryCard(
+                      return DoctorsEntryCard(
                         entry: entry,
                       );
                     });
@@ -51,18 +51,19 @@ class DoctorsListOfEntries extends ConsumerWidget {
             )
         : isUpcoming
             ? ref
-                .watch(getUpcomingUserEntriesProvider(UserEntriesParameters(
+                .watch(getUpcomingDoctorEntriesProvider(DoctorEntriesParameters(
                     limit: limit,
-                    uid: user.uid,
-                    descendingType:
-                        ref.read(descendingTypeProvider.notifier).state)))
+                    doctorId: user.doctorId,
+                    descendingType: ref
+                        .read(doctorsDescendingTypeProvider.notifier)
+                        .state)))
                 .when(
                   data: ((entries) {
                     return ListView.builder(
                         itemCount: entries.length,
                         itemBuilder: (BuildContext context, int index) {
                           final entry = entries[index];
-                          return EntryCard(
+                          return DoctorsEntryCard(
                             entry: entry,
                           );
                         });
@@ -74,18 +75,19 @@ class DoctorsListOfEntries extends ConsumerWidget {
                 )
             : isPast
                 ? ref
-                    .watch(getPastUserEntriesProvider(UserEntriesParameters(
+                    .watch(getPastDoctorEntriesProvider(DoctorEntriesParameters(
                         limit: limit,
-                        uid: user.uid,
-                        descendingType:
-                            ref.read(descendingTypeProvider.notifier).state)))
+                        doctorId: user.doctorId,
+                        descendingType: ref
+                            .read(doctorsDescendingTypeProvider.notifier)
+                            .state)))
                     .when(
                       data: ((entries) {
                         return ListView.builder(
                             itemCount: entries.length,
                             itemBuilder: (BuildContext context, int index) {
                               final entry = entries[index];
-                              return EntryCard(
+                              return DoctorsEntryCard(
                                 entry: entry,
                               );
                             });
@@ -103,7 +105,7 @@ class DoctorsListOfEntries extends ConsumerWidget {
                               limit: limit,
                               doctorId: user.doctorId,
                               descendingType: ref
-                                  .read(descendingTypeProvider.notifier)
+                                  .read(doctorsDescendingTypeProvider.notifier)
                                   .state,
                             ),
                           ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:healthy_medicine_2/core/failure.dart';
 import 'package:healthy_medicine_2/core/firebase_constants.dart';
+import 'package:healthy_medicine_2/core/models/diagnose_model.dart';
 import 'package:healthy_medicine_2/core/models/user_times_model.dart';
 import 'package:healthy_medicine_2/core/providers/firebase_providers.dart';
 import 'package:healthy_medicine_2/core/type_defs.dart';
@@ -39,6 +40,25 @@ class EntryRepository {
         ]),
       });
       return right(_entries.doc(entry.id).set(entry.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid createDiagnose(
+    Diagnose diagnose,
+  ) async {
+    try {
+      _entries.doc(diagnose.id).update({
+        'isDiagnosisCreated': true,
+      });
+      return right(_users
+          .doc(diagnose.uid)
+          .collection('diagnoses')
+          .doc(diagnose.id)
+          .set(diagnose.toMap()));
     } on FirebaseException catch (e) {
       return left(Failure(e.message!));
     } catch (e) {
@@ -163,21 +183,43 @@ class EntryRepository {
         );
   }
 
+  // Stream<List<EntryModel>> getUpcomingUserEntries(
+  //     String uid, int limit, bool descendingType) {
+  //   return _entries
+  //       .limit(limit)
+  //       .where('uid', isEqualTo: uid)
+  //       .where('exDate',
+  //           isGreaterThan: DateTime(DateTime.now().year, DateTime.now().month,
+  //                   DateTime.now().day, 0, 0, 0)
+  //               .millisecondsSinceEpoch)
+  //       .orderBy(
+  //         'exDate',
+  //         descending: descendingType,
+  //       )
+  //       .orderBy(
+  //         'exTime',
+  //         descending: descendingType,
+  //       )
+  //       .snapshots()
+  //       .map(
+  //         (event) => event.docs
+  //             .map(
+  //               (e) => EntryModel.fromMap(
+  //                 e.data() as Map<String, dynamic>,
+  //               ),
+  //             )
+  //             .toList(),
+  //       );
+  // }
+
   Stream<List<EntryModel>> getUpcomingUserEntries(
       String uid, int limit, bool descendingType) {
     return _entries
         .limit(limit)
         .where('uid', isEqualTo: uid)
-        .where('exDate',
-            isGreaterThan: DateTime(DateTime.now().year, DateTime.now().month,
-                    DateTime.now().day, 0, 0, 0)
-                .millisecondsSinceEpoch)
+        .where('dateTime', isGreaterThan: DateTime.now().millisecondsSinceEpoch)
         .orderBy(
-          'exDate',
-          descending: descendingType,
-        )
-        .orderBy(
-          'exTime',
+          'dateTime',
           descending: descendingType,
         )
         .snapshots()
@@ -229,6 +271,131 @@ class EntryRepository {
               .map(
                 (e) => EntryModel.fromMap(
                   e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<EntryModel>> getComingInTimeDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('doctorId', isEqualTo: doctorId)
+        .where('exDate',
+            isEqualTo: DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day, 0, 0, 0)
+                .millisecondsSinceEpoch)
+        .where(
+          'exTime',
+          isGreaterThanOrEqualTo: DateTime(
+                  1970, 1, 1, DateTime.now().hour, DateTime.now().minute, 0)
+              .millisecondsSinceEpoch,
+        )
+        .orderBy(
+          'exTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  // Stream<List<EntryModel>> getUpcomingDoctorEntries(
+  //     String doctorId, int limit, bool descendingType) {
+  //   return _entries
+  //       .limit(limit)
+  //       .where('doctorId', isEqualTo: doctorId)
+  //       .where('exDate',
+  //           isGreaterThan: DateTime(DateTime.now().year, DateTime.now().month,
+  //                   DateTime.now().day, 0, 0, 0)
+  //               .millisecondsSinceEpoch)
+  //       .orderBy(
+  //         'exDate',
+  //         descending: descendingType,
+  //       )
+  //       .orderBy(
+  //         'exTime',
+  //         descending: descendingType,
+  //       )
+  //       .snapshots()
+  //       .map(
+  //         (event) => event.docs
+  //             .map(
+  //               (e) => EntryModel.fromMap(
+  //                 e.data() as Map<String, dynamic>,
+  //               ),
+  //             )
+  //             .toList(),
+  //       );
+  // }
+
+  Stream<List<EntryModel>> getUpcomingDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('doctorId', isEqualTo: doctorId)
+        .where('dateTime', isGreaterThan: DateTime.now().millisecondsSinceEpoch)
+        .orderBy(
+          'dateTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<EntryModel>> getPastDoctorEntries(
+      String doctorId, int limit, bool descendingType) {
+    return _entries
+        .limit(limit)
+        .where('doctorId', isEqualTo: doctorId)
+        .where('dateTime', isLessThan: DateTime.now().millisecondsSinceEpoch)
+        .orderBy(
+          'dateTime',
+          descending: descendingType,
+        )
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => EntryModel.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<Diagnose> getUserDiagnoseById(String uid, String diagnoseId) {
+    return _users
+        .doc(uid)
+        .collection('diagnoses')
+        .doc(diagnoseId)
+        .snapshots()
+        .map((event) => Diagnose.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  Stream<List<Diagnose>> getUserDiagnoses(String uid) {
+    return _users.doc(uid).collection('diagnoses').snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => Diagnose.fromMap(
+                  e.data(),
                 ),
               )
               .toList(),

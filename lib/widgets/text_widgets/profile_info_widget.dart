@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_medicine_2/app_theme.dart';
-import 'package:healthy_medicine_2/core/constants.dart';
 
 class ProfileInfoWidget extends StatefulWidget {
   final String title;
@@ -21,10 +20,9 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 12,
-        vertical: 8,
+        vertical: 6,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -37,22 +35,20 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
           ),
           Container(
             width: double.infinity,
-            height: 55,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
                 color: Colors.white,
               ),
-              borderRadius: BorderRadius.circular(21),
+              borderRadius: BorderRadius.circular(12),
               color: Colors.grey.shade300,
             ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.text,
-                style: AppTheme.dedicatedWhiteTextStyle,
-              ),
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              widget.text,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.dedicatedIndigoTextStyle,
             ),
           ),
         ],
