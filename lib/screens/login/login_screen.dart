@@ -453,62 +453,62 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               isObscured: true,
                               fromLogin: false,
                             ),
-                            // TextFieldWidget(
-                            //   textController: firstNameController,
-                            //   hintText: 'ИМЯ',
-                            //   isNumber: false,
-                            //   isRequired: true,
-                            //   isEmail: false,
-                            //   validator: (value) {
-                            //     if (value!.isEmpty) {
-                            //       return 'Введите ИМЯ';
-                            //     } else {
-                            //       return null;
-                            //     }
-                            //   },
-                            // ),
-                            // TextFieldWidget(
-                            //   textController: lastNameController,
-                            //   hintText: 'ФАМИЛИЯ',
-                            //   isNumber: false,
-                            //   isRequired: true,
-                            //   isEmail: false,
-                            //   validator: (value) {
-                            //     if (value!.isEmpty) {
-                            //       return 'Введите ФАМИЛИЮ';
-                            //     } else {
-                            //       return null;
-                            //     }
-                            //   },
-                            // ),
-                            // TextFieldWidget(
-                            //   textController: patronymicController,
-                            //   hintText: 'ОТЧЕСТВО',
-                            //   isNumber: false,
-                            //   isRequired: true,
-                            //   isEmail: false,
-                            //   validator: (value) {
-                            //     if (value!.isEmpty) {
-                            //       return 'Введите ОТЧЕСТВО';
-                            //     } else {
-                            //       return null;
-                            //     }
-                            //   },
-                            // ),
-                            // TextFieldWidget(
-                            //   textController: phoneController,
-                            //   hintText: 'НОМЕР ТЕЛЕФОНА',
-                            //   isNumber: true,
-                            //   isRequired: true,
-                            //   isEmail: false,
-                            //   validator: (value) {
-                            //     if (value!.isEmpty) {
-                            //       return 'Введите НОМЕР ТЕЛЕФОНА';
-                            //     } else {
-                            //       return null;
-                            //     }
-                            //   },
-                            // ),
+                            TextFieldWidget(
+                              textController: firstNameController,
+                              hintText: 'ИМЯ',
+                              isNumber: false,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите ИМЯ';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            TextFieldWidget(
+                              textController: lastNameController,
+                              hintText: 'ФАМИЛИЯ',
+                              isNumber: false,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите ФАМИЛИЮ';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            TextFieldWidget(
+                              textController: patronymicController,
+                              hintText: 'ОТЧЕСТВО',
+                              isNumber: false,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите ОТЧЕСТВО';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            TextFieldWidget(
+                              textController: phoneController,
+                              hintText: 'НОМЕР ТЕЛЕФОНА',
+                              isNumber: true,
+                              isRequired: true,
+                              isEmail: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Введите НОМЕР ТЕЛЕФОНА';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),

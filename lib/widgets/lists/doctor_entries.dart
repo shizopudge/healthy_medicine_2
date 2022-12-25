@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_medicine_2/core/auth/auth_controller.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/doctors_history_screen.dart';
-import 'package:healthy_medicine_2/screens/history_screen.dart';
 import 'package:healthy_medicine_2/widgets/cards/doctor_entry_card.dart';
 import 'package:healthy_medicine_2/widgets/common/error_text.dart';
 import 'package:healthy_medicine_2/widgets/common/loader.dart';

@@ -8,6 +8,7 @@ import 'package:healthy_medicine_2/screens/admin_panel/admin_doctors_list_screen
 import 'package:healthy_medicine_2/screens/admin_panel/admin_edit_doctors_screen.dart';
 import 'package:healthy_medicine_2/screens/admin_panel/users_panel.dart';
 import 'package:healthy_medicine_2/screens/clinic_screen.dart';
+import 'package:healthy_medicine_2/screens/diagnose_info_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/create_diagnose_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/doctor_portal.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/edit_diagnose_screen.dart';
@@ -76,6 +77,17 @@ final loggedInAdminRoute = RouteMap(routes: {
   '/admin-users-panel': (routeAdmin) => const MaterialPage(
         child: UsersPanel(),
       ),
+  '/medicine-card/:uid': (routeAdmin) => MaterialPage(
+        child: MedicineCardScreen(
+          uid: routeAdmin.pathParameters['uid']!,
+        ),
+      ),
+  '/diagnose-info/:diagnoseId/:uid': (routeAdmin) => MaterialPage(
+        child: DiagnoseInfoScreen(
+          diagnoseId: routeAdmin.pathParameters['diagnoseId']!,
+          uid: routeAdmin.pathParameters['uid']!,
+        ),
+      ),
 });
 
 final loggedInDoctorRoute = RouteMap(routes: {
@@ -124,6 +136,12 @@ final loggedInDoctorRoute = RouteMap(routes: {
       ),
   '/medicine-card/:uid': (routeDocThings) => MaterialPage(
         child: MedicineCardScreen(
+          uid: routeDocThings.pathParameters['uid']!,
+        ),
+      ),
+  '/diagnose-info/:diagnoseId/:uid': (routeDocThings) => MaterialPage(
+        child: DiagnoseInfoScreen(
+          diagnoseId: routeDocThings.pathParameters['diagnoseId']!,
           uid: routeDocThings.pathParameters['uid']!,
         ),
       ),

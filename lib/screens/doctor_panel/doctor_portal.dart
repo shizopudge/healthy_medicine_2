@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_medicine_2/screens/doctor_panel/doctor_users_panel.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/doctors_history_screen.dart';
 import 'package:healthy_medicine_2/screens/doctor_panel/doctors_doctor_screen.dart';
 
@@ -17,6 +18,7 @@ class _DoctorPortalState extends ConsumerState<DoctorPortal> {
   static const tabWidgets = [
     DoctorsDoctorScreen(),
     DoctorsHistoryScreen(),
+    DoctorUsersPanel(),
   ];
   void onPageChanged(int page) {
     setState(() {
@@ -40,6 +42,11 @@ class _DoctorPortalState extends ConsumerState<DoctorPortal> {
             icon: Icon(Icons.history),
             activeIcon: Icon(Icons.history),
             label: 'История',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group_rounded),
+            activeIcon: Icon(Icons.group_rounded),
+            label: 'Пациенты',
           ),
         ],
         onTap: onPageChanged,

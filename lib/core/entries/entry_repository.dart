@@ -401,4 +401,9 @@ class EntryRepository {
               .toList(),
         );
   }
+
+  Stream<EntryModel> getEntryById(String entryId) {
+    return _entries.doc(entryId).snapshots().map(
+        (event) => EntryModel.fromMap(event.data() as Map<String, dynamic>));
+  }
 }

@@ -991,7 +991,7 @@ class _AdminEntryPanelState extends ConsumerState<AdminEntryPanel> {
                                                       style: AppTheme
                                                           .dedicatedIndigoTextStyle
                                                           .copyWith(
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                       ),
                                                     ),
                                                   ),

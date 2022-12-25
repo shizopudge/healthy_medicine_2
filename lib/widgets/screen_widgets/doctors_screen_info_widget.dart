@@ -212,7 +212,7 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
                                           child: RatingBar(
                                             rating: avg,
                                             ratingCount: rating.length,
-                                            size: 50,
+                                            size: 36,
                                           ),
                                         ),
                                       ),
@@ -235,7 +235,7 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
                                                 const Icon(
                                                   Icons.star_rounded,
                                                   color: Colors.grey,
-                                                  size: 50,
+                                                  size: 36,
                                                 ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
@@ -244,7 +244,7 @@ class _DoctorInfoState extends ConsumerState<DoctorsScreenInfo>
                                                   '(0)',
                                                   style: AppTheme.titleTextStyle
                                                       .copyWith(
-                                                    fontSize: 28,
+                                                    fontSize: 24,
                                                   ),
                                                 ),
                                               ),

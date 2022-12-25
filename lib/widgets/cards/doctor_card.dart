@@ -107,7 +107,6 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8,
-            horizontal: 12,
           ),
           child: InkWell(
             onTap: () => navigateToDoctorScreen(context),
@@ -237,7 +236,6 @@ class _DoctorsCardState extends ConsumerState<DoctorsCard> {
       return Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
-          horizontal: 12,
         ),
         child: InkWell(
           onTap: () => navigateToDoctorScreen(context),

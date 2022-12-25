@@ -83,6 +83,10 @@ final getUserTimesProvider = StreamProvider.family((ref, String uid) {
   return ref.watch(entryControllerProvider.notifier).getUserTimes(uid);
 });
 
+final getEntryByIdProvider = StreamProvider.family((ref, String entryId) {
+  return ref.watch(entryControllerProvider.notifier).getEntryById(entryId);
+});
+
 final getUserDiagnosesProvider = StreamProvider.family((ref, String uid) {
   return ref.watch(entryControllerProvider.notifier).getUserDiagnoses(uid);
 });
@@ -309,5 +313,9 @@ class EntryController extends StateNotifier<bool> {
 
   Stream<List<Diagnose>> getUserDiagnoses(String uid) {
     return _entryRepository.getUserDiagnoses(uid);
+  }
+
+  Stream<EntryModel> getEntryById(String entryId) {
+    return _entryRepository.getEntryById(entryId);
   }
 }

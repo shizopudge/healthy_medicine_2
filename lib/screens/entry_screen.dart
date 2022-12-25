@@ -295,6 +295,10 @@ class _EntryScreenState extends ConsumerState<EntryScreen> {
                                               pickedDateCellId = dateCell.id;
                                               date = dateCell.date;
                                               times = dateCell.time;
+                                              //edited ВОТ ЭТУ ШТУКУ ТЫ МЕНЯЛ ЕСЛИ ЧТО!!!!!!!!!!
+                                              time = DateTime.now();
+                                              pickedTime = DateTime.now();
+                                              isDataEntered = false;
                                             });
                                             print(pickedDateCellId.trim());
                                             print(date);

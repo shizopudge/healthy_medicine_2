@@ -19,6 +19,10 @@ class MedicineCardScreen extends ConsumerWidget {
     required this.uid,
   });
 
+  void navigateToDiagnoseInfoScreen(BuildContext context, String diagnoseId) {
+    Routemaster.of(context).push('/diagnose-info/$diagnoseId/$uid');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isOpen = ref.watch(isOpenProvider);
@@ -51,11 +55,12 @@ class MedicineCardScreen extends ConsumerWidget {
                       child: Column(
                         children: [
                           Text(
-                            'История приемов',
+                            'История болезней',
                             style: AppTheme.dedicatedIndigoTextStyle,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
                             child: Align(
                               alignment: Alignment.topRight,
                               child: InkWell(
@@ -82,196 +87,205 @@ class MedicineCardScreen extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ref
-                                .watch(getUserDiagnosesProvider(uid))
-                                .when(
-                                  data: (diagnoses) {
-                                    return AnimatedSize(
-                                      duration: const Duration(seconds: 1),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(18),
-                                          color: Colors.indigo.shade300,
-                                        ),
-                                        height: isOpen
-                                            ? MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                .8
-                                            : MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                .5,
-                                        child: ListView.builder(
-                                            itemCount: diagnoses.length,
-                                            itemBuilder: (context, index) {
-                                              final diagnose = diagnoses[index];
-                                              return Padding(
+                          ref.watch(getUserDiagnosesProvider(uid)).when(
+                                data: (diagnoses) {
+                                  return SizedBox(
+                                    height: isOpen
+                                        ? MediaQuery.of(context).size.height *
+                                            .8
+                                        : MediaQuery.of(context).size.height *
+                                            .4,
+                                    child: ListView.builder(
+                                        itemCount: diagnoses.length,
+                                        itemBuilder: (context, index) {
+                                          final diagnose = diagnoses[index];
+                                          return InkWell(
+                                            onTap: () {
+                                              navigateToDiagnoseInfoScreen(
+                                                  context, diagnose.id);
+                                            },
+                                            child: Card(
+                                              color: Colors.indigo.shade100,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(21),
+                                              ),
+                                              child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Card(
-                                                  color: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        ref
-                                                            .watch(getDoctorByIdProvider(
+                                                child: Column(
+                                                  children: [
+                                                    ref
+                                                        .watch(
+                                                            getDoctorByIdProvider(
                                                                 diagnose
                                                                     .doctorId))
-                                                            .when(
-                                                                data: (doctor) {
-                                                                  return Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
+                                                        .when(
+                                                            data: (doctor) {
+                                                              return Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
                                                                     children: [
-                                                                      Row(
-                                                                        children: [
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(8.0),
-                                                                            child:
-                                                                                CircleAvatar(
-                                                                              backgroundImage: NetworkImage(doctor.image),
-                                                                              radius: 32,
-                                                                            ),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child:
-                                                                                Text(
-                                                                              '${doctor.firstName} ${doctor.lastName} ${doctor.patronymic}',
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              style: AppTheme.defaultIngidgoText,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Text(
-                                                                        doctor
-                                                                            .spec,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style: AppTheme
-                                                                            .defaultIngidgoText,
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                },
-                                                                error: (error,
-                                                                        stackTrace) =>
-                                                                    ErrorText(
-                                                                        error: error
-                                                                            .toString()),
-                                                                loading: () =>
-                                                                    const Loader()),
-                                                        Text(
-                                                          diagnose.diagnose !=
-                                                                  ''
-                                                              ? 'Диагноз: ${diagnose.diagnose}'
-                                                              : 'Диагноз: Пусто',
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: AppTheme
-                                                              .defaultIngidgoText,
-                                                        ),
-                                                        Text(
-                                                          diagnose.recomendations !=
-                                                                  ''
-                                                              ? 'Рекомендации: ${diagnose.recomendations}'
-                                                              : 'Рекомендации: Пусто',
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: AppTheme
-                                                              .defaultIngidgoText,
-                                                        ),
-                                                        Text(
-                                                          'Медикаменты:',
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: AppTheme
-                                                              .defaultIngidgoText,
-                                                        ),
-                                                        diagnose.medicines
-                                                                .isNotEmpty
-                                                            ? SizedBox(
-                                                                height: 50,
-                                                                child: ListView
-                                                                    .builder(
-                                                                  scrollDirection:
-                                                                      Axis.horizontal,
-                                                                  itemCount: diagnose
-                                                                      .medicines
-                                                                      .length,
-                                                                  itemBuilder:
-                                                                      ((context,
-                                                                          index) {
-                                                                    final medicine =
-                                                                        diagnose
-                                                                            .medicines[index];
-                                                                    return Card(
-                                                                      color: Colors
-                                                                          .indigo,
-                                                                      elevation:
-                                                                          12,
-                                                                      child:
-                                                                          Padding(
+                                                                      Padding(
                                                                         padding:
-                                                                            const EdgeInsets.all(8.0),
+                                                                            const EdgeInsets.symmetric(horizontal: 8),
                                                                         child:
-                                                                            Text(
-                                                                          medicine,
-                                                                          style:
-                                                                              AppTheme.dedicatedWhiteTextStyle,
+                                                                            CircleAvatar(
+                                                                          backgroundColor:
+                                                                              Colors.white,
+                                                                          backgroundImage:
+                                                                              NetworkImage(doctor.image),
+                                                                          radius:
+                                                                              32,
                                                                         ),
                                                                       ),
-                                                                    );
-                                                                  }),
-                                                                ),
-                                                              )
-                                                            : Text(
-                                                                'Пусто',
-                                                                style: AppTheme
-                                                                    .defaultIngidgoText,
-                                                              ),
-                                                        Text(
-                                                          diagnose.isEdited ==
-                                                                  true
-                                                              ? 'Изменено: ${DateFormat('yMd').format(diagnose.createdAt)}'
-                                                              : 'Заполнено: ${DateFormat('yMd').format(diagnose.createdAt)}',
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: AppTheme
-                                                              .defaultIngidgoText,
-                                                        ),
-                                                      ],
+                                                                      Expanded(
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${doctor.firstName} ${doctor.lastName}',
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: AppTheme.dedicatedWhiteTextStyle,
+                                                                            ),
+                                                                            Text(
+                                                                              doctor.spec,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: AppTheme.dedicatedWhiteTextStyle,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                            error: (error,
+                                                                    stackTrace) =>
+                                                                ErrorText(
+                                                                    error: error
+                                                                        .toString()),
+                                                            loading: () =>
+                                                                const Loader()),
+                                                    Text(
+                                                      diagnose.diagnose != ''
+                                                          ? 'Диагноз: ${diagnose.diagnose}'
+                                                          : 'Диагноз: Пусто',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTheme
+                                                          .dedicatedWhiteTextStyle,
                                                     ),
-                                                  ),
+                                                    Text(
+                                                      diagnose.recomendations !=
+                                                              ''
+                                                          ? 'Рекомендации: ${diagnose.recomendations}'
+                                                          : 'Рекомендации: Пусто',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTheme
+                                                          .dedicatedWhiteTextStyle,
+                                                    ),
+                                                    diagnose.medicines
+                                                            .isNotEmpty
+                                                        ? Text(
+                                                            'Медикаменты:',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: AppTheme
+                                                                .dedicatedWhiteTextStyle,
+                                                          )
+                                                        : const SizedBox(),
+                                                    diagnose.medicines
+                                                            .isNotEmpty
+                                                        ? SizedBox(
+                                                            height: 50,
+                                                            child: ListView
+                                                                .builder(
+                                                              scrollDirection:
+                                                                  Axis.horizontal,
+                                                              itemCount:
+                                                                  diagnose
+                                                                      .medicines
+                                                                      .length,
+                                                              itemBuilder:
+                                                                  ((context,
+                                                                      index) {
+                                                                final medicine =
+                                                                    diagnose.medicines[
+                                                                        index];
+                                                                return Card(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  elevation: 0,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            8.0),
+                                                                    child: Text(
+                                                                      medicine,
+                                                                      style: AppTheme
+                                                                          .dedicatedIndigoTextStyle,
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }),
+                                                            ),
+                                                          )
+                                                        : const SizedBox(),
+                                                    ref
+                                                        .watch(
+                                                            getEntryByIdProvider(
+                                                                diagnose.id))
+                                                        .when(
+                                                            data: (entry) {
+                                                              return Text(
+                                                                'Дата приема: ${DateFormat('yMd').format(entry.dateTime)}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: AppTheme
+                                                                    .dedicatedWhiteTextStyle,
+                                                              );
+                                                            },
+                                                            error: (error,
+                                                                    stackTrace) =>
+                                                                ErrorText(
+                                                                    error: error
+                                                                        .toString()),
+                                                            loading: () =>
+                                                                const Loader()),
+                                                    Text(
+                                                      diagnose.isEdited == true
+                                                          ? 'Изменено: ${DateFormat('yMd').format(diagnose.createdAt)}'
+                                                          : 'Заполнено: ${DateFormat('yMd').format(diagnose.createdAt)}',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTheme
+                                                          .dedicatedWhiteTextStyle,
+                                                    ),
+                                                  ],
                                                 ),
-                                              );
-                                            }),
-                                      ),
-                                    );
-                                  },
-                                  error: (error, stackTrace) =>
-                                      ErrorText(error: error.toString()),
-                                  loading: () => const Loader(),
-                                ),
-                          ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                },
+                                error: (error, stackTrace) =>
+                                    ErrorText(error: error.toString()),
+                                loading: () => const Loader(),
+                              ),
                         ],
                       ),
                     ),
@@ -285,6 +299,10 @@ class MedicineCardScreen extends ConsumerWidget {
                         ? const SizedBox()
                         : Column(
                             children: [
+                              Text(
+                                'Данные пациента',
+                                style: AppTheme.dedicatedIndigoTextStyle,
+                              ),
                               ProfileInfoWidget(
                                   title: 'Имя', text: user.firstName),
                               ProfileInfoWidget(
